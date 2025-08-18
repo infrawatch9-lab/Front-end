@@ -1,11 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
+import PageHeader from "./internal_components/HistoryPageHeader";
+import ControlsBar from "./internal_components/HistoryControlsBar";
+import EventsTable from "./internal_components/HistoryEventsTable";
+import Pagination from "./internal_components/HistoryPagination";
 
 export default function HistoryAdmin() {
-    return (
-      <div >
-        <h1 className="text-2xl font-bold">History</h1>
-        <p>Conteúdo do histórico aqui...</p>
+  const [searchTerm, setSearchTerm] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+  const [serviceFilter, setServiceFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const mockEvents = [
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'LIONEL MESSI',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'MANUEL BORGES',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'JOÃO RIBEIRO',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'DANIEL NASCIMENTO',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'CARLOS ARMANDO',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'FLÁVIO JOSÉ',
+      type: 'info',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'ROGÉRIO PAIXÃO',
+      type: 'error',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'DANIEL NASCIMENTO',
+      type: 'warning',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+    },
+    {
+      date: '2025-05-12 12:32:12',
+      user: 'LIONEL MESSI',
+      type: 'warning',
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text...'
+    }
+  ];
+
+  const filteredEvents = mockEvents.filter((event) => {
+    const matchesSearch =
+      event.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = !typeFilter || event.type === typeFilter;
+    const matchesService = !serviceFilter;
+    return matchesSearch && matchesType && matchesService;
+  });
+
+  const totalPages = 6;
+
+  return (
+    <div className="min-h-screen bg-[#081028] p-6">
+      <div className="max-w-7xl mx-auto">
+        <PageHeader />
+
+        <ControlsBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          typeFilter={typeFilter}
+          onTypeFilterChange={setTypeFilter}
+          serviceFilter={serviceFilter}
+          onServiceFilterChange={setServiceFilter}
+        />
+
+        <EventsTable events={filteredEvents} />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
-    );
-  }
-  
+    </div>
+  );
+}

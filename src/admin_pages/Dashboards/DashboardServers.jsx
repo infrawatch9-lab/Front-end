@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 // componentes internos
 import HeaderActions from "./dashboards_components/ServerHeaderActions";
 import ResponseErrorsCard from "./dashboards_components/ServerResponseErrorsCard";
-import StatusCodesCard from "./dashboards_components/ServerStatusCodesCard";
-import HttpMethodsCard from "./dashboards_components/ServerHttpMethodsCard";
 import InteractiveTerminal from "./dashboards_components/ServerInteractiveTerminal";
+import ServerStatusCard from "./dashboards_components/ServerStatusCard";
+import ServerServicesOverviewCard from "./dashboards_components/ServerServicesOverviewCard";
+import ServerResourcesCard from "./dashboards_components/ServerResourcesCard";
 
 export default function ServerDashboard() {
   const { t } = useTranslation();
@@ -78,12 +79,15 @@ export default function ServerDashboard() {
               timeFilter={timeFilter}
               setTimeFilter={setTimeFilter}
             />
+            <div className="mt-8">
+              <ServerResourcesCard />
+            </div>
           </div>
 
           {/* Sidebar direita */}
           <div className="space-y-4">
-            <StatusCodesCard items={statusData} />
-            <HttpMethodsCard items={methodData} />
+             <ServerStatusCard />
+            <ServerServicesOverviewCard />
           </div>
         </div>
 
