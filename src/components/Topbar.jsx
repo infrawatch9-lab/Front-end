@@ -25,7 +25,7 @@ export default function TopBar() {
           <HelpCircle className="text-white w-5 h-5" />
         </button>
         <img
-          src="/profile.jpg" // coloca sua imagem na pasta public
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" // coloca sua imagem na pasta public
           alt="Perfil"
           className="w-10 h-10 rounded-full border-2 border-white"
         />
