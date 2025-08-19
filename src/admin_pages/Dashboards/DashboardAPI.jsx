@@ -91,7 +91,6 @@ export default function APIDashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#081028]">
-      <TopBar />
       <div className="p-6 text-white">
         <HeaderActions />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

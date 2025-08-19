@@ -2,6 +2,7 @@ import Sidebar from './SideBar';
 import { Outlet } from 'react-router-dom';
 import { SidebarProvider, useSidebar } from '../contexts/SidebarContext';
 import { useTranslation } from 'react-i18next';
+import Topbar from '../components/Topbar'
 
 function LayoutContent() {
   const { isOpen } = useSidebar();
@@ -15,6 +16,7 @@ function LayoutContent() {
         }`} 
         style={{padding: '0px', margin: '0px', marginLeft: isOpen ? '256px' : '80px'}}
       >
+        <Topbar/>
         <Outlet />
       </main>
     </div>

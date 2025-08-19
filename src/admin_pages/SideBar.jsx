@@ -1,7 +1,7 @@
 import React from 'react';
 import { Home, Monitor, BarChart, History, Users, Settings, Moon, Power, FolderOpen } from 'lucide-react';
 import CollapseButton from '../components/CollapseButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // Adicione useLocation
 import SidebarItemWithSubmenu from '../components/SideBarWithSubMenu'
 import SidebarItem from '../components/SideBarItem';
 import { useSidebar } from '../contexts/SidebarContext';
@@ -12,6 +12,10 @@ export default function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation(); // Pega a rota atual
+
+  // Função para verificar se a rota está ativa
+  const isActive = (to) => location.pathname === to;
 
   return (
     <div className={`bg-[#0B1440] text-white fixed left-0 top-0 h-screen flex flex-col justify-between transition-all duration-300 z-50 ${isOpen ? 'w-64' : 'w-20'} p-4 overflow-y-auto`}>
@@ -24,19 +28,54 @@ export default function Sidebar() {
           <CollapseButton isOpen={isOpen} toggle={toggleSidebar} />
         </div>
 
-        <SidebarItem icon={<Home size={20} />} label={t('sidebar.homepage', 'Início')} isOpen={isOpen} to="/admin/homepage_admin"/>
-        <SidebarItem icon={<BarChart size={20} />} label={t('sidebar.monitoring', 'Monitoramento')} badge="1" isOpen={isOpen} to="/admin/monitor_admin"/>
-        <SidebarItemWithSubmenu icon={<FolderOpen size={20} />} label={t('sidebar.reports', 'Relatórios')} isOpen={isOpen}
+        <SidebarItem
+          icon={<Home size={20} />}
+          label={t('sidebar.homepage', 'Início')}
+          isOpen={isOpen}
+          to="/admin/homepage_admin"
+          active={isActive("/admin/homepage_admin")}
+        />
+        <SidebarItem
+          icon={<BarChart size={20} />}
+          label={t('sidebar.monitoring', 'Monitoramento')}
+          badge="1"
+          isOpen={isOpen}
+          to="/admin/monitor_admin"
+          active={isActive("/admin/monitor_admin")}
+        />
+        <SidebarItemWithSubmenu
+          icon={<FolderOpen size={20} />}
+          label={t('sidebar.reports', 'Relatórios')}
+          isOpen={isOpen}
           subItems={[
             { label: t('sidebar.servers', 'Servidores'), to: "reports_servers_admin" },
             { label: t('sidebar.networks', 'Redes'), to: "reports_networks_admin" },
             { label: t('sidebar.webhooks', 'Webhooks'), to: "reports_webhooks_admin" },
             { label: t('sidebar.apis', 'APIs'), to: "reports_api_admin" },
           ]}
+          active={location.pathname.startsWith("/admin/reports")}
         />
-        <SidebarItem icon={<History size={20} />} label={t('sidebar.history', 'Histórico')} isOpen={isOpen} to="/admin/history_admin"/>
-        <SidebarItem icon={<Users size={20} />} label={t('sidebar.users', 'Usuários')} isOpen={isOpen} to="/admin/users_admin"/>
-        <SidebarItem icon={<Settings size={20} />} label={t('sidebar.settings', 'Configurações')} isOpen={isOpen} to="/admin/settings_admin"/>
+        <SidebarItem
+          icon={<History size={20} />}
+          label={t('sidebar.history', 'Histórico')}
+          isOpen={isOpen}
+          to="/admin/history_admin"
+          active={isActive("/admin/history_admin")}
+        />
+        <SidebarItem
+          icon={<Users size={20} />}
+          label={t('sidebar.users', 'Usuários')}
+          isOpen={isOpen}
+          to="/admin/users_admin"
+          active={isActive("/admin/users_admin")}
+        />
+        <SidebarItem
+          icon={<Settings size={20} />}
+          label={t('sidebar.settings', 'Configurações')}
+          isOpen={isOpen}
+          to="/admin/settings_admin"
+          active={isActive("/admin/settings_admin")}
+        />
       </div>
 
       {/* Parte inferior */}
@@ -62,7 +101,6 @@ export default function Sidebar() {
           <Power size={20} />
           {isOpen && <span>{t('sidebar.logout', 'Sair')}</span>}
         </button>
-
       </div>
     </div>
   );

@@ -11,8 +11,6 @@ export function HomepageAdmin() {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col min-h-screen bg-[#081028]">
-      {/* Topbar */}
-      <TopBar />
 
       {/* Conteúdo */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 flex-1">

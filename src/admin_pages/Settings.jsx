@@ -30,10 +30,10 @@ export default function SettingsAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6">
+    <div className="min-h-screen bg-[#081028] p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-6">CONFIGURAÇÕES</h1>
+        <h1 className="text-2xl font-bold text-white mb-6">Configurações</h1>
         
         {/* Tabs Navigation */}
         <div className="flex gap-4 mb-8">

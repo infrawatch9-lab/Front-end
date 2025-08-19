@@ -59,7 +59,6 @@ export default function MonitorAdmin() {
 
   return (
     <div className="min-h-screen bg-[#081028]">
-      <TopBar />
       
       <main className="p-6">
         {/* Page Title and Actions */}
