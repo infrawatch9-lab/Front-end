@@ -17,7 +17,7 @@ export default function LatencyChart() {
   const maxLatency = 150;
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-6">
+    <div className="bg-[#0B1440] rounded-lg p-6 mb-6 h-full border border-[#3B5B75]">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-white text-lg font-semibold">LATÊNCIA (ms) AO</h2>

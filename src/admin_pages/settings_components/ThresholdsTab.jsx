@@ -22,7 +22,7 @@ export default function ThresholdsTab() {
 
   return (
     <div className="max-w-4xl">
-      <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+      <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
         {/* Header */}
         <div className="mb-6">
           <h3 className="text-white font-medium text-lg mb-2">CONFIGS GERAIS</h3>

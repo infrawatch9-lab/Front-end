@@ -79,9 +79,6 @@ export default function ServerDashboard() {
               timeFilter={timeFilter}
               setTimeFilter={setTimeFilter}
             />
-            <div className="mt-8">
-              <ServerResourcesCard />
-            </div>
           </div>
 
           {/* Sidebar direita */}
@@ -92,6 +89,9 @@ export default function ServerDashboard() {
         </div>
 
         {/* Terminal */}
+            <div className="mt-8">
+              <ServerResourcesCard />
+            </div>
         <InteractiveTerminal className="mt-6" />
       </div>
     </div>

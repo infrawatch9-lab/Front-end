@@ -161,7 +161,7 @@ export default function AccessPermissionsTab() {
 
       {/* Formulário para adicionar usuário */}
       {showAddUser && (
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+        <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
           <h4 className="text-white font-medium mb-4">Novo Usuário</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -217,11 +217,11 @@ export default function AccessPermissionsTab() {
       )}
 
       {/* Tabela de usuários */}
-      <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
+      <div className="bg-[#0B1440] border border-slate-700 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-slate-900">
+              <tr className="bg-[#081028] border-b border-slate-700">
                 <th className="text-left p-4 text-slate-300 font-medium">Usuário</th>
                 <th className="text-left p-4 text-slate-300 font-medium">Perfil</th>
                 <th className="text-center p-4 text-slate-300 font-medium">Dashboard</th>

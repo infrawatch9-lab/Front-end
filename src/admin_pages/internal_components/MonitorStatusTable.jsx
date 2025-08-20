@@ -20,7 +20,7 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
       {/* Table Header */}
       <div
         className="grid grid-cols-5 gap-4 p-4 border-b border-slate-600"
-        style={{ backgroundColor: "#0B1440" }}
+        style={{ backgroundColor: "#081028" }}
       >
         <div className="text-white font-semibold text-sm">{t('internal.sla')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.limit')}</div>

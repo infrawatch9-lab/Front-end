@@ -3,7 +3,7 @@ import ToggleSwitch from "./ToggleSwitch";
 
 export default function ConfigCard({ title, icon, enabled, onToggle, onSave, children }) {
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+    <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">

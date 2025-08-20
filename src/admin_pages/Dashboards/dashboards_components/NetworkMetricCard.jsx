@@ -3,7 +3,7 @@ import { Clock } from 'lucide-react';
 
 export default function MetricCard({ title, value, subtitle, icon: Icon, iconColor, accentColor }) {
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
+    <div className="bg-[#0B1440] rounded-lg p-6 border border-[#3B5B75]">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-gray-300 text-sm font-medium">{title}</h3>
         <div className={`p-2 rounded ${iconColor}`}>

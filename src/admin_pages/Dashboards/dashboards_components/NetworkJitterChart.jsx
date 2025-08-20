@@ -75,7 +75,7 @@ export default function NetworkJitterChart() {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 w-full">
+    <div className="bg-[#0B1440] rounded-lg p-6 w-full border border-[#3B5B75]">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex-1 text-center">

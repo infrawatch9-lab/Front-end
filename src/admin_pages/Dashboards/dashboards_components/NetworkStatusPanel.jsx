@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function StatusPanel() {
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
+    <div className="bg-[#0B1440] rounded-lg p-6 border border-[#3B5B75]">
       <h3 className="text-white text-lg font-semibold mb-4">ESTADO</h3>
       
       <div className="space-y-4">
