@@ -6,6 +6,7 @@ export default function InteractiveTerminal({ className = "" }) {
   const [terminalCommand, setTerminalCommand] = useState("");
   const [terminalOutput, setTerminalOutput] = useState([]);
   const [terminalHistory, setTerminalHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   useEffect(() => {
     const initialTerminalOutput = [
@@ -24,13 +25,16 @@ export default function InteractiveTerminal({ className = "" }) {
       const timestamp = new Date().toLocaleString();
 
       setTerminalHistory((prev) => [...prev, command]);
+      setHistoryIndex(-1);
 
       const commandOutput = { type: "command", text: `username % ${command}` };
 
       let response = "";
-      switch (command.toLowerCase()) {
-        case t('server.terminal.services_status'):
-          response = `+-------------------------+----------+----------+----------+
+      const lowerCmd = command.toLowerCase();
+      
+      // Comandos em inglês (sempre funcionam)
+      if (lowerCmd === "services status" || lowerCmd === t('server.terminal.services_status')?.toLowerCase()) {
+        response = `+-------------------------+----------+----------+----------+
 | name                    | port     | host     | status   |
 +-------------------------+----------+----------+----------+
 | nginx                   | 80       | 127.0.0.1| active   |
@@ -41,34 +45,30 @@ export default function InteractiveTerminal({ className = "" }) {
 | docker                  | 2375     | 127.0.0.1| active   |
 | ftp                     | 21       | 127.0.0.1| inactive |
 +-------------------------+----------+----------+----------+`;
-          break;
-        case t('server.terminal.logs_all'):
-          response = `[${timestamp}] [INFO] System monitoring active
+      } else if (lowerCmd === "logs all" || lowerCmd === t('server.terminal.logs_all')?.toLowerCase()) {
+        response = `[${timestamp}] [INFO] System monitoring active
 [${timestamp}] [WARN] Disk usage at 78%
 [${timestamp}] [INFO] API endpoint /health responded in 120ms`;
-          break;
-        case t('server.terminal.help'):
-          response = `${t('server.terminal.available_commands')}
-- ${t('server.terminal.cmd_services_status')}
-- ${t('server.terminal.cmd_logs_all')}
-- ${t('server.terminal.cmd_clear')}
-- ${t('server.terminal.cmd_system_info')}
-- ${t('server.terminal.cmd_restart')}`;
-          break;
-        case t('server.terminal.clear'):
-          setTerminalOutput([]);
-          setTerminalCommand("");
-          return;
-        case t('server.terminal.system_info'):
-          response = `System Information:
+      } else if (lowerCmd === "help" || lowerCmd === t('server.terminal.help')?.toLowerCase()) {
+        response = `Available commands:
+- services status
+- logs all
+- clear
+- system info
+- help`;
+      } else if (lowerCmd === "clear" || lowerCmd === t('server.terminal.clear')?.toLowerCase()) {
+        setTerminalOutput([]);
+        setTerminalCommand("");
+        return;
+      } else if (lowerCmd === "system info" || lowerCmd === t('server.terminal.system_info')?.toLowerCase()) {
+        response = `System Information:
 OS: Ubuntu 20.04 LTS
 CPU: Intel i7-8700K @ 3.70GHz
 Memory: 16GB RAM (8.2GB used)
 Disk: 512GB SSD (389GB free)
 Uptime: 2 days, 14 hours, 23 minutes`;
-          break;
-        default:
-          response = `bash: ${command}: command not found. Type 'help' for available commands.`;
+      } else {
+        response = `bash: ${command}: command not found. Type 'help' for available commands.`;
       }
 
       const responseOutput = { type: "output", text: response };
@@ -79,6 +79,23 @@ Uptime: 2 days, 14 hours, 23 minutes`;
         const el = document.getElementById("terminal-output");
         if (el) el.scrollTop = el.scrollHeight;
       }, 100);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (terminalHistory.length > 0 && historyIndex < terminalHistory.length - 1) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setTerminalCommand(terminalHistory[terminalHistory.length - 1 - newIndex]);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setTerminalCommand(terminalHistory[terminalHistory.length - 1 - newIndex]);
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1);
+        setTerminalCommand("");
+      }
     }
   };
 
@@ -143,7 +160,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
             type="text"
             value={terminalCommand}
             onChange={(e) => setTerminalCommand(e.target.value)}
-            onKeyPress={handleTerminalCommand}
+            onKeyDown={handleTerminalCommand}
             className="flex-1 bg-transparent text-gray-300 font-mono outline-none border-none"
             placeholder="Type a command (try 'services status' or 'help')"
             autoFocus
@@ -154,10 +171,10 @@ Uptime: 2 days, 14 hours, 23 minutes`;
       {/* Quick Commands */}
       <div className="mt-4 flex flex-wrap gap-2">
         {[
-          t('server.terminal.services_status'),
-          t('server.terminal.logs_all'),
-          t('server.terminal.system_info'),
-          t('server.terminal.help'),
+          "services status",
+          "logs all", 
+          "system info",
+          "help",
         ].map((cmd) => (
           <button
             key={cmd}
