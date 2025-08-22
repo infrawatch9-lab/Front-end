@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { apiRegister } from "../../api/users/register";
 import { apiGetUsers } from "../../api/users/getUsers";
 import { apiUpdateUser } from "../../api/users/updateUser";
+import { apiDeleteUser } from "../../api/users/deleteUser";
 
 export default function AccessPermissionsTab() {
   const [users, setUsers] = useState([]);
@@ -51,22 +52,17 @@ export default function AccessPermissionsTab() {
         setUsers([]);
         return;
       }
-      
       // Mapeia os dados da API para o formato esperado pelo componente
       const formattedUsers = usersData
-        .filter(user => {
-          // Filtra apenas usuários ativos (considera diferentes formatos)
-          return user.active === "ACTIVE" || user.active === true || !user.hasOwnProperty('active');
-        })
         .map(user => ({
           id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
-          active: user.active === true ? "ACTIVE" : (user.active || "ACTIVE"), // Converte boolean para string se necessário
+          active: user.status || "ACTIVE", // Usa o valor string diretamente
           permissions: getPermissionsByRole(user.role)
         }));
-      
+
       setUsers(formattedUsers);
     } catch (error) {
       console.error("Erro ao buscar usuários:", error);
@@ -88,8 +84,18 @@ export default function AccessPermissionsTab() {
 
   const updateUserRole = async (userId, newRole) => {
     try {
-      // Chama a API para atualizar o usuário
-      await apiUpdateUser({ role: newRole });
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+
+      // Chama a API para atualizar o usuário com o payload completo
+      await apiUpdateUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: newRole,
+        isTemporaryPassword: false,
+        status: user.active
+      });
       
       // Atualiza localmente com as novas permissões baseadas no role
       setUsers(users.map(user => 
@@ -122,20 +128,22 @@ export default function AccessPermissionsTab() {
     const newStatus = user.active === "ACTIVE" ? "INACTIVE" : "ACTIVE";
 
     try {
-      // Chama a API para atualizar o status do usuário
-      await apiUpdateUser({ active: newStatus });
+      // Chama a API para atualizar o status do usuário com o payload completo
+      await apiUpdateUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isTemporaryPassword: false,
+        status: newStatus
+      });
       
-      // Se o usuário foi marcado como INACTIVE, remove da lista
-      if (newStatus === "INACTIVE") {
-        setUsers(users.filter(u => u.id !== userId));
-      } else {
-        // Se foi marcado como ACTIVE, atualiza localmente
-        setUsers(users.map(u => 
-          u.id === userId 
-            ? { ...u, active: newStatus }
-            : u
-        ));
-      }
+      // Atualiza localmente
+      setUsers(users.map(u => 
+        u.id === userId 
+          ? { ...u, active: newStatus }
+          : u
+      ));
 
       setMessage({ type: "success", text: "Status do usuário atualizado com sucesso!" });
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
@@ -196,8 +204,9 @@ export default function AccessPermissionsTab() {
     }
 
     try {
-      // Como não há API específica de delete, vamos usar updateUser para marcar como INACTIVE
-      await apiUpdateUser({ active: "INACTIVE" });
+      console.log("Tentando deletar usuário com ID:", userId); // Debug
+      // Chama a API específica de delete
+      await apiDeleteUser(userId);
       
       // Remove o usuário da lista local
       setUsers(users.filter(user => user.id !== userId));
@@ -209,7 +218,7 @@ export default function AccessPermissionsTab() {
       console.error("Erro ao remover usuário:", error);
       setMessage({ 
         type: "error", 
-        text: error.message || "Erro ao remover usuário." 
+        text: "Não foi possível remover o usuário. Tente novamente." 
       });
       setTimeout(() => setMessage({ type: "", text: "" }), 5000);
     }
