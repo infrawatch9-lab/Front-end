@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { apiLogin } from "../api/dashboards/server";
+import { apiLogin } from "../api/users/login";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -15,10 +15,9 @@ export default function Login() {
     try {
       await apiLogin({ email: username, password });
       navigate("/admin");
-      alert("Login realizado com sucesso!");
     } catch (error) {
       console.log(error);
-      alert("Erro ao fazer login. Verifique suas credenciais.");
+      alert(error.message || "Erro ao fazer login.");
     }
   };
 
