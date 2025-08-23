@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+import { apiLogin } from "../api/users/login";
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Login com', username, password);
-    navigate('/admin');
+    console.log("Login com", username, password);
+    try {
+      await apiLogin({ email: username, password });
+      navigate("/admin");
+    } catch (error) {
+      console.log(error);
+      alert(error.message || "Erro ao fazer login.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center divimg" >
+    <div className="min-h-screen flex items-center justify-center divimg">
       <div className="bg-white p-10 rounded-md shadow-md w-full max-w-sm">
-        <img src="/img/logo.png" alt="Logo" className="w-20 h-20 mx-auto"/>
+        <img src="/img/logo.png" alt="Logo" className="w-20 h-20 mx-auto" />
         <h2 className="text-center text-[#080F2A] font-semibold text-xl mb-6">
           Bem-vindo
         </h2>
@@ -42,7 +49,7 @@ export default function Login() {
               <i className="fas fa-lock" />
             </span>
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Senha"
@@ -53,7 +60,9 @@ export default function Login() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-2.5 text-gray-500 cursor-pointer"
             >
-              <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
+              <i
+                className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+              />
             </span>
           </div>
 
@@ -65,11 +74,12 @@ export default function Login() {
           </button>
 
           <div className="text-center mt-2">
-            <a>
-              Esqueceu a senha? 
-            </a>
-            <a href="#" className="ml-2 text-base text-gray-600 hover:underline">
-               Recuperar
+            <a>Esqueceu a senha?</a>
+            <a
+              href="#"
+              className="ml-2 text-base text-gray-600 hover:underline"
+            >
+              Recuperar
             </a>
           </div>
         </form>
@@ -77,4 +87,3 @@ export default function Login() {
     </div>
   );
 }
-
