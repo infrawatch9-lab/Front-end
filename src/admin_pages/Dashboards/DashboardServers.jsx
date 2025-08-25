@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 // componentes internos
 import HeaderActions from "./dashboards_components/ServerHeaderActions";
@@ -8,18 +8,19 @@ import InteractiveTerminal from "./dashboards_components/ServerInteractiveTermin
 import ServerStatusCard from "./dashboards_components/ServerStatusCard";
 import ServerServicesOverviewCard from "./dashboards_components/ServerServicesOverviewCard";
 import ServerResourcesCard from "./dashboards_components/ServerResourcesCard";
+import { getEvents } from "../../api/dashboards/serverDasboards";
 
 export default function ServerDashboard() {
   const { t } = useTranslation();
   const [timeFilter, setTimeFilter] = useState("Week");
   const [chartType, setChartType] = useState("line"); // 'line' | 'area' | 'bar'
   const [data, setData] = useState([]);
-  const [statusData, setStatusData] = useState([]);
-  const [methodData, setMethodData] = useState([]);
-
   // Simulated data - replace with real API calls
+
   useEffect(() => {
     // Main chart data
+    // const events = getEvents();
+    // console.log(events);
     const chartData = [
       { x: "X0", response: 4.5, error: 1.2 },
       { x: "X1", response: 14.2, error: 1.8 },
@@ -38,26 +39,7 @@ export default function ServerDashboard() {
       { x: "X14", response: 3.9, error: 1.4 },
     ];
 
-    // HTTP Status codes data
-    const statusCodes = [
-      { code: "500", percentage: 35, color: "#FF6B6B" },
-      { code: "404", percentage: 12, color: "#4ECDC4" },
-      { code: "301", percentage: 8, color: "#45B7D1" },
-      { code: "300", percentage: 15, color: "#96CEB4" },
-      { code: "200", percentage: 30, color: "#FFEAA7" },
-    ];
-
-    // HTTP Methods data
-    const methods = [
-      { method: "GET", percentage: 95, color: "#FF6B6B" },
-      { method: "PUT", percentage: 3, color: "#4ECDC4" },
-      { method: "POST", percentage: 12, color: "#45B7D1" },
-      { method: "DELETE", percentage: 16, color: "#96CEB4" },
-    ];
-
     setData(chartData);
-    setStatusData(statusCodes);
-    setMethodData(methods);
   }, [timeFilter]);
 
   return (
@@ -83,15 +65,15 @@ export default function ServerDashboard() {
 
           {/* Sidebar direita */}
           <div className="space-y-4">
-             <ServerStatusCard />
+            <ServerStatusCard />
             <ServerServicesOverviewCard />
           </div>
         </div>
 
         {/* Terminal */}
-            <div className="mt-8">
-              <ServerResourcesCard />
-            </div>
+        <div className="mt-8">
+          <ServerResourcesCard />
+        </div>
         <InteractiveTerminal className="mt-6" />
       </div>
     </div>
