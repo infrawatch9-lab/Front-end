@@ -42,17 +42,21 @@ export default function UsersAdmin() {
       .finally(() => setLoading(false));
   }, [refresh]);
 
+  // Adaptar para aceitar 'number' como telefone
+  const usersWithPhone = users.map((u) => ({
+    ...u,
+    phone: u.phone || u.number || "",
+  }));
   // Filtragem dos usuários
-  const filteredUsers = users.filter((user) => {
+  const filteredUsers = usersWithPhone.filter((user) => {
     const matchesSearch =
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.phone?.includes(searchTerm);
+      user.phone?.toString().includes(searchTerm);
     const matchesRole = roleFilter ? user.role === roleFilter : true;
     const matchesStatus = statusFilter ? user.status === statusFilter : true;
     return matchesSearch && matchesRole && matchesStatus;
   });
-
   // Paginação
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const paginatedUsers = filteredUsers.slice(
@@ -107,12 +111,11 @@ export default function UsersAdmin() {
     const payload = {
       name: data.name,
       email: data.email,
-      phone: data.phone,
+      number: data.number,
       role: data.role,
       tag: data.tag,
       status: data.status
-        ? data.status.toUpperCase() === "INATIVO" ||
-          data.status.toUpperCase() === "INACTIVE"
+        ? data.status.toUpperCase() === "INACTIVE"
           ? "INACTIVE"
           : "ACTIVE"
         : "ACTIVE",
@@ -137,15 +140,9 @@ export default function UsersAdmin() {
       id: data.id,
       name: data.name,
       email: data.email,
-      phone: data.phone,
+      number: data.number,
       role: data.role,
-      status: data.status
-        ? data.status.toUpperCase() === "INATIVO" ||
-          data.status.toUpperCase() === "INACTIVE"
-          ? "INACTIVE"
-          : "ACTIVE"
-        : "ACTIVE",
-      tag: data.tag,
+      status: data.status,
     };
     try {
       await apiUpdateUser(payload);
@@ -320,7 +317,15 @@ export default function UsersAdmin() {
                   <td className="py-2 px-4 text-white">{user.name}</td>
                   <td className="py-2 px-4 text-white">{user.email}</td>
                   <td className="py-2 px-4 text-white">{user.phone}</td>
-                  <td className="py-2 px-4 text-white">{user.role}</td>
+                  <td className="py-2 px-4 text-white">
+                    {user.role === "ADMIN"
+                      ? "ADMIN"
+                      : user.role === "USER"
+                      ? "USER"
+                      : user.role === "VIEWER"
+                      ? "VIEWER"
+                      : user.role}
+                  </td>
                   <td className="py-2 px-4">
                     <span
                       className={`px-2 py-1 rounded text-xs font-semibold uppercase

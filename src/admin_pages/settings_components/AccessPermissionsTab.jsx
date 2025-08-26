@@ -16,6 +16,7 @@ export default function AccessPermissionsTab() {
   const roles = [
     { value: "ADMIN", label: "Administrador", color: "bg-red-600" },
     { value: "USER", label: "Usuário", color: "bg-blue-600" },
+    { value: "VIEWER", label: "Visualizador", color: "bg-green-600" },
   ];
 
   const permissions = [
@@ -40,6 +41,13 @@ export default function AccessPermissionsTab() {
         dashboard: true,
         monitoring: true,
         reports: true,
+        settings: false,
+        users: false,
+      },
+      VIEWER: {
+        dashboard: true,
+        monitoring: false,
+        reports: false,
         settings: false,
         users: false,
       },

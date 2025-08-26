@@ -8,7 +8,42 @@ export default function UserDetailsModal({
   readOnly = false,
 }) {
   const [activeTab, setActiveTab] = useState("info");
-  const [editedUser, setEditedUser] = useState({ ...user });
+
+  // Função igual AccessPermissionsTab
+  const getPermissionsByRole = (role) => {
+    const defaultPermissions = {
+      ADMIN: {
+        dashboard: true,
+        monitoring: true,
+        reports: true,
+        settings: true,
+        users: true,
+      },
+      USER: {
+        dashboard: true,
+        monitoring: true,
+        reports: true,
+        settings: false,
+        users: false,
+      },
+      VIEWER: {
+        dashboard: true,
+        monitoring: false,
+        reports: false,
+        settings: false,
+        users: false,
+      },
+    };
+    return defaultPermissions[role] || defaultPermissions.USER;
+  };
+
+  // Inicializa as permissões se não existirem
+  const [editedUser, setEditedUser] = useState(() => {
+    if (!user.permissions) {
+      return { ...user, permissions: getPermissionsByRole(user.role) };
+    }
+    return { ...user };
+  });
 
   const tabs = [
     { id: "info", label: "INFORMAÇÕES GERAIS" },
@@ -35,17 +70,6 @@ export default function UserDetailsModal({
     }
   };
 
-  const handlePermissionChange = (permission) => {
-    if (readOnly) return;
-    setEditedUser({
-      ...editedUser,
-      permissions: {
-        ...editedUser.permissions,
-        [permission]: !editedUser.permissions[permission],
-      },
-    });
-  };
-
   const renderInfoTab = () => (
     <div className="space-y-6">
       <h3 className="text-white font-medium text-lg">
@@ -66,9 +90,10 @@ export default function UserDetailsModal({
             }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o nome completo"
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             Email
@@ -83,9 +108,28 @@ export default function UserDetailsModal({
             }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o email"
           />
         </div>
-
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Telefone
+          </label>
+          <input
+            type="tel"
+            value={editedUser.phone || ""}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) => setEditedUser({ ...editedUser, phone: e.target.value })
+            }
+            className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o número de telemóvel"
+          />
+        </div>
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             Papel
@@ -100,18 +144,17 @@ export default function UserDetailsModal({
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             disabled={readOnly}
           >
-            <option value="Admin" className="bg-slate-900">
+            <option value="ADMIN" className="bg-slate-900">
               ADMINISTRADOR
             </option>
-            <option value="User" className="bg-slate-900">
+            <option value="USER" className="bg-slate-900">
               USUÁRIO
             </option>
-            <option value="Viewer" className="bg-slate-900">
+            <option value="VIEWER" className="bg-slate-900">
               VISUALIZADOR
             </option>
           </select>
         </div>
-
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             STATUS
@@ -127,10 +170,10 @@ export default function UserDetailsModal({
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             disabled={readOnly}
           >
-            <option value="ativo" className="bg-slate-900">
+            <option value="ACTIVE" className="bg-slate-900">
               ATIVO
             </option>
-            <option value="inativo" className="bg-slate-900">
+            <option value="INACTIVE" className="bg-slate-900">
               INATIVO
             </option>
           </select>
@@ -166,6 +209,15 @@ export default function UserDetailsModal({
     </div>
   );
 
+  // Permissões possíveis (igual AccessPermissionsTab)
+  const allPermissions = [
+    { key: "dashboard", label: "Dashboard" },
+    { key: "monitoring", label: "Monitoramento" },
+    { key: "reports", label: "Relatórios" },
+    { key: "settings", label: "Configurações" },
+    { key: "users", label: "Usuários" },
+  ];
+
   const renderPermissionsTab = () => (
     <div className="space-y-6">
       <h3 className="text-white font-medium text-lg">
@@ -184,73 +236,49 @@ export default function UserDetailsModal({
             </tr>
           </thead>
           <tbody>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Visualizar a Dashboard</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.dashboard || false}
-                  onChange={
-                    readOnly
-                      ? undefined
-                      : () => handlePermissionChange("dashboard")
-                  }
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                  disabled={readOnly}
-                />
-              </td>
-            </tr>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Editar perfil</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.monitoring || false}
-                  onChange={
-                    readOnly
-                      ? undefined
-                      : () => handlePermissionChange("monitoring")
-                  }
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                  disabled={readOnly}
-                />
-              </td>
-            </tr>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Visualizar Logs</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.reports || false}
-                  onChange={
-                    readOnly
-                      ? undefined
-                      : () => handlePermissionChange("reports")
-                  }
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                  disabled={readOnly}
-                />
-              </td>
-            </tr>
+            {allPermissions.map((perm) => (
+              <tr className="border-t border-slate-700" key={perm.key}>
+                <td className="p-4 text-slate-300">{perm.label}</td>
+                <td className="p-4 text-center">
+                  <div className="flex justify-center">
+                    {editedUser.permissions?.[perm.key] ? (
+                      <svg
+                        className="w-4 h-4 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-4 h-4 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex justify-between pt-4">
-        <button
-          onClick={handleDelete}
-          className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-        >
-          DELETAR CONTA
-        </button>
-
-        <button
-          onClick={handleSave}
-          className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-        >
-          SALVAR
-        </button>
-      </div>
+      {/* Nenhum botão de ação na aba de permissões */}
     </div>
   );
 
@@ -263,92 +291,61 @@ export default function UserDetailsModal({
           <div className="flex-1">
             <input
               type="text"
-              placeholder="Filtrar logs ex: DB, ERROR,"
+              placeholder="Filtrar logs ex: DB, ERROR, ..."
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              disabled={readOnly}
             />
           </div>
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200">
+          <button
+            type="button"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
+            onClick={() => {
+              /* TODO: implementar atualização dos logs se necessário */
+            }}
+            disabled={readOnly}
+            title="Atualizar histórico"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 4v5h.582M20 20v-5h-.581M5.21 17.293A9 9 0 0021 12.082M18.79 6.707A9 9 0 003 11.918"
+              />
+            </svg>
             Atualizar
           </button>
         </div>
-
-        {/* Cabeçalho da tabela */}
-        <div className="bg-slate-800 rounded-lg mb-4">
-          <div className="grid grid-cols-3 gap-4 p-3 text-sm font-medium text-slate-300">
-            <div>Data e Hora</div>
-            <div>Nível</div>
-            <div>Mensagem</div>
-          </div>
-        </div>
-
-        {/* Lista de logs */}
-        <div className="space-y-2 max-h-64 overflow-y-auto">
-          {user.activityLogs && user.activityLogs.length > 0 ? (
-            user.activityLogs.map((log, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-3 gap-4 p-3 bg-slate-800 rounded-lg text-sm"
-              >
-                <div className="text-slate-300">{log.date}</div>
-                <div>
-                  <span
-                    className={`px-2 py-1 rounded text-xs font-medium ${
-                      log.level === "ERROR"
-                        ? "bg-red-600 text-white"
-                        : log.level === "WARN"
-                        ? "bg-yellow-600 text-white"
-                        : "bg-green-600 text-white"
-                    }`}
-                  >
-                    {log.level}
+        <div className="divide-y divide-slate-700">
+          {Array.isArray(user.activityLogs) && user.activityLogs.length > 0 ? (
+            user.activityLogs.map((log, idx) => (
+              <div key={idx} className="py-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-300 font-medium">
+                    {log.action}
+                  </span>
+                  <span className="text-slate-400 text-xs">
+                    {log.timestamp}
                   </span>
                 </div>
-                <div className="text-slate-300">{log.message}</div>
+                {log.details && (
+                  <div className="text-slate-400 text-sm mt-1">
+                    {log.details}
+                  </div>
+                )}
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-slate-400">
-              Nenhum log encontrado para este usuário
+            <div className="text-slate-400 text-center py-8">
+              Nenhuma atividade encontrada para este usuário.
             </div>
           )}
         </div>
-
-        {/* Paginação dos logs */}
-        {user.activityLogs && user.activityLogs.length > 0 && (
-          <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-slate-700">
-            <button className="p-2 text-slate-400 hover:text-slate-300 transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <span className="text-sm text-slate-400">Página 1 de 6</span>
-            <button className="p-2 text-slate-400 hover:text-slate-300 transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

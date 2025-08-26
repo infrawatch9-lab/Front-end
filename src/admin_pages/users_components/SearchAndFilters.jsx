@@ -10,15 +10,15 @@ export default function SearchAndFilters({
 }) {
   const roles = [
     { value: "", label: "PAPEL" },
-    { value: "ADMIN", label: "ADMIN" },
-    { value: "USER", label: "USER" },
-    { value: "VIEWER", label: "VIEWER" },
+    { value: "ADMIN", label: "Administrador" },
+    { value: "USER", label: "Usuário" },
+    { value: "VIEWER", label: "Visualizador" },
   ];
 
   const statuses = [
     { value: "", label: "STATUS" },
-    { value: "ACTIVE", label: "ACTIVE" },
-    { value: "INACTIVE", label: "INACTIVE" },
+    { value: "ACTIVE", label: "Ativo" },
+    { value: "INACTIVE", label: "Inativo" },
   ];
 
   return (
