@@ -22,7 +22,7 @@ export default function Sidebar() {
       
       {/* Topo */}
       <div>
-        <div className="flex items-center space-x-2 mb-6 novo" style={{ display: "flex", gap: 20 }}>
+        <div className="flex items-center space-x-2 mb-6 novo" style={{ display: "flex", gap: 20, }}>
           {isOpen && <img src="/img/logo_white.png" alt="Logo" className="w-8 h-8" />}
           {isOpen && <h1 className="text-lg font-semibold">{t('sidebar.brand', 'InfraWatch')}</h1>}
           <CollapseButton isOpen={isOpen} toggle={toggleSidebar} />
