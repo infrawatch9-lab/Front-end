@@ -42,7 +42,7 @@ export default function Sidebar() {
           isOpen={isOpen}
           to="/admin/monitor_admin"
           active={isActive("/admin/monitor_admin")}
-        />
+        /> {/*
         <SidebarItemWithSubmenu
           icon={<FolderOpen size={20} />}
           label={t('sidebar.reports', 'Relatórios')}
@@ -55,6 +55,7 @@ export default function Sidebar() {
           ]}
           active={location.pathname.startsWith("/admin/reports")}
         />
+         */}
         <SidebarItem
           icon={<History size={20} />}
           label={t('sidebar.history', 'Histórico')}
