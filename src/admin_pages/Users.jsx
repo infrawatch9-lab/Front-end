@@ -1,14 +1,9 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
-=======
-import React, { useState } from "react";
->>>>>>> 1217400 (trabalha sobrinho)
 import SearchAndFilters from "./users_components/SearchAndFilters";
 import UserActionsButtons from "./users_components/UserActionsButtons";
 import Pagination from "./users_components/Pagination";
 import CreateUserModal from "./users_components/CreateUserModal";
 import UserDetailsModal from "./users_components/UserDetailsModal";
-<<<<<<< HEAD
 import { apiGetUsers } from "../api/users/getUsers";
 import { apiRegister } from "../api/users/register";
 import { apiUpdateUser } from "../api/users/updateUser";
