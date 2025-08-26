@@ -119,7 +119,6 @@ export default function SearchAndFilters({
           </div>
         </div>
       </div>
-
       {/* ...nenhum botão aqui, só filtros... */}
     </div>
   );

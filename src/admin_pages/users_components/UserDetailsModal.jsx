@@ -51,7 +51,6 @@ export default function UserDetailsModal({
       <h3 className="text-white font-medium text-lg">
         1. Informações de usuário
       </h3>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -172,7 +171,6 @@ export default function UserDetailsModal({
       <h3 className="text-white font-medium text-lg">
         2. Permissões de usuário
       </h3>
-
       <div className="bg-slate-900 border border-slate-600 rounded-lg overflow-hidden">
         <table className="w-full">
           <thead>
@@ -260,7 +258,6 @@ export default function UserDetailsModal({
     <div className="space-y-6">
       <div className="bg-slate-900 border border-slate-600 rounded-lg p-4">
         <h3 className="text-white font-medium text-lg mb-4">Logs do Sistema</h3>
-
         {/* Filtro de logs */}
         <div className="flex items-center gap-4 mb-4">
           <div className="flex-1">
