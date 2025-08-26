@@ -6,9 +6,11 @@ import IncidentHistoryChart from './internal_components/HomeIncidentHistoryChart
 import InfrastructureMap from './internal_components/HomeInfrastructureMap'
 import TopBar from '../components/Topbar';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../hooks/useTheme/useTheme';
 
 export function HomepageAdmin() {
   const { t } = useTranslation();
+
   return (
     <div className="flex flex-col min-h-screen bg-[#081028]">
 

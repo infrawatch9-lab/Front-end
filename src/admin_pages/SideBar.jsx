@@ -7,6 +7,7 @@ import SidebarItem from '../components/SideBarItem';
 import { useSidebar } from '../contexts/SidebarContext';
 import LanguageSelector from '../components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
+import { FaToggleOff } from "react-icons/fa6";
 
 export default function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
@@ -83,6 +84,7 @@ export default function Sidebar() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
+            
             <Moon size={20} />
             {isOpen && <span>{t('sidebar.dark_mode', 'Modo escuro')}</span>}
           </div>
@@ -90,9 +92,10 @@ export default function Sidebar() {
             {isOpen && (
               <label className="inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" />
-                <div className="w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 relative transition-all duration-300">
-                  <div className="absolute left-1 top-0.5 bg-white w-4 h-4 rounded-full peer-checked:translate-x-4 transition-all"></div>
-                </div>
+                <button>
+                  {/* <FaToggleOff size={30} color='#009cdd' /> */}
+                  <FaToggleOff size={30} color='#010E37' />
+                </button>
               </label>
             )}
             <LanguageSelector />
