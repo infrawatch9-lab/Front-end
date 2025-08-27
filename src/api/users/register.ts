@@ -1,6 +1,6 @@
 import { api } from "../confg";
 
-export async function apiRegister(data: { name: string; email: string; role: string; }) {
+export async function apiRegister(data: { name: string; email: string; number?: string; role: string; }) {
   try {
     const token = localStorage.getItem("token");
     if (token) {

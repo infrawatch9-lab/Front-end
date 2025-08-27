@@ -45,7 +45,7 @@ export default function UsersAdmin() {
   // Adaptar para aceitar 'number' como telefone
   const usersWithPhone = users.map((u) => ({
     ...u,
-    phone: u.phone || u.number || "",
+    phone: u.number || u.phone || "",
   }));
   // Filtragem dos usuários
   const filteredUsers = usersWithPhone.filter((user) => {
@@ -316,7 +316,7 @@ export default function UsersAdmin() {
                 >
                   <td className="py-2 px-4 text-white">{user.name}</td>
                   <td className="py-2 px-4 text-white">{user.email}</td>
-                  <td className="py-2 px-4 text-white">{user.phone}</td>
+                  <td className="py-2 px-4 text-white">{user.number || user.phone}</td>
                   <td className="py-2 px-4 text-white">
                     {user.role === "ADMIN"
                       ? "ADMIN"

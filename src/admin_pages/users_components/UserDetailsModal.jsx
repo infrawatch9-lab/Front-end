@@ -118,11 +118,11 @@ export default function UserDetailsModal({
           </label>
           <input
             type="tel"
-            value={editedUser.phone || ""}
+            value={editedUser.number || editedUser.phone || ""}
             onChange={
               readOnly
                 ? undefined
-                : (e) => setEditedUser({ ...editedUser, phone: e.target.value })
+                : (e) => setEditedUser({ ...editedUser, number: e.target.value })
             }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             readOnly={readOnly}

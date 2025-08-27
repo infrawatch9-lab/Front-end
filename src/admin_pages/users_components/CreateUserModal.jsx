@@ -4,7 +4,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [userData, setUserData] = useState({
     name: "",
-    phone: "",
+    number: "",
     email: "",
     role: "",
     tag: ""
@@ -20,7 +20,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
   const handleContinue = () => {
     if (currentStep === 1) {
       // Validação básica do step 1
-      if (userData.name && userData.phone && userData.email) {
+      if (userData.name && userData.number && userData.email) {
         setCurrentStep(2);
       } else {
         alert("Por favor, preencha todos os campos obrigatórios.");
@@ -88,8 +88,8 @@ export default function CreateUserModal({ onClose, onCreate }) {
           </label>
           <input
             type="tel"
-            value={userData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
+            value={userData.number}
+            onChange={(e) => handleInputChange('number', e.target.value)}
             placeholder="Digite seu número de WhatsApp"
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
