@@ -8,12 +8,15 @@ import { useSidebar } from '../contexts/SidebarContext';
 import LanguageSelector from '../components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
 import { FaToggleOff } from "react-icons/fa6";
+import { useUserPermissions } from '../hooks/useUserPermissions';
+import UserInfo from '../components/UserInfo';
 
 export default function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation(); // Pega a rota atual
+  const { hasPermission, loading: permissionsLoading } = useUserPermissions();
 
   // Função para verificar se a rota está ativa
   const isActive = (to) => location.pathname === to;
@@ -29,59 +32,99 @@ export default function Sidebar() {
           <CollapseButton isOpen={isOpen} toggle={toggleSidebar} />
         </div>
 
-        <SidebarItem
-          icon={<Home size={20} />}
-          label={t('sidebar.homepage', 'Início')}
-          isOpen={isOpen}
-          to="/admin/homepage_admin"
-          active={isActive("/admin/homepage_admin")}
-        />
-        <SidebarItem
-          icon={<BarChart size={20} />}
-          label={t('sidebar.monitoring', 'Monitoramento')}
-          badge="1"
-          isOpen={isOpen}
-          to="/admin/monitor_admin"
-          active={isActive("/admin/monitor_admin")}
-        /> {/*
-        <SidebarItemWithSubmenu
-          icon={<FolderOpen size={20} />}
-          label={t('sidebar.reports', 'Relatórios')}
-          isOpen={isOpen}
-          subItems={[
-            { label: t('sidebar.servers', 'Servidores'), to: "reports_servers_admin" },
-            { label: t('sidebar.networks', 'Redes'), to: "reports_networks_admin" },
-            { label: t('sidebar.webhooks', 'Webhooks'), to: "reports_webhooks_admin" },
-            { label: t('sidebar.apis', 'APIs'), to: "reports_api_admin" },
-          ]}
-          active={location.pathname.startsWith("/admin/reports")}
-        />
-         */}
-        <SidebarItem
-          icon={<History size={20} />}
-          label={t('sidebar.history', 'Histórico')}
-          isOpen={isOpen}
-          to="/admin/history_admin"
-          active={isActive("/admin/history_admin")}
-        />
-        <SidebarItem
-          icon={<Users size={20} />}
-          label={t('sidebar.users', 'Usuários')}
-          isOpen={isOpen}
-          to="/admin/users_admin"
-          active={isActive("/admin/users_admin")}
-        />
-        <SidebarItem
-          icon={<Settings size={20} />}
-          label={t('sidebar.settings', 'Configurações')}
-          isOpen={isOpen}
-          to="/admin/settings_admin"
-          active={isActive("/admin/settings_admin")}
-        />
+        {/* Loading indicator para permissões */}
+        {permissionsLoading ? (
+          <div className="flex items-center justify-center py-4">
+            <svg className="animate-spin h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {isOpen && <span className="ml-2 text-slate-400 text-sm">Carregando...</span>}
+          </div>
+        ) : (
+          <>
+            {/* Dashboard - Todos os usuários têm acesso */}
+            {hasPermission('dashboard') && (
+              <SidebarItem
+                icon={<Home size={20} />}
+                label={t('sidebar.homepage', 'Início')}
+                isOpen={isOpen}
+                to="/admin/homepage_admin"
+                active={isActive("/admin/homepage_admin")}
+              />
+            )}
+            
+            {/* Monitoramento - ADMIN e USER têm acesso */}
+            {hasPermission('monitoring') && (
+              <SidebarItem
+                icon={<BarChart size={20} />}
+                label={t('sidebar.monitoring', 'Monitoramento')}
+                badge="1"
+                isOpen={isOpen}
+                to="/admin/monitor_admin"
+                active={isActive("/admin/monitor_admin")}
+              />
+            )}
+            
+            {/* Relatórios - Comentado temporariamente */}
+            {/*
+            {hasPermission('reports') && (
+              <SidebarItemWithSubmenu
+                icon={<FolderOpen size={20} />}
+                label={t('sidebar.reports', 'Relatórios')}
+                isOpen={isOpen}
+                subItems={[
+                  { label: t('sidebar.servers', 'Servidores'), to: "reports_servers_admin" },
+                  { label: t('sidebar.networks', 'Redes'), to: "reports_networks_admin" },
+                  { label: t('sidebar.webhooks', 'Webhooks'), to: "reports_webhooks_admin" },
+                  { label: t('sidebar.apis', 'APIs'), to: "reports_api_admin" },
+                ]}
+                active={location.pathname.startsWith("/admin/reports")}
+              />
+            )}
+            */}
+            
+            {/* Histórico - ADMIN e USER têm acesso */}
+            {hasPermission('history') && (
+              <SidebarItem
+                icon={<History size={20} />}
+                label={t('sidebar.history', 'Histórico')}
+                isOpen={isOpen}
+                to="/admin/history_admin"
+                active={isActive("/admin/history_admin")}
+              />
+            )}
+            
+            {/* Usuários - Apenas ADMIN tem acesso */}
+            {hasPermission('users') && (
+              <SidebarItem
+                icon={<Users size={20} />}
+                label={t('sidebar.users', 'Usuários')}
+                isOpen={isOpen}
+                to="/admin/users_admin"
+                active={isActive("/admin/users_admin")}
+              />
+            )}
+            
+            {/* Configurações - Apenas ADMIN tem acesso */}
+            {hasPermission('settings') && (
+              <SidebarItem
+                icon={<Settings size={20} />}
+                label={t('sidebar.settings', 'Configurações')}
+                isOpen={isOpen}
+                to="/admin/settings_admin"
+                active={isActive("/admin/settings_admin")}
+              />
+            )}
+          </>
+        )}
       </div>
 
       {/* Parte inferior */}
       <div className="space-y-4">
+        {/* Informações do usuário */}
+        <UserInfo isOpen={isOpen} />
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             

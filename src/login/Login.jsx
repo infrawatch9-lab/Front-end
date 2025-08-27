@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { apiLogin } from "../api/users/login";
 import { ClipLoader, CircleLoader, BeatLoader, ScaleLoader, BounceLoader,  } from "react-spinners"
-import { apiGetUserProfile } from "../api/users/getUserProfile";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -20,8 +19,6 @@ export default function Login() {
     console.log("Login com", username, password);
     try {
       await apiLogin({ email: username, password });
-	  const data = await apiGetUserProfile();
-	  console.log(data);
       if (apiLogin)
         setSubmiting(false)
       navigate("/admin");
