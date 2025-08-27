@@ -1,8 +1,9 @@
 import React from "react";
+import { Edit, Trash2 } from 'lucide-react';
 import StatusBadge from "./MonitorStatusBadge";
 import { useTranslation } from 'react-i18next';
 
-export default function StatusTable({ data, searchTerm, onRowClick }) {
+export default function StatusTable({ data, searchTerm, onRowClick, onEditService, onDeleteService }) {
   const { t } = useTranslation();
   const filteredData = data.filter(item =>
     item.sla.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -19,7 +20,7 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
     >
       {/* Table Header */}
       <div
-        className="grid grid-cols-5 gap-4 p-4 border-b border-slate-600"
+        className="grid grid-cols-6 gap-4 p-4 border-b border-slate-600"
         style={{ backgroundColor: "#16205A" }}
       >
         <div className="text-white font-semibold text-sm">{t('internal.sla')}</div>
@@ -27,6 +28,7 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
         <div className="text-white font-semibold text-sm">{t('internal.measured')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.status')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.service')}</div>
+        <div className="text-white font-semibold text-sm text-center">Ações</div>
       </div>
 
       {/* Table Body */}
@@ -34,19 +36,63 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
         {filteredData.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-5 gap-4 p-4 transition-colors cursor-pointer"
+            className="grid grid-cols-6 gap-4 p-4 transition-colors"
             style={{ backgroundColor: "#0B1440" }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#06194d")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0B1440")}
-            onClick={() => onRowClick && onRowClick(item)}
           >
-            <div className="text-slate-300 text-sm">{item.sla}</div>
-            <div className="text-slate-300 text-sm">{item.limite}</div>
-            <div className="text-slate-300 text-sm">{item.medido}</div>
-            <div className="flex items-center">
+            <div 
+              className="text-slate-300 text-sm cursor-pointer"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
+              {item.sla}
+            </div>
+            <div 
+              className="text-slate-300 text-sm cursor-pointer"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
+              {item.limite}
+            </div>
+            <div 
+              className="text-slate-300 text-sm cursor-pointer"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
+              {item.medido}
+            </div>
+            <div 
+              className="flex items-center cursor-pointer"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
               <StatusBadge status={item.status} />
             </div>
-            <div className="text-slate-300 text-sm">{item.servico || t('internal.none')}</div>
+            <div 
+              className="text-slate-300 text-sm cursor-pointer"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
+              {item.servico || t('internal.none')}
+            </div>
+            <div className="flex items-center justify-center space-x-2">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEditService && onEditService(item);
+                }}
+                className="p-1.5 text-blue-400 hover:text-blue-300 hover:bg-slate-700 rounded transition-colors"
+                title="Editar serviço"
+              >
+                <Edit className="w-4 h-4" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeleteService && onDeleteService(item.id);
+                }}
+                className="p-1.5 text-red-400 hover:text-red-300 hover:bg-slate-700 rounded transition-colors"
+                title="Deletar serviço"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         ))}
       </div>
