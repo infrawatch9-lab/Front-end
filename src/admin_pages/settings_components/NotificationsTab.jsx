@@ -64,7 +64,7 @@ export default function NotificationsTab() {
               type="text"
               value={emailConfig.smtp}
               onChange={(e) => setEmailConfig({...emailConfig, smtp: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!emailEnabled}
             />
           </div>
@@ -77,7 +77,7 @@ export default function NotificationsTab() {
               type="text"
               value={emailConfig.porta}
               onChange={(e) => setEmailConfig({...emailConfig, porta: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!emailEnabled}
             />
           </div>
@@ -90,7 +90,7 @@ export default function NotificationsTab() {
               type="email"
               value={emailConfig.remetente}
               onChange={(e) => setEmailConfig({...emailConfig, remetente: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!emailEnabled}
             />
           </div>
@@ -114,7 +114,7 @@ export default function NotificationsTab() {
               type="url"
               value={slackConfig.webhookUrl}
               onChange={(e) => setSlackConfig({...slackConfig, webhookUrl: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!slackEnabled}
             />
           </div>
@@ -127,7 +127,7 @@ export default function NotificationsTab() {
               type="text"
               value={slackConfig.canalPadrao}
               onChange={(e) => setSlackConfig({...slackConfig, canalPadrao: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!slackEnabled}
             />
           </div>
@@ -151,7 +151,7 @@ export default function NotificationsTab() {
               type="password"
               value={smsConfig.apiToken}
               onChange={(e) => setSmsConfig({...smsConfig, apiToken: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!smsEnabled}
             />
           </div>
@@ -164,7 +164,7 @@ export default function NotificationsTab() {
               type="text"
               value={smsConfig.numeroCanal}
               onChange={(e) => setSmsConfig({...smsConfig, numeroCanal: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!smsEnabled}
             />
           </div>
@@ -188,7 +188,7 @@ export default function NotificationsTab() {
               type="url"
               value={webhookConfig.endpointUrl}
               onChange={(e) => setWebhookConfig({...webhookConfig, endpointUrl: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!webhookEnabled}
             />
           </div>
@@ -207,7 +207,7 @@ export default function NotificationsTab() {
               type="password"
               value={webhookConfig.secretToken}
               onChange={(e) => setWebhookConfig({...webhookConfig, secretToken: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               disabled={!webhookEnabled}
             />
           </div>

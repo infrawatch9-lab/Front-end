@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Filter, Plus } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-import TopBar from "../components/Topbar";
+import ConfigService from "./internal_components/MonitorConfigService";
 import StatusTable from "./internal_components/MonitorStatusTable";
 import Pagination from "./internal_components/MonitorPagination";
 import { useTranslation } from 'react-i18next';
@@ -10,8 +10,13 @@ export default function MonitorAdmin() {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const totalPages = 6;
   const navigate = useNavigate();
+
+  const handleCreateService = () => {
+    setShowCreateModal(true);
+  };
 
   const services = [
     t('monitor.servers'),
@@ -72,9 +77,12 @@ export default function MonitorAdmin() {
             <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
               <Filter className="w-5 h-5" />
             </button>
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
-              <Plus className="w-5 h-5" />
-            </button>
+            <button
+  className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+  onClick={handleCreateService}
+>
+  <Plus className="w-5 h-5" />
+</button>
           </div>
         </div>
 
@@ -91,6 +99,13 @@ export default function MonitorAdmin() {
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
+
+        {/* ConfigService Modal */}
+        {showCreateModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+    <ConfigService onClose={() => setShowCreateModal(false)} />
+  </div>
+        )}
       </main>
     </div>
   );

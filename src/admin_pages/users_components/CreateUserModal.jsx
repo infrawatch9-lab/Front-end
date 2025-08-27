@@ -186,7 +186,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-900 border border-slate-700 rounded-lg w-full max-w-md">
+      <div className="bg-[#0B1440] border border-slate-700 rounded-lg w-full max-w-md">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
           <h2 className="text-xl font-bold text-white">CRIAR USUÁRIO</h2>

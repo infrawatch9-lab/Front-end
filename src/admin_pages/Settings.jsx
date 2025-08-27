@@ -41,10 +41,10 @@ export default function SettingsAdmin() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded text-sm font-medium transition-all duration-200 ${
                 activeTab === tab.id
                   ? "bg-blue-600 text-white border border-blue-500"
-                  : "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white"
+                  : "bg-[#081028] text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white"
               }`}
             >
               {tab.label}

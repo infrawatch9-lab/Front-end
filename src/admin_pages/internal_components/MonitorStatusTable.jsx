@@ -14,13 +14,13 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
 
   return (
     <div
-      className="rounded-lg border border-slate-600 overflow-hidden"
+      className="rounded border border-slate-600 overflow-hidden"
       style={{ backgroundColor: "#020E36" }}
     >
       {/* Table Header */}
       <div
         className="grid grid-cols-5 gap-4 p-4 border-b border-slate-600"
-        style={{ backgroundColor: "#081028" }}
+        style={{ backgroundColor: "#16205A" }}
       >
         <div className="text-white font-semibold text-sm">{t('internal.sla')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.limit')}</div>

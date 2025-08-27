@@ -271,7 +271,7 @@ export default function AccessPermissionsTab() {
           <button
             onClick={fetchUsers}
             disabled={loadingUsers}
-            className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded text-sm font-medium transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Recarregar usuários"
           >
             <svg
@@ -291,7 +291,7 @@ export default function AccessPermissionsTab() {
           </button>
           <button
             onClick={() => setShowAddUser(!showAddUser)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-all duration-200 flex items-center gap-2"
           >
             <span className="text-lg">+</span>
             Adicionar Usuário
@@ -302,7 +302,7 @@ export default function AccessPermissionsTab() {
       {/* Mensagem de feedback */}
       {message.text && (
         <div
-          className={`p-4 rounded-lg border ${
+          className={`p-4 rounded border ${
             message.type === "success"
               ? "bg-green-900 border-green-600 text-green-200"
               : "bg-red-900 border-red-600 text-red-200"
@@ -345,7 +345,7 @@ export default function AccessPermissionsTab() {
 
       {/* Formulário para adicionar usuário */}
       {showAddUser && (
-        <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
+        <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
           <h4 className="text-white font-medium mb-4">Novo Usuário</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -359,7 +359,7 @@ export default function AccessPermissionsTab() {
                   setNewUser({ ...newUser, name: e.target.value })
                 }
                 disabled={loading}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Nome completo"
               />
             </div>
@@ -374,7 +374,7 @@ export default function AccessPermissionsTab() {
                   setNewUser({ ...newUser, email: e.target.value })
                 }
                 disabled={loading}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="email@empresa.com"
               />
             </div>
@@ -388,7 +388,7 @@ export default function AccessPermissionsTab() {
                   setNewUser({ ...newUser, role: e.target.value })
                 }
                 disabled={loading}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {roles.map((role) => (
                   <option
@@ -406,7 +406,7 @@ export default function AccessPermissionsTab() {
             <button
               onClick={addUser}
               disabled={loading}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+              className={`px-4 py-2 rounded text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 loading
                   ? "bg-gray-600 cursor-not-allowed text-gray-300"
                   : "bg-green-600 hover:bg-green-700 text-white"
@@ -442,7 +442,7 @@ export default function AccessPermissionsTab() {
             <button
               onClick={() => setShowAddUser(false)}
               disabled={loading}
-              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancelar
             </button>
@@ -451,11 +451,11 @@ export default function AccessPermissionsTab() {
       )}
 
       {/* Tabela de usuários */}
-      <div className="bg-[#0B1440] border border-slate-700 rounded-lg overflow-hidden">
+      <div className="bg-[#0B1440] border border-slate-700 rounded overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-[#081028] border-b border-slate-700">
+              <tr className="bg-[#16205A] border-b border-slate-700">
                 <th className="text-left p-4 text-slate-300 font-medium">
                   Usuário
                 </th>

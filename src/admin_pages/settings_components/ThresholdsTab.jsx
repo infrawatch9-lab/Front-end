@@ -22,7 +22,7 @@ export default function ThresholdsTab() {
 
   return (
     <div className="max-w-4xl">
-      <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
+      <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
         {/* Header */}
         <div className="mb-6">
           <h3 className="text-white font-medium text-lg mb-2">CONFIGS GERAIS</h3>
@@ -41,7 +41,7 @@ export default function ThresholdsTab() {
               value={configs.intervalo1}
               onChange={(e) => handleInputChange('intervalo1', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -54,7 +54,7 @@ export default function ThresholdsTab() {
               value={configs.intervalo2}
               onChange={(e) => handleInputChange('intervalo2', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -68,7 +68,7 @@ export default function ThresholdsTab() {
               value={configs.intervalo3}
               onChange={(e) => handleInputChange('intervalo3', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -81,7 +81,7 @@ export default function ThresholdsTab() {
               value={configs.intervalo4}
               onChange={(e) => handleInputChange('intervalo4', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function ThresholdsTab() {
         <div className="flex justify-end mt-8">
           <button
             onClick={handleSave}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-all duration-200"
           >
             SALVAR
           </button>

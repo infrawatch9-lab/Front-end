@@ -179,7 +179,7 @@ export default function UsersAdmin() {
           <button
             onClick={() => setRefresh((r) => !r)}
             disabled={loading}
-            className="px-3 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-3 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Recarregar usuários"
           >
             <svg
@@ -198,7 +198,7 @@ export default function UsersAdmin() {
             {loading ? "Carregando..." : "Recarregar"}
           </button>
           <button
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-all duration-200 whitespace-nowrap"
             onClick={handleCreateUser}
           >
             CRIAR USUÁRIO
@@ -248,8 +248,8 @@ export default function UsersAdmin() {
           </div>
         </div>
       )}
-      <div className="mb-4 overflow-x-auto w-full relative z-0 rounded-2xl border border-blue-800">
-        <table className="w-full bg-[#10194a] rounded-none overflow-hidden table-fixed shadow-lg relative z-0">
+      <div className="mb-4 overflow-x-auto w-full relative z-0 rounded border border-slate-700">
+        <table className="w-full bg-[#0B1440] rounded-none overflow-hidden table-fixed shadow-lg relative z-0">
           <colgroup>
             <col style={{ width: "22%" }} />
             <col style={{ width: "22%" }} />
@@ -259,7 +259,7 @@ export default function UsersAdmin() {
             <col style={{ width: "20%" }} />
           </colgroup>
           <thead style={{ position: "sticky", top: 0, zIndex: 60 }}>
-            <tr className="text-slate-400 text-xs uppercase bg-[#16205a] border-b border-blue-900">
+            <tr className="text-slate-400 text-xs uppercase bg-[#16205A] border-b border-blue-900">
               <th className="py-2 px-4 text-left">Nome</th>
               <th className="py-2 px-4 text-left">E-mail</th>
               <th className="py-2 px-4 text-left">Telefone</th>

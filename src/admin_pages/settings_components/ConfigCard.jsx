@@ -3,7 +3,7 @@ import ToggleSwitch from "./ToggleSwitch";
 
 export default function ConfigCard({ title, icon, enabled, onToggle, onSave, children }) {
   return (
-    <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
+    <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -22,7 +22,7 @@ export default function ConfigCard({ title, icon, enabled, onToggle, onSave, chi
           <button
             onClick={onSave}
             disabled={!enabled}
-            className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+            className={`px-6 py-2 rounded text-sm font-medium transition-all duration-200 ${
               enabled
                 ? "bg-blue-600 hover:bg-blue-700 text-white"
                 : "bg-slate-700 text-slate-500 cursor-not-allowed"

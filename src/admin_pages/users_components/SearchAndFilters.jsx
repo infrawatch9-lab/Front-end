@@ -47,7 +47,7 @@ export default function SearchAndFilters({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search"
-            className="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 bg-[#081028] border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
         </div>
 
@@ -56,13 +56,13 @@ export default function SearchAndFilters({
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="appearance-none bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+            className="appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
           >
             {roles.map((role) => (
               <option
                 key={role.value}
                 value={role.value}
-                className="bg-slate-900"
+                className="bg-[#081028]"
               >
                 {role.label}
               </option>
@@ -90,7 +90,7 @@ export default function SearchAndFilters({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+            className="appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
           >
             {statuses.map((status) => (
               <option
