@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
+import "./sidebar.styles.css"
 
 export default function SidebarItem({ icon, label, isOpen, to }) {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function SidebarItem({ icon, label, isOpen, to }) {
     <div
       onClick={() => navigate(to)}
       className={`flex items-center space-x-4 p-2 rounded cursor-pointer transition-all
-        ${isSelected ? selectedBg : "hover:bg-[#2d2d2d]"}
+        ${isSelected ? selectedBg : "side-bar-item-hover"}
       `}
     >
       <span className="text-lg">{icon}</span>

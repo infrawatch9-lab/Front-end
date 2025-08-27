@@ -18,9 +18,12 @@ import NetworksReport from "./admin_pages/Relatorio_pages/Networks";
 import APIReport from "./admin_pages/Relatorio_pages/API";
 import WebhooksReport from "./admin_pages/Relatorio_pages/Webhooks";
 
+import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
+
 export default function Router() {
   return (
     <BrowserRouter>
+    <ThemeProvider>
       <AuthProvider>
         <Routes>
           {/* Página inicial = Login */}
@@ -50,6 +53,7 @@ export default function Router() {
           </Route>
         </Routes>
       </AuthProvider>
+    </ThemeProvider>
     </BrowserRouter>
   );
 }

@@ -1,5 +1,6 @@
 import { Bell, HelpCircle, Search } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import "./Topbar.styles.css"
 
 export default function TopBar() {
   const { t } = useTranslation();
@@ -7,9 +8,10 @@ export default function TopBar() {
     <div className="flex items-center justify-between w-full p-4 bg-[#0B1440]">
       
       {/* Barra de pesquisa ocupa o espaço máximo possível */}
-      <div className="flex items-center bg-white rounded-full px-4 py-2 flex-1 max-w-2xl shadow-md">
+      <div className="flex items-center bg-white rounded-full px-4 py-2 flex-1 max-w-2xl shadow-md content-search">
         <Search className="text-gray-500 w-5 h-5 mr-2" />
         <input
+          style={{ backgroundColor: "transparent", color: "white" }}
           type="text"
           placeholder={t('navigation.search') || 'Pesquisar...'}
           className="flex-1 outline-none text-gray-700"
