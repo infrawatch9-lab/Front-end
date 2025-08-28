@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const PingServiceForm = ({ config, onChange }) => {
+  const { t } = useTranslation();
   const handleConfigChange = (field, value) => {
     onChange({
       ...config,
@@ -13,27 +15,34 @@ const PingServiceForm = ({ config, onChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Endereço IP *
+            {t('service_types.ping.ip_address')} *
           </label>
           <input
             type="text"
             value={config.ipAddress || ''}
             onChange={(e) => handleConfigChange('ipAddress', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="192.168.1.1"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.ipAddress || !config.ipAddress.trim() 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
+            placeholder={t('service_types.ping.ip_placeholder')}
           />
+          {(!config.ipAddress || !config.ipAddress.trim()) && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Webhook URL
+            {t('service_types.ping.webhook_url')}
           </label>
           <input
             type="url"
             value={config.webhookUrl || ''}
             onChange={(e) => handleConfigChange('webhookUrl', e.target.value)}
             className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="https://exemplo.com/webhook"
+            placeholder={t('service_types.ping.webhook_placeholder')}
           />
         </div>
       </div>
@@ -41,7 +50,7 @@ const PingServiceForm = ({ config, onChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Intervalo (segundos)
+            {t('service_modal.interval_seconds')}
           </label>
           <input
             type="number"
@@ -54,7 +63,7 @@ const PingServiceForm = ({ config, onChange }) => {
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Timeout (segundos)
+            {t('service_modal.timeout_ms')}
           </label>
           <input
             type="number"
@@ -67,7 +76,7 @@ const PingServiceForm = ({ config, onChange }) => {
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Tamanho do Pacote (bytes)
+            {t('service_types.ping.packet_size')}
           </label>
           <input
             type="number"
@@ -82,7 +91,7 @@ const PingServiceForm = ({ config, onChange }) => {
 
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
-          TTL (Time To Live)
+          {t('service_types.ping.ttl')}
         </label>
         <input
           type="number"

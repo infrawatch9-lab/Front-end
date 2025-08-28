@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SnmpServiceForm = ({ config, onChange }) => {
+  const { t } = useTranslation();
   const handleConfigChange = (field, value) => {
     onChange({
       ...config,
@@ -13,44 +15,65 @@ const SnmpServiceForm = ({ config, onChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Host *
+            {t('service_types.snmp.host')} *
           </label>
           <input
             type="text"
             value={config.host || ''}
             onChange={(e) => handleConfigChange('host', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="192.168.1.1"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.host || !config.host.trim() 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
+            placeholder={t('service_types.snmp.host_placeholder')}
           />
+          {(!config.host || !config.host.trim()) && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Versão SNMP
+            {t('service_types.snmp.version')} *
           </label>
           <select
             value={config.version || 'v2c'}
             onChange={(e) => handleConfigChange('version', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.version 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
           >
             <option value="v1">v1</option>
             <option value="v2c">v2c</option>
             <option value="v3">v3</option>
           </select>
+          {!config.version && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
         </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
-          OID *
+          {t('service_types.snmp.oid')} *
         </label>
         <input
           type="text"
           value={config.oid || ''}
           onChange={(e) => handleConfigChange('oid', e.target.value)}
-          className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="1.3.6.1.2.1.1.1.0"
+          className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+            !config.oid || !config.oid.trim() 
+              ? 'border-red-500 focus:border-red-400' 
+              : 'border-slate-600 focus:border-blue-500'
+          }`}
+          placeholder={t('service_types.snmp.oid_placeholder')}
         />
+        {(!config.oid || !config.oid.trim()) && (
+          <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+        )}
       </div>
 
       {/* Community for v1 and v2c */}

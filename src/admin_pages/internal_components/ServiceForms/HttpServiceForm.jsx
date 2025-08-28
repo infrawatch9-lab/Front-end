@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const HttpServiceForm = ({ config, onChange }) => {
+  const { t } = useTranslation();
   const [headers, setHeaders] = useState(config.headers || {});
   const [newHeaderKey, setNewHeaderKey] = useState('');
   const [newHeaderValue, setNewHeaderValue] = useState('');
@@ -39,25 +41,36 @@ const HttpServiceForm = ({ config, onChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Endpoint URL *
+            {t('service_types.http.endpoint')} *
           </label>
           <input
             type="url"
             value={config.endpoint || ''}
             onChange={(e) => handleConfigChange('endpoint', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="https://api.exemplo.com/health"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.endpoint || !config.endpoint.trim() 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
+            placeholder={t('service_types.http.endpoint_placeholder')}
           />
+          {(!config.endpoint || !config.endpoint.trim()) && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Método HTTP
+            {t('service_types.http.method')} *
           </label>
           <select
             value={config.method || 'GET'}
             onChange={(e) => handleConfigChange('method', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.method 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
           >
             <option value="GET">GET</option>
             <option value="POST">POST</option>
@@ -66,6 +79,9 @@ const HttpServiceForm = ({ config, onChange }) => {
             <option value="PATCH">PATCH</option>
             <option value="HEAD">HEAD</option>
           </select>
+          {!config.method && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
         </div>
       </div>
 
