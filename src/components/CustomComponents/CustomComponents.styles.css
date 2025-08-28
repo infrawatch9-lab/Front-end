@@ -1,0 +1,29 @@
+.div-dark-mode-bg
+{
+    transition: all 2s;
+    background-color: #070E23;
+}
+
+.div-dark-mode-fg
+{
+    transition: all 2s;
+    background-color: #0B143F;
+}
+
+.div-light-mode-bg
+{
+    transition: all 2s;
+    background-color: #f8f8f8;
+}
+
+.div-light-mode-fg
+{
+    transition: all 2s;
+    background-color: #e7e7e7;
+}
+
+.text-dark-mode-emphasis
+{
+
+}
+

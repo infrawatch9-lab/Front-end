@@ -19,6 +19,7 @@ import APIReport from "./admin_pages/Relatorio_pages/API";
 import WebhooksReport from "./admin_pages/Relatorio_pages/Webhooks";
 
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
+import { Test } from "./components/CustomComponents/Test";
 
 export default function Router() {
   return (

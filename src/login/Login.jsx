@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { apiLogin } from "../api/users/login";
 import { ClipLoader, CircleLoader, BeatLoader, ScaleLoader, BounceLoader,  } from "react-spinners"
+import { useTheme } from "../hooks/useTheme/useTheme";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
   const [ messageError, setMessageError ] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [submiting, setSubmiting] = useState(false);
+  const { } = useTheme()
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
