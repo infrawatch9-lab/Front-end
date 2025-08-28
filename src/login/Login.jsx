@@ -14,10 +14,9 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const [messageError, setMessageError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [submiting, setSubmiting] = useState(false);
-  const {} = useTheme();
+  useTheme();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -31,8 +30,8 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       setError(true);
-      setMessageError(error.message || "Erro ao fazer login.");
-      setSubmiting(false);
+      // Optionally, you can add a message state to display the error message
+      // setMessage(error.message || "Erro ao fazer login.");
     }
   };
 
