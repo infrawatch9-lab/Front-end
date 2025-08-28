@@ -55,58 +55,70 @@ export default function AccessPermissionsTab() {
     return defaultPermissions[role] || defaultPermissions.USER;
   }, []);
 
-  // Função para buscar usuários da API
-  const fetchUsers = useCallback(async () => {
-    // Evita chamadas duplicadas usando useRef
-    if (fetchingRef.current) {
-      return;
-    }
-
-    try {
-      fetchingRef.current = true;
-      setLoadingUsers(true);
-      const usersData = await apiGetUsers();
-
-      // Verifica se usersData é um array
-      if (!Array.isArray(usersData)) {
-        setUsers([]);
+  // Função para buscar usuários da API com cache em localStorage
+  const fetchUsers = useCallback(
+    async (refresh = false) => {
+      if (fetchingRef.current) {
         return;
       }
-      // Mapeia os dados da API para o formato esperado pelo componente
-      const formattedUsers = usersData.map((user) => ({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        active: user.status || "ACTIVE", // Usa o valor string diretamente
-        permissions: getPermissionsByRole(user.role),
-      }));
 
-      setUsers(formattedUsers);
-    } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
-      setMessage({
-        type: "error",
-        text: "Erro ao carregar usuários. Tente recarregar a página.",
-      });
-      setTimeout(() => setMessage({ type: "", text: "" }), 5000);
-    } finally {
-      setLoadingUsers(false);
-      fetchingRef.current = false;
-    }
-  }, [getPermissionsByRole]);
+      try {
+        fetchingRef.current = true;
+        setLoadingUsers(true);
+        // Tenta obter do cache
+        const cachedUsers = localStorage.getItem("usersPermissionsCache");
+        if (cachedUsers && !refresh) {
+          setUsers(JSON.parse(cachedUsers));
+          setLoadingUsers(false);
+          fetchingRef.current = false;
+          return;
+        }
+
+        const usersData = await apiGetUsers();
+        if (!Array.isArray(usersData)) {
+          setUsers([]);
+          localStorage.removeItem("usersPermissionsCache");
+          return;
+        }
+        // Mapeia os dados da API para o formato esperado pelo componente
+        const formattedUsers = usersData.map((user) => ({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          active: user.status || "ACTIVE",
+          permissions: getPermissionsByRole(user.role),
+        }));
+        setUsers(formattedUsers);
+        localStorage.setItem(
+          "usersPermissionsCache",
+          JSON.stringify(formattedUsers)
+        );
+      } catch (error) {
+        console.error("Erro ao buscar usuários:", error);
+        setMessage({
+          type: "error",
+          text: "Erro ao carregar usuários. Tente recarregar a página.",
+        });
+        setTimeout(() => setMessage({ type: "", text: "" }), 5000);
+      } finally {
+        setLoadingUsers(false);
+        fetchingRef.current = false;
+      }
+    },
+    [getPermissionsByRole]
+  );
 
   // Carrega os usuários quando o componente é montado
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]); // Inclui fetchUsers como dependência
+  }, [fetchUsers]);
 
   const updateUserRole = async (userId, newRole) => {
     try {
       const user = users.find((u) => u.id === userId);
       if (!user) return;
 
-      // Chama a API para atualizar o usuário com o payload completo
       await apiUpdateUser({
         id: user.id,
         name: user.name,
@@ -116,17 +128,20 @@ export default function AccessPermissionsTab() {
         status: user.active,
       });
 
-      // Atualiza localmente com as novas permissões baseadas no role
-      setUsers(
-        users.map((user) =>
-          user.id === userId
-            ? {
-                ...user,
-                role: newRole,
-                permissions: getPermissionsByRole(newRole),
-              }
-            : user
-        )
+      // Atualiza localmente e no cache
+      const updatedUsers = users.map((user) =>
+        user.id === userId
+          ? {
+              ...user,
+              role: newRole,
+              permissions: getPermissionsByRole(newRole),
+            }
+          : user
+      );
+      setUsers(updatedUsers);
+      localStorage.setItem(
+        "usersPermissionsCache",
+        JSON.stringify(updatedUsers)
       );
 
       setMessage({
@@ -187,23 +202,20 @@ export default function AccessPermissionsTab() {
       setMessage({ type: "", text: "" });
 
       try {
-        // Chama a API para registrar o usuário
         const response = await apiRegister({
           name: newUser.name,
           email: newUser.email,
           role: newUser.role,
         });
 
-        // Se a API retornar sucesso, recarrega a lista de usuários
-        await fetchUsers();
+        // Se a API retornar sucesso, recarrega a lista de usuários e atualiza o cache
+        await fetchUsers(true); // força refresh
         setNewUser({ name: "", email: "", role: "USER" });
         setShowAddUser(false);
         setMessage({
           type: "success",
           text: response || "Usuário registrado com sucesso!",
         });
-
-        // Limpa a mensagem após 3 segundos
         setTimeout(() => setMessage({ type: "", text: "" }), 3000);
       } catch (error) {
         console.error("Erro ao registrar usuário:", error);
@@ -211,8 +223,6 @@ export default function AccessPermissionsTab() {
           type: "error",
           text: error.message || "Erro ao registrar usuário. Tente novamente.",
         });
-
-        // Limpa a mensagem de erro após 5 segundos
         setTimeout(() => setMessage({ type: "", text: "" }), 5000);
       } finally {
         setLoading(false);
@@ -232,13 +242,13 @@ export default function AccessPermissionsTab() {
     }
 
     try {
-      console.log("Tentando deletar usuário com ID:", userId); // Debug
-      // Chama a API específica de delete
       await apiDeleteUser(userId);
-
-      // Remove o usuário da lista local
-      setUsers(users.filter((user) => user.id !== userId));
-
+      const updatedUsers = users.filter((user) => user.id !== userId);
+      setUsers(updatedUsers);
+      localStorage.setItem(
+        "usersPermissionsCache",
+        JSON.stringify(updatedUsers)
+      );
       setMessage({ type: "success", text: "Usuário removido com sucesso!" });
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     } catch (error) {

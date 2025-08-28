@@ -28,18 +28,25 @@ export default function UsersAdmin() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
 
-  // Buscar usuários da API
+  // Buscar usuários da API com cache em localStorage
   useEffect(() => {
     setLoading(true);
-    apiGetUsers()
-      .then((data) => {
-        setUsers(data);
-        setError("");
-      })
-      .catch((err) => {
-        setError(err.message || "Erro ao buscar usuários");
-      })
-      .finally(() => setLoading(false));
+    const cachedUsers = localStorage.getItem("usersCache");
+    if (cachedUsers && !refresh) {
+      setUsers(JSON.parse(cachedUsers));
+      setLoading(false);
+    } else {
+      apiGetUsers()
+        .then((data) => {
+          setUsers(data);
+          localStorage.setItem("usersCache", JSON.stringify(data));
+          setError("");
+        })
+        .catch((err) => {
+          setError(err.message || "Erro ao buscar usuários");
+        })
+        .finally(() => setLoading(false));
+    }
   }, [refresh]);
 
   // Adaptar para aceitar 'number' como telefone
@@ -107,6 +114,8 @@ export default function UsersAdmin() {
     }
   };
   const handleCreateUserSubmit = async (data) => {
+    // Limpa cache ao criar
+    localStorage.removeItem("usersCache");
     // Enviar apenas campos aceitos pela API, status sempre em maiúsculo
     const payload = {
       name: data.name,
@@ -135,6 +144,10 @@ export default function UsersAdmin() {
     }
   };
   const handleUpdateUserSubmit = async (data) => {
+    // Limpa cache ao editar
+    localStorage.removeItem("usersCache");
+    // Limpa cache ao deletar
+    localStorage.removeItem("usersCache");
     // Enviar apenas campos aceitos pela API, status sempre em maiúsculo
     const payload = {
       id: data.id,

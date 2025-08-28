@@ -16,7 +16,7 @@ export default function Login() {
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [submiting, setSubmiting] = useState(false);
-  useTheme();
+  // useTheme(); // Removed because useTheme is not defined or imported
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
