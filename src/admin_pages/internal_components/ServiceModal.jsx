@@ -462,32 +462,30 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                 {/* Add new user */}
                 <div className="flex items-center space-x-2">
                   <div className="flex-1 relative">
-                    {/* Múltiplos campos ocultos para confundir completamente o autocomplete */}
-                    <input type="email" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
-                    <input type="password" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
-                    <input type="text" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
+                    {/* Campo decoy apenas para desviar autocomplete */}
+                    <input 
+                      type="text" 
+                      style={{ position: 'absolute', left: '-9999px', height: '0px', width: '0px' }} 
+                      tabIndex={-1} 
+                      autoComplete="username"
+                    />
                     <input
-                      key={`email-input-${Date.now()}`} // Força re-render
-                      type="text"
+                      type="email"
                       value={newUserEmail}
                       onChange={(e) => setNewUserEmail(e.target.value)}
                       onKeyPress={handleUserEmailKeyPress}
                       onFocus={(e) => {
-                        // Limpa qualquer valor que não seja o esperado
-                        if (e.target.value !== newUserEmail) {
-                          setNewUserEmail('');
-                          e.target.value = '';
-                        }
+                        // Protege apenas contra preenchimento automático indevido
+                        setTimeout(() => {
+                          if (e.target.value && !newUserEmail && e.target.value.includes('@')) {
+                            // Se um email foi preenchido automaticamente mas o state está vazio
+                            e.target.value = '';
+                          }
+                        }, 50);
                       }}
                       placeholder={t('service_modal.add_email_placeholder')}
-                      autoComplete="nope"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck="false"
-                      name="anti-autofill-email"
-                      id={`email-field-${Math.random()}`} // ID aleatório
-                      data-lpignore="true"
-                      data-form-type="other"
+                      autoComplete="new-email"
+                      name={`email-notification-${Date.now()}`}
                       className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>

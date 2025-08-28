@@ -175,7 +175,7 @@ export default function MonitorAdmin() {
   useEffect(() => {
     const interval = setInterval(() => {
       // Verificar se o campo de busca foi preenchido incorretamente
-      document.querySelectorAll('input[name*="anti-autofill-search"]').forEach(input => {
+      document.querySelectorAll('input[name*="service-filter"]').forEach(input => {
         if (input.value && input.value.includes('@') && input !== document.activeElement) {
           input.value = '';
           setSearchTerm('');
@@ -411,22 +411,12 @@ export default function MonitorAdmin() {
           
           <div className="flex items-center space-x-3 relative">
             <div className="relative">
-              {/* Múltiplos campos ocultos para confundir autocomplete */}
-              <input type="email" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
-              <input type="password" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
-              <input type="text" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
               <input
-                key={`search-input-${Date.now()}`} // Força re-render
                 type="text"
                 placeholder={t('monitor.search_placeholder') || 'Pesquisar serviços...'}
-                autoComplete="nope"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck="false"
-                name="anti-autofill-search"
-                id={`search-field-${Math.random()}`} // ID aleatório
-                data-lpignore="true"
-                data-form-type="search"
+                autoComplete="off"
+                name={`service-filter-${Date.now()}`}
+                id={`filter-services-${Math.random().toString(36).substr(2, 9)}`}
                 className="pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64"
                 value={searchTerm}
                 onChange={(e) => {
@@ -434,11 +424,14 @@ export default function MonitorAdmin() {
                   setCurrentPage(1); // Reset to first page when searching
                 }}
                 onFocus={(e) => {
-                  // Limpa qualquer valor que não seja o esperado
-                  if (e.target.value !== searchTerm) {
-                    setSearchTerm('');
-                    e.target.value = '';
-                  }
+                  // Protege apenas contra preenchimento automático indevido
+                  setTimeout(() => {
+                    if (e.target.value && !searchTerm && e.target.value.includes('@')) {
+                      // Se foi preenchido automaticamente com email
+                      setSearchTerm('');
+                      e.target.value = '';
+                    }
+                  }, 50);
                 }}
               />
             </div>
