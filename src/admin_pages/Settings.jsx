@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NotificationsTab from "./settings_components/NotificationsTab";
 import ThresholdsTab from "./settings_components/ThresholdsTab";
 import MonitoringTab from "./settings_components/MonitoringTab";
-import AccessPermissionsTab from "./settings_components/AccessPermissionsTab";
 
 export default function SettingsAdmin() {
   const [activeTab, setActiveTab] = useState("notifications");
@@ -11,7 +10,6 @@ export default function SettingsAdmin() {
     { id: "monitoring", label: "MONITORAMENTO" },
     { id: "notifications", label: "NOTIFICAÇÕES" },
     { id: "thresholds", label: "THRESHOLDS" },
-    { id: "permissions", label: "ACESSO / PERMISSÕES" }
   ];
 
   const renderTabContent = () => {
@@ -22,8 +20,6 @@ export default function SettingsAdmin() {
         return <ThresholdsTab />;
       case "monitoring":
         return <MonitoringTab />;
-      case "permissions":
-        return <AccessPermissionsTab />;
       default:
         return <NotificationsTab />;
     }
@@ -34,7 +30,7 @@ export default function SettingsAdmin() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-6">Configurações</h1>
-        
+
         {/* Tabs Navigation */}
         <div className="flex gap-4 mb-8">
           {tabs.map((tab) => (
@@ -54,9 +50,7 @@ export default function SettingsAdmin() {
       </div>
 
       {/* Tab Content */}
-      <div className="transition-all duration-300">
-        {renderTabContent()}
-      </div>
+      <div className="transition-all duration-300">{renderTabContent()}</div>
     </div>
   );
 }
