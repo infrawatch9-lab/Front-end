@@ -1,15 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const WebhookServiceForm = ({ config, onChange }) => {
+  const { t } = useTranslation();
   const [headers, setHeaders] = useState(config.headers || {});
   const [newHeaderKey, setNewHeaderKey] = useState('');
   const [newHeaderValue, setNewHeaderValue] = useState('');
 
+  // Proteção contra autocomplete no formulário de webhook
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Verificar campos de headers
+      document.querySelectorAll('input[name*="webhook-header"]').forEach(input => {
+        if (input.value && input.value.includes('@') && input !== document.activeElement) {
+          input.value = '';
+          if (input.name.includes('key')) {
+            setNewHeaderKey('');
+          } else if (input.name.includes('value')) {
+            setNewHeaderValue('');
+          }
+        }
+      });
+      
+      // Verificar outros campos do webhook
+      document.querySelectorAll('input[name*="webhook-"]').forEach(input => {
+        if (input.value && input.value.includes('@') && input !== document.activeElement) {
+          input.value = '';
+        }
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Limpeza inicial
+  useEffect(() => {
+    const clearFields = () => {
+      setNewHeaderKey('');
+      setNewHeaderValue('');
+    };
+    
+    const timers = [
+      setTimeout(clearFields, 100),
+      setTimeout(clearFields, 300),
+      setTimeout(clearFields, 500)
+    ];
+    
+    return () => timers.forEach(timer => clearTimeout(timer));
+  }, []);
+
   const handleConfigChange = (field, value) => {
     const newConfig = {
       ...config,
-      [field]: value
+      [field]: value,
+      // Sempre definir método como POST para webhooks
+      method: 'POST'
     };
     onChange(newConfig);
   };
@@ -36,36 +82,66 @@ const WebhookServiceForm = ({ config, onChange }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Provedor *
+        </label>
+        <select
+          value={config.provedor || ''}
+          onChange={(e) => handleConfigChange('provedor', e.target.value)}
+          className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+            !config.provedor || !config.provedor.trim() 
+              ? 'border-red-500 focus:border-red-400' 
+              : 'border-slate-600 focus:border-blue-500'
+          }`}
+        >
+          <option value="" disabled>Selecione um provedor</option>
+          <option value="github">GitHub</option>
+          <option value="gitlab">GitLab</option>
+          <option value="bitbucket">Bitbucket</option>
+          <option value="jenkins">Jenkins</option>
+          <option value="azure-devops">Azure DevOps</option>
+          <option value="custom">Personalizado</option>
+        </select>
+        {(!config.provedor || !config.provedor.trim()) && (
+          <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+        )}
+        <p className="text-sm text-slate-400 mt-1">
+          Especifique de onde virá este webhook (GitHub, GitLab, etc.)
+        </p>
+      </div>
+
+      {/* Campo personalizado - aparece quando "Personalizado" é selecionado */}
+      {config.provedor === 'custom' && (
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Endpoint URL *
+            Nome do Provedor Personalizado *
           </label>
           <input
-            type="url"
-            value={config.endpoint || ''}
-            onChange={(e) => handleConfigChange('endpoint', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="https://webhook.exemplo.com/notify"
+            type="text"
+            value={config.customProvedor || ''}
+            onChange={(e) => handleConfigChange('customProvedor', e.target.value)}
+            autoComplete="nope"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            name="webhook-custom-provider"
+            data-lpignore="true"
+            className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
+              !config.customProvedor || !config.customProvedor.trim() 
+                ? 'border-red-500 focus:border-red-400' 
+                : 'border-slate-600 focus:border-blue-500'
+            }`}
+            placeholder="Ex: Meu Sistema Personalizado, API Custom, etc."
           />
+          {(!config.customProvedor || !config.customProvedor.trim()) && (
+            <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
+          <p className="text-sm text-slate-400 mt-1">
+            Digite o nome do sistema ou serviço de onde virá o webhook
+          </p>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Método HTTP *
-          </label>
-          <select
-            value={config.method || 'POST'}
-            onChange={(e) => handleConfigChange('method', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-          </select>
-        </div>
-      </div>
+      )}
 
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -75,6 +151,12 @@ const WebhookServiceForm = ({ config, onChange }) => {
           type="password"
           value={config.secret || ''}
           onChange={(e) => handleConfigChange('secret', e.target.value)}
+          autoComplete="new-password"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          name="webhook-secret-key"
+          data-lpignore="true"
           className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Chave secreta para validação do webhook"
         />
@@ -113,11 +195,28 @@ const WebhookServiceForm = ({ config, onChange }) => {
           ))}
           
           <div className="flex items-center space-x-2">
+            {/* Campos iscas para confundir autocomplete */}
+            <input type="email" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
+            <input type="password" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
+            
             <input
               type="text"
               value={newHeaderKey}
               onChange={(e) => setNewHeaderKey(e.target.value)}
               placeholder="Nome do header"
+              autoComplete="nope"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              name="webhook-header-key"
+              data-lpignore="true"
+              onFocus={(e) => {
+                // Limpa se foi preenchido automaticamente
+                if (e.target.value !== newHeaderKey) {
+                  setNewHeaderKey('');
+                  e.target.value = '';
+                }
+              }}
               className="flex-1 px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <input
@@ -125,6 +224,19 @@ const WebhookServiceForm = ({ config, onChange }) => {
               value={newHeaderValue}
               onChange={(e) => setNewHeaderValue(e.target.value)}
               placeholder="Valor do header"
+              autoComplete="nope"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              name="webhook-header-value"
+              data-lpignore="true"
+              onFocus={(e) => {
+                // Limpa se foi preenchido automaticamente
+                if (e.target.value !== newHeaderValue) {
+                  setNewHeaderValue('');
+                  e.target.value = '';
+                }
+              }}
               className="flex-1 px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <button
@@ -167,40 +279,12 @@ const WebhookServiceForm = ({ config, onChange }) => {
           📋 Informações sobre Webhooks
         </h4>
         <div className="text-sm text-slate-300 space-y-1">
-          <p>• Os webhooks serão chamados quando eventos de monitoramento ocorrerem</p>
-          <p>• O payload incluirá informações sobre o serviço e o evento</p>
+          <p>• O endpoint será gerado automaticamente após a criação do serviço</p>
+          <p>• Configure o provedor para especificar de onde virá o webhook</p>
           <p>• Use o secret para validar a autenticidade das requisições</p>
           <p>• Headers personalizados podem ser usados para autenticação adicional</p>
+          <p>• O método HTTP será sempre POST para recebimento do webhook</p>
         </div>
-      </div>
-
-      {/* Payload Preview */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Exemplo de Payload que será enviado:
-        </label>
-        <textarea
-          readOnly
-          value={JSON.stringify({
-            service: {
-              id: "uuid",
-              name: "Nome do Serviço",
-              type: "SERVICE_TYPE"
-            },
-            event: {
-              type: "STATUS_CHANGE",
-              status: "DOWN",
-              timestamp: "2024-01-01T00:00:00Z",
-              message: "Service is down"
-            },
-            metadata: {
-              responseTime: 5000,
-              errorCode: "TIMEOUT"
-            }
-          }, null, 2)}
-          rows={8}
-          className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-slate-400 font-mono text-sm"
-        />
       </div>
     </div>
   );

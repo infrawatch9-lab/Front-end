@@ -25,6 +25,7 @@ export const getServiceById = async (id) => {
 // Create new service
 export const createService = async (serviceData) => {
   try {
+    console.log('Creating service with data:', serviceData);
     const response = await api.post('/services', serviceData);
     return response.data;
   } catch (error) {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ServiceModal from "./internal_components/ServiceModal";
 import StatusTable from "./internal_components/MonitorStatusTable";
 import Pagination from "./internal_components/MonitorPagination";
+import ConfirmationModal from "./internal_components/ConfirmationModal";
 import { useTranslation } from 'react-i18next';
 import { getServices, deleteService } from '../api/services';
 
@@ -14,32 +15,107 @@ export default function MonitorAdmin() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingService, setEditingService] = useState(null);
   const [servicesData, setServicesData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Começa como false e será true apenas quando necessário
   const [error, setError] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [selectedServiceType, setSelectedServiceType] = useState('');
   const [cachedData, setCachedData] = useState(null);
   const [lastFetch, setLastFetch] = useState(null);
+  const [cacheKey, setCacheKey] = useState('services_cache');
+  const [isInitialLoad, setIsInitialLoad] = useState(false); // Começa como false
+  const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: null,
+    loading: false
+  });
   const servicesPerPage = 11;
   const navigate = useNavigate();
   
-  // Cache duration: 30 minutes
+  // Cache duration: 1 hour
   const CACHE_DURATION = 60 * 60 * 1000;
 
-  // Fetch services from API with cache
+  // Load cache from localStorage on component mount
+  useEffect(() => {
+    if (hasCacheLoaded) return; // Evita execução múltipla
+    
+    const loadCacheFromStorage = () => {
+      try {
+        const storedCache = localStorage.getItem(cacheKey);
+        const storedTimestamp = localStorage.getItem(`${cacheKey}_timestamp`);
+        
+        if (storedCache && storedTimestamp) {
+          const now = new Date().getTime();
+          const cacheAge = now - parseInt(storedTimestamp);
+          
+          // Se o cache ainda é válido, usa ele
+          if (cacheAge < CACHE_DURATION) {
+            const parsedData = JSON.parse(storedCache);
+            setCachedData(parsedData);
+            setLastFetch(parseInt(storedTimestamp));
+            setServicesData(parsedData);
+            console.log('Loaded valid cache from localStorage');
+            setHasCacheLoaded(true);
+            return true;
+          } else {
+            // Cache expirado, remove do localStorage
+            localStorage.removeItem(cacheKey);
+            localStorage.removeItem(`${cacheKey}_timestamp`);
+            console.log('Cache expired, removed from localStorage');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading cache from localStorage:', error);
+        localStorage.removeItem(cacheKey);
+        localStorage.removeItem(`${cacheKey}_timestamp`);
+      }
+      return false;
+    };
+
+    // Tenta carregar cache do localStorage primeiro
+    const cacheLoaded = loadCacheFromStorage();
+    setHasCacheLoaded(true);
+    
+    if (!cacheLoaded) {
+      // Só marca como carga inicial se não há cache válido
+      setIsInitialLoad(true);
+    }
+  }, []); // Remove dependência do cacheKey
+
+  // Save cache to localStorage
+  const saveCacheToStorage = (data, timestamp) => {
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      localStorage.setItem(`${cacheKey}_timestamp`, timestamp.toString());
+      console.log('Cache saved to localStorage');
+    } catch (error) {
+      console.error('Error saving cache to localStorage:', error);
+    }
+  };
+
+  // Clear cache from localStorage
+  const clearCacheFromStorage = () => {
+    try {
+      localStorage.removeItem(cacheKey);
+      localStorage.removeItem(`${cacheKey}_timestamp`);
+      console.log('Cache cleared from localStorage');
+    } catch (error) {
+      console.error('Error clearing cache from localStorage:', error);
+    }
+  };
+
+  // Fetch services from API with enhanced cache
   useEffect(() => {
     const fetchServices = async () => {
+      // Se não precisa fazer carga inicial, não fazer nada
+      if (!isInitialLoad || !hasCacheLoaded) {
+        return;
+      }
+
       try {
         setLoading(true);
-        
-        // Check if we have valid cached data
-        const now = new Date().getTime();
-        if (cachedData && lastFetch && (now - lastFetch) < CACHE_DURATION) {
-          console.log('Using cached data');
-          setServicesData(cachedData);
-          setLoading(false);
-          return;
-        }
         
         console.log('Fetching fresh data from API');
         const data = await getServices();
@@ -47,20 +123,67 @@ export default function MonitorAdmin() {
         const mappedData = mapApiDataToTableFormat(data);
         setServicesData(mappedData);
         
-        // Cache the data
+        // Cache the data in memory and localStorage
+        const timestamp = new Date().getTime();
         setCachedData(mappedData);
-        setLastFetch(now);
+        setLastFetch(timestamp);
+        saveCacheToStorage(mappedData, timestamp);
         
         setError(null);
+        setIsInitialLoad(false); // Marca como concluído
       } catch (err) {
-        setError('Erro ao carregar serviços');
+        setError(t('common.error'));
         console.error('Error fetching services:', err);
+        
+        // Em caso de erro, limpar cache para forçar nova tentativa na próxima vez
+        clearCacheFromStorage();
+        setCachedData(null);
+        setLastFetch(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchServices();
+  }, [isInitialLoad, hasCacheLoaded]); // Dependências específicas
+
+  // Detect when user returns to page after long time away
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && lastFetch) {
+        const now = new Date().getTime();
+        const timeAway = now - lastFetch;
+        
+        // Se esteve fora por mais de 30 minutos, invalidar cache
+        const AWAY_THRESHOLD = 30 * 60 * 1000; // 30 minutos
+        
+        if (timeAway > AWAY_THRESHOLD) {
+          console.log('User returned after long time away, invalidating cache');
+          invalidateCacheAndRefresh();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [lastFetch]);
+
+  // Proteção contra autocomplete indevido
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Verificar se o campo de busca foi preenchido incorretamente
+      document.querySelectorAll('input[name*="anti-autofill-search"]').forEach(input => {
+        if (input.value && input.value.includes('@') && input !== document.activeElement) {
+          input.value = '';
+          setSearchTerm('');
+        }
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Close filter dropdown when clicking outside
@@ -77,23 +200,39 @@ export default function MonitorAdmin() {
     };
   }, [showFilter]);
 
-  const handleCreateService = () => {
-    setShowCreateModal(true);
-  };
-
-  const handleServiceCreated = async () => {
-    // Recarregar a lista de serviços após criar um novo e invalidar cache
+  // Function to invalidate cache and fetch fresh data
+  const invalidateCacheAndRefresh = async () => {
     try {
+      setLoading(true);
+      clearCacheFromStorage();
+      
+      console.log('Cache invalidated, fetching fresh data');
       const data = await getServices();
       const mappedData = mapApiDataToTableFormat(data);
       setServicesData(mappedData);
       
       // Update cache with fresh data
+      const timestamp = new Date().getTime();
       setCachedData(mappedData);
-      setLastFetch(new Date().getTime());
+      setLastFetch(timestamp);
+      saveCacheToStorage(mappedData, timestamp);
+      
+      setError(null);
     } catch (err) {
+      setError(t('common.error'));
       console.error('Error refreshing services:', err);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleCreateService = () => {
+    setShowCreateModal(true);
+  };
+
+  const handleServiceCreated = async () => {
+    // Invalidar cache e recarregar dados após criar/editar serviço
+    await invalidateCacheAndRefresh();
     setShowCreateModal(false);
     setEditingService(null);
   };
@@ -104,22 +243,37 @@ export default function MonitorAdmin() {
   };
 
   const handleDeleteService = async (serviceId) => {
-    if (window.confirm('Tem certeza que deseja deletar este serviço?')) {
-      try {
-        await deleteService(serviceId);
-        // Refresh the list after deletion
-        const data = await getServices();
-        const mappedData = mapApiDataToTableFormat(data);
-        setServicesData(mappedData);
-        
-        // Update cache with fresh data
-        setCachedData(mappedData);
-        setLastFetch(new Date().getTime());
-      } catch (err) {
-        console.error('Error deleting service:', err);
-        alert('Erro ao deletar serviço. Tente novamente.');
-      }
-    }
+    const serviceToDelete = servicesData.find(s => s.id === serviceId);
+    
+    setConfirmModal({
+      isOpen: true,
+      title: t('actions.delete'),
+      message: `${t('actions.confirm_delete')} "${serviceToDelete?.name || serviceToDelete?.sla}"?`,
+      onConfirm: async () => {
+        try {
+          setConfirmModal(prev => ({ ...prev, loading: true }));
+          
+          await deleteService(serviceId);
+          
+          // Invalidar cache e recarregar dados após deletar
+          await invalidateCacheAndRefresh();
+          
+          // Close modal
+          setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false });
+        } catch (err) {
+          console.error('Error deleting service:', err);
+          // Show error in modal
+          setConfirmModal({
+            isOpen: true,
+            title: t('common.error'),
+            message: t('actions.delete_error'),
+            onConfirm: () => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false }),
+            loading: false
+          });
+        }
+      },
+      loading: false
+    });
   };
 
   const mapApiDataToTableFormat = (apiData) => {
@@ -228,23 +382,8 @@ export default function MonitorAdmin() {
   };
 
   const handleRefresh = async () => {
-    try {
-      setLoading(true);
-      const data = await getServices();
-      const mappedData = mapApiDataToTableFormat(data);
-      setServicesData(mappedData);
-      
-      // Update cache with fresh data
-      setCachedData(mappedData);
-      setLastFetch(new Date().getTime());
-      
-      setError(null);
-    } catch (err) {
-      setError('Erro ao carregar serviços');
-      console.error('Error refreshing services:', err);
-    } finally {
-      setLoading(false);
-    }
+    // Forçar atualização mesmo com cache válido
+    await invalidateCacheAndRefresh();
   };
 
   const getUniqueServiceTypes = () => {
@@ -262,7 +401,7 @@ export default function MonitorAdmin() {
             <h1 className="text-2xl font-bold text-white mb-1">{t('monitor.title')}</h1>
             <p className="text-slate-400">
               {loading 
-                ? 'Carregando serviços...'
+                ? t('common.loading')
                 : searchTerm || selectedServiceType
                   ? `${filteredData.length} serviços encontrados${selectedServiceType ? ` (tipo: ${selectedServiceType})` : ''}` 
                   : `${servicesData.length} serviços sendo monitorados`
@@ -272,14 +411,34 @@ export default function MonitorAdmin() {
           
           <div className="flex items-center space-x-3 relative">
             <div className="relative">
+              {/* Múltiplos campos ocultos para confundir autocomplete */}
+              <input type="email" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
+              <input type="password" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
+              <input type="text" style={{ position: 'absolute', left: '-9999px', opacity: 0 }} tabIndex={-1} />
               <input
+                key={`search-input-${Date.now()}`} // Força re-render
                 type="text"
                 placeholder={t('monitor.search_placeholder') || 'Pesquisar serviços...'}
+                autoComplete="nope"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                name="anti-autofill-search"
+                id={`search-field-${Math.random()}`} // ID aleatório
+                data-lpignore="true"
+                data-form-type="search"
                 className="pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64"
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                   setCurrentPage(1); // Reset to first page when searching
+                }}
+                onFocus={(e) => {
+                  // Limpa qualquer valor que não seja o esperado
+                  if (e.target.value !== searchTerm) {
+                    setSearchTerm('');
+                    e.target.value = '';
+                  }
                 }}
               />
             </div>
@@ -297,7 +456,7 @@ export default function MonitorAdmin() {
             {showFilter && (
               <div className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">
                 <div className="p-3">
-                  <h3 className="text-white font-medium mb-2">Filtrar por tipo</h3>
+                  <h3 className="text-white font-medium mb-2">{t('filters.filter_services')}</h3>
                   <div className="space-y-1">
                     <button
                       className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
@@ -311,7 +470,7 @@ export default function MonitorAdmin() {
                         setShowFilter(false);
                       }}
                     >
-                      Todos os tipos
+                      {t('filters.all')}
                     </button>
                     {getUniqueServiceTypes().map(type => (
                       <button
@@ -338,7 +497,7 @@ export default function MonitorAdmin() {
               className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
               onClick={handleRefresh}
               disabled={loading}
-              title="Atualizar dados"
+              title={`${t('actions.refresh_data')} (ignorar cache)`}
             >
               <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -364,7 +523,7 @@ export default function MonitorAdmin() {
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-              <span className="ml-3 text-slate-400">Carregando serviços...</span>
+              <span className="ml-3 text-slate-400">{t('common.loading')}</span>
             </div>
           ) : (
             <>
@@ -413,6 +572,19 @@ export default function MonitorAdmin() {
             editingService={editingService}
           />
         )}
+
+        {/* Confirmation Modal */}
+        <ConfirmationModal
+          isOpen={confirmModal.isOpen}
+          onClose={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false })}
+          onConfirm={confirmModal.onConfirm}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          loading={confirmModal.loading}
+          type="danger"
+          confirmText={t('common.yes')}
+          cancelText={t('service_modal.cancel')}
+        />
       </main>
     </div>
   );

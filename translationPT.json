@@ -273,6 +273,7 @@
     }
   },
   "actions": {
+    "actions": "AÇÕES",
     "edit": "Editar serviço",
     "delete": "Deletar serviço",
     "confirm_delete": "Tem certeza que deseja deletar este serviço?",

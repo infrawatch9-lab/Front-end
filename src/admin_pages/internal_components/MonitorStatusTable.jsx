@@ -28,7 +28,7 @@ export default function StatusTable({ data, searchTerm, onRowClick, onEditServic
         <div className="text-white font-semibold text-sm">{t('internal.measured')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.status')}</div>
         <div className="text-white font-semibold text-sm">{t('internal.service')}</div>
-        <div className="text-white font-semibold text-sm text-center">Ações</div>
+        <div className="text-white font-semibold text-sm text-center">{t('actions.actions')}</div>
       </div>
 
       {/* Table Body */}
@@ -78,7 +78,7 @@ export default function StatusTable({ data, searchTerm, onRowClick, onEditServic
                   onEditService && onEditService(item);
                 }}
                 className="p-1.5 text-blue-400 hover:text-blue-300 hover:bg-slate-700 rounded transition-colors"
-                title="Editar serviço"
+                title={t('actions.edit')}
               >
                 <Edit className="w-4 h-4" />
               </button>
@@ -88,7 +88,7 @@ export default function StatusTable({ data, searchTerm, onRowClick, onEditServic
                   onDeleteService && onDeleteService(item.id);
                 }}
                 className="p-1.5 text-red-400 hover:text-red-300 hover:bg-slate-700 rounded transition-colors"
-                title="Deletar serviço"
+                title={t('actions.delete')}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
