@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { MapView } from '../../components/Map';
 
 export default function InfrastructureMap() {
   const { t } = useTranslation();
@@ -15,8 +16,8 @@ export default function InfrastructureMap() {
       
       {/* World Map Container */}
       <div className="relative bg-[#12255F] rounded-lg  h-64 overflow-hidden">
-        <iframe style={{ width: "100%", height: "100%" }} src="https://api.maptiler.com/maps/0198c7bb-f83b-7f40-8d4a-b216a5788fe5/?key=jA228zOl3uOOWiYu3TEn#0.2/-9.150492/13.391056"></iframe>
-        {/* <MyMap /> */}
+        {/* <iframe style={{ width: "100%", height: "100%" }} src="https://api.maptiler.com/maps/0198c7bb-f83b-7f40-8d4a-b216a5788fe5/?key=uQS6EdoKMHiPUygZkhQq#0.2/-9.150492/13.391056"></iframe> */}
+        <MapView />
       </div>
       
       {/* Legend */}
@@ -35,19 +36,5 @@ export default function InfrastructureMap() {
         </div>
       </div>
     </div>
-  );
-}
-
-
-
-function MyMap() {
-  return (
-    <MapContainer center={[-9.150492, 13.391056]} zoom={13} style={{ height: "100%", width: "100%" }}>
-          <TileLayer
-        url="https://api.maptiler.com/maps/toner-v2/{z}/{x}/{y}.png?key=jA228zOl3uOOWiYu3TEn"
-        attribution='&copy; <a href="https://www.maptiler.com/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      
-    </MapContainer>
   );
 }

@@ -17,6 +17,7 @@ export default function Login() {
   const [messageError, setMessageError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [submiting, setSubmiting] = useState(false);
+  const {} = useTheme();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {

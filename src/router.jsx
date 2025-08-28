@@ -20,6 +20,7 @@ import WebhooksReport from "./admin_pages/Relatorio_pages/Webhooks";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
+import { Test } from "./components/CustomComponents/Test";
 
 export default function Router() {
   return (
