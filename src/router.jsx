@@ -12,12 +12,9 @@ import APIDashboard from "./admin_pages/Dashboards/DashboardAPI";
 import NetworkDashboard from "./admin_pages/Dashboards/DashboardNetworks";
 import ServerDashboard from "./admin_pages/Dashboards/DashboardServers";
 import WebhookDashboard from "./admin_pages/Dashboards/DashboardWebhooks";
-import ServersReport from "./admin_pages/Relatorio_pages/Servers";
-import NetworksReport from "./admin_pages/Relatorio_pages/Networks";
-import APIReport from "./admin_pages/Relatorio_pages/API";
-import WebhooksReport from "./admin_pages/Relatorio_pages/Webhooks";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
+import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsDetails";
 
 export default function Router() {
   return (
@@ -130,6 +127,12 @@ export default function Router() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="events_detail_admin"
+               element={
+                <ProtectedRoute requiredPermission="history">
+                  <EventDetailsScreen />
+                </ProtectedRoute>
+               } />
             </Route>
           </Routes>
         </AuthProvider>
