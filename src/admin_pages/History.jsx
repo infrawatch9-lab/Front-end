@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 import PageHeader from "./internal_components/HistoryPageHeader";
 import ControlsBar from "./internal_components/HistoryControlsBar";
 import EventsTable from "./internal_components/HistoryEventsTable";
@@ -12,59 +13,59 @@ export default function HistoryAdmin() {
 
   const mockEvents = [
     {
-      date: '2025-05-12 12:32:12',
-      user: 'LIONEL MESSI',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+      date: "2025-05-12 12:32:12",
+      user: "LIONEL MESSI",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'MANUEL BORGES',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+      date: "2025-05-12 12:32:12",
+      user: "MANUEL BORGES",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'JOÃO RIBEIRO',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+      date: "2025-05-12 12:32:12",
+      user: "JOÃO RIBEIRO",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'DANIEL NASCIMENTO',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+      date: "2025-05-12 12:32:12",
+      user: "DANIEL NASCIMENTO",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'CARLOS ARMANDO',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
+      date: "2025-05-12 12:32:12",
+      user: "CARLOS ARMANDO",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'FLÁVIO JOSÉ',
-      type: 'info',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+      date: "2025-05-12 12:32:12",
+      user: "FLÁVIO JOSÉ",
+      type: "info",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'ROGÉRIO PAIXÃO',
-      type: 'error',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+      date: "2025-05-12 12:32:12",
+      user: "ROGÉRIO PAIXÃO",
+      type: "error",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'DANIEL NASCIMENTO',
-      type: 'warning',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
+      date: "2025-05-12 12:32:12",
+      user: "DANIEL NASCIMENTO",
+      type: "warning",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text c...',
     },
     {
-      date: '2025-05-12 12:32:12',
-      user: 'LIONEL MESSI',
-      type: 'warning',
-      description: '"Lorem ipsum dolor sit amet" is a placeholder text...'
-    }
+      date: "2025-05-12 12:32:12",
+      user: "LIONEL MESSI",
+      type: "warning",
+      description: '"Lorem ipsum dolor sit amet" is a placeholder text...',
+    },
   ];
 
   const filteredEvents = mockEvents.filter((event) => {
@@ -79,7 +80,7 @@ export default function HistoryAdmin() {
   const totalPages = 6;
 
   return (
-    <div className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type="background" className="min-h-screen bg-[#081028] p-6">
       <div className="max-w-7xl mx-auto">
         <PageHeader />
 
@@ -100,6 +101,6 @@ export default function HistoryAdmin() {
           onPageChange={setCurrentPage}
         />
       </div>
-    </div>
+    </CustomDiv>
   );
 }

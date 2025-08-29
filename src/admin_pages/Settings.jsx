@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 import NotificationsTab from "./settings_components/NotificationsTab";
 import ThresholdsTab from "./settings_components/ThresholdsTab";
 import MonitoringTab from "./settings_components/MonitoringTab";
@@ -26,7 +27,7 @@ export default function SettingsAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type="background" className="min-h-screen bg-[#081028] p-6">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-6">Configurações</h1>
@@ -51,6 +52,6 @@ export default function SettingsAdmin() {
 
       {/* Tab Content */}
       <div className="transition-all duration-300">{renderTabContent()}</div>
-    </div>
+    </CustomDiv>
   );
 }

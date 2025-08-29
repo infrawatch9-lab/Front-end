@@ -18,6 +18,7 @@ import APIReport from "./admin_pages/Relatorio_pages/API";
 import WebhooksReport from "./admin_pages/Relatorio_pages/Webhooks";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
+import { Test } from "./components/CustomComponents/Test";
 
 export default function Router() {
   return (
@@ -27,35 +28,15 @@ export default function Router() {
           <Routes>
             {/* Página inicial = Login */}
             <Route path="/" element={<Login />} />
+            {/* Rota de teste de tema (fora do admin) */}
+            <Route path="/test" element={<Test />} />
 
             {/* Páginas protegidas */}
             <Route path="/admin" element={<Layout />}>
+              {/* Rota de teste de tema dentro do admin */}
+              <Route path="test" element={<Test />} />
               <Route index element={<HomepageAdmin />} />
               <Route path="homepage_admin" element={<HomepageAdmin />} />
-
-              {/* Relatórios - Comentado temporariamente */}
-              {/*
-            <Route path="reports_servers_admin" element={
-              <ProtectedRoute requiredPermission="reports">
-                <ServersReport />
-              </ProtectedRoute>
-            }/>
-            <Route path="reports_networks_admin" element={
-              <ProtectedRoute requiredPermission="reports">
-                <NetworksReport />
-              </ProtectedRoute>
-            }/>
-            <Route path="reports_api_admin" element={
-              <ProtectedRoute requiredPermission="reports">
-                <APIReport />
-              </ProtectedRoute>
-            }/>
-            <Route path="reports_webhooks_admin" element={
-              <ProtectedRoute requiredPermission="reports">
-                <WebhooksReport />
-              </ProtectedRoute>
-            }/>
-            */}
 
               {/* Monitoramento - Requer permissão de monitoring */}
               <Route
@@ -96,24 +77,6 @@ export default function Router() {
                   </ProtectedRoute>
                 }
               />
-
-              {/* Dashboards - Requer permissão de monitoring */}
-              <Route
-                path="dashboard_api_admin"
-                element={
-                  <ProtectedRoute requiredPermission="monitoring">
-                    <APIDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="dashboard_servers_admin"
-                element={
-                  <ProtectedRoute requiredPermission="monitoring">
-                    <ServerDashboard />
-                  </ProtectedRoute>
-                }
-              />
               <Route
                 path="dashboard_networks_admin"
                 element={
@@ -137,25 +100,3 @@ export default function Router() {
     </BrowserRouter>
   );
 }
-
-/*
-
-<Route path="dashboard" element={<Dashboard />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="users" element={<Users />} />
-            <Route path="systems" element={<Systems />} />
-            <Route path="active" element={<Active />} />
-            <Route path="inactive" element={<Inactive />} />
-            <Route path="sla" element={<SLA />} />
-            <Route path="alerts" element={<Alerts />} />
-            <Route path="/sistemas/:id" element={<SystemDetails />} />
-            <Route path="*" element={<NotFound />} />
-
-            */
-
-/*
-
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/contact" element={<Contact />} />
-*/

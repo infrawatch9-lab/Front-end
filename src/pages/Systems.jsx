@@ -1,11 +1,12 @@
 import { useState } from "react";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 import {
   Server,
   ArrowLeft,
   CheckCircle,
   XCircle,
   Search,
-  PlusCircle
+  PlusCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -36,7 +37,7 @@ const sistemasFake = [
     status: "UP",
     ultimaVerificacao: "10:30 - Hoje",
     sla: "99.90%",
-  }
+  },
 ];
 
 export default function Systems() {
@@ -47,11 +48,12 @@ export default function Systems() {
   );
 
   return (
-    <div className="pt-24 pb-10 px-6 max-w-7xl mx-auto">
-
+    <CustomDiv type="background" className="pt-24 pb-10 px-6 max-w-7xl mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <Server className="text-blue-600 w-8 h-8" />
-        <h1 className="text-2xl font-bold text-gray-800">Sistemas Monitorados</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          Sistemas Monitorados
+        </h1>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
@@ -88,15 +90,15 @@ export default function Systems() {
           <tbody className="divide-y divide-gray-200">
             {sistemasFiltrados.length === 0 ? (
               <tr>
-                <td colSpan="7" className="px-6 py-4 text-center text-gray-500">Nenhum sistema encontrado.</td>
+                <td colSpan="7" className="px-6 py-4 text-center text-gray-500">
+                  Nenhum sistema encontrado.
+                </td>
               </tr>
             ) : (
               sistemasFiltrados.map((sistema) => (
                 <tr key={sistema.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium text-blue-700 hover:underline cursor-pointer">
-                    <Link to={`/sistemas/${sistema.id}`}>
-                      {sistema.nome}
-                    </Link>
+                    <Link to={`/sistemas/${sistema.id}`}>{sistema.nome}</Link>
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-xs font-semibold px-2 py-1 rounded bg-blue-100 text-blue-800">
@@ -115,11 +117,17 @@ export default function Systems() {
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{sistema.ultimaVerificacao}</td>
+                  <td className="px-6 py-4 text-gray-600">
+                    {sistema.ultimaVerificacao}
+                  </td>
                   <td className="px-6 py-4 text-gray-800">{sistema.sla}</td>
                   <td className="px-6 py-4 text-right space-x-2">
-                    <button className="text-blue-600 hover:underline font-medium">Editar</button>
-                    <button className="text-red-600 hover:underline font-medium">Remover</button>
+                    <button className="text-blue-600 hover:underline font-medium">
+                      Editar
+                    </button>
+                    <button className="text-red-600 hover:underline font-medium">
+                      Remover
+                    </button>
                   </td>
                 </tr>
               ))
@@ -129,11 +137,14 @@ export default function Systems() {
       </div>
 
       <div className="mt-6">
-        <Link to="/dashboard" className="inline-flex items-center gap-2 text-blue-700 font-semibold hover:underline">
+        <Link
+          to="/dashboard"
+          className="inline-flex items-center gap-2 text-blue-700 font-semibold hover:underline"
+        >
           <ArrowLeft className="w-4 h-4" />
           Voltar ao Dashboard
         </Link>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

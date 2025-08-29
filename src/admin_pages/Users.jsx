@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 import SearchAndFilters from "./users_components/SearchAndFilters";
 import UserActionsButtons from "./users_components/UserActionsButtons";
 import Pagination from "./users_components/Pagination";
@@ -175,7 +176,7 @@ export default function UsersAdmin() {
   // Handlers
 
   return (
-    <div className="p-6 min-h-screen bg-[#081028]">
+    <CustomDiv type="background" className="p-6 min-h-screen bg-[#081028]">
       <h1 className="text-2xl font-bold text-white mb-4">Usuários</h1>
       <div className="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex-1">
@@ -471,6 +472,6 @@ export default function UsersAdmin() {
           </div>
         </div>
       )}
-    </div>
+    </CustomDiv>
   );
 }

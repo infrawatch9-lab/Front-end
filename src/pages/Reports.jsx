@@ -1,8 +1,9 @@
 import { FileBarChart2, Clock3, ServerCrash, CalendarDays } from "lucide-react";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 
 export default function Reports() {
   return (
-    <div className="pt-24 pb-10 px-6 max-w-7xl mx-auto">
+    <CustomDiv type="background" className="pt-24 pb-10 px-6 max-w-7xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
         <FileBarChart2 className="text-blue-600 w-8 h-8" />
         <h1 className="text-2xl font-bold text-gray-800">Relatórios de SLA</h1>
@@ -43,13 +44,17 @@ export default function Reports() {
               <td className="px-6 py-4 text-gray-500">04/08/2025 10:23</td>
             </tr>
             <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 font-medium text-gray-800">Kiosks Self-Service</td>
+              <td className="px-6 py-4 font-medium text-gray-800">
+                Kiosks Self-Service
+              </td>
               <td className="px-6 py-4 text-yellow-500 font-semibold">98.7%</td>
               <td className="px-6 py-4">3</td>
               <td className="px-6 py-4 text-gray-500">02/08/2025 18:01</td>
             </tr>
             <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4 font-medium text-gray-800">E-mail Corporativo</td>
+              <td className="px-6 py-4 font-medium text-gray-800">
+                E-mail Corporativo
+              </td>
               <td className="px-6 py-4 text-green-600 font-semibold">100%</td>
               <td className="px-6 py-4">0</td>
               <td className="px-6 py-4 text-gray-500">—</td>
@@ -57,6 +62,6 @@ export default function Reports() {
           </tbody>
         </table>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

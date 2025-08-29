@@ -1,11 +1,12 @@
 import { useParams, Link } from "react-router-dom";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 import {
   Server,
   ArrowLeft,
   CheckCircle,
   XCircle,
   AlertTriangle,
-  Activity
+  Activity,
 } from "lucide-react";
 import UptimeChart from "../components/Dashboard/UptimeChart";
 
@@ -32,18 +33,18 @@ export default function SystemDetails() {
       {
         msg: "Sistema fora do ar",
         hora: "09:00",
-        nivel: "alto"
+        nivel: "alto",
       },
       {
         msg: "Resposta lenta",
         hora: "Ontem às 18:40",
-        nivel: "médio"
-      }
-    ]
+        nivel: "médio",
+      },
+    ],
   };
 
   return (
-    <div className="pt-24 pb-10 px-6 max-w-5xl mx-auto">
+    <CustomDiv type="background" className="pt-24 pb-10 px-6 max-w-5xl mx-auto">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3 mb-6">
         <Server className="text-blue-600 w-8 h-8" />
@@ -55,11 +56,26 @@ export default function SystemDetails() {
       {/* Info principal */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-4 rounded-xl shadow space-y-2">
-          <p><span className="font-semibold text-gray-700">IP:</span> {sistema.ip}</p>
-          <p><span className="font-semibold text-gray-700">Tipo:</span> {sistema.tipo}</p>
-          <p><span className="font-semibold text-gray-700">Hostname:</span> {sistema.hostname}</p>
-          <p><span className="font-semibold text-gray-700">Porta:</span> {sistema.porta}</p>
-          <p><span className="font-semibold text-gray-700">Protocolo:</span> {sistema.protocolo}</p>
+          <p>
+            <span className="font-semibold text-gray-700">IP:</span>{" "}
+            {sistema.ip}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">Tipo:</span>{" "}
+            {sistema.tipo}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">Hostname:</span>{" "}
+            {sistema.hostname}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">Porta:</span>{" "}
+            {sistema.porta}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">Protocolo:</span>{" "}
+            {sistema.protocolo}
+          </p>
         </div>
 
         <div className="bg-white p-4 rounded-xl shadow space-y-2">
@@ -75,8 +91,16 @@ export default function SystemDetails() {
               </span>
             )}
           </p>
-          <p><span className="font-semibold text-gray-700">SLA:</span> {sistema.sla}</p>
-          <p><span className="font-semibold text-gray-700">Última verificação:</span> {sistema.historico[0].hora}</p>
+          <p>
+            <span className="font-semibold text-gray-700">SLA:</span>{" "}
+            {sistema.sla}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">
+              Última verificação:
+            </span>{" "}
+            {sistema.historico[0].hora}
+          </p>
         </div>
       </div>
 
@@ -85,7 +109,9 @@ export default function SystemDetails() {
 
       {/* Alertas do sistema */}
       <div className="bg-white p-6 rounded-xl shadow mb-8">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Alertas Relacionados</h2>
+        <h2 className="text-lg font-bold text-gray-800 mb-4">
+          Alertas Relacionados
+        </h2>
         {sistema.alertas.length === 0 ? (
           <p className="text-gray-500">Nenhum alerta registrado.</p>
         ) : (
@@ -116,14 +142,20 @@ export default function SystemDetails() {
 
       {/* Histórico de verificações */}
       <div className="bg-white p-6 rounded-xl shadow mb-8">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Histórico de Verificações</h2>
+        <h2 className="text-lg font-bold text-gray-800 mb-4">
+          Histórico de Verificações
+        </h2>
         <ul className="divide-y divide-gray-200 text-sm">
           {sistema.historico.map((h, i) => (
             <li key={i} className="py-2 flex items-center justify-between">
               <span className="text-gray-700">{h.hora}</span>
-              <span className={`font-medium ${
-                h.status === "UP" ? "text-green-600" : "text-red-600"
-              }`}>{h.status}</span>
+              <span
+                className={`font-medium ${
+                  h.status === "UP" ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {h.status}
+              </span>
             </li>
           ))}
         </ul>
@@ -137,6 +169,6 @@ export default function SystemDetails() {
         <ArrowLeft className="w-4 h-4" />
         Voltar para Sistemas
       </Link>
-    </div>
+    </CustomDiv>
   );
 }

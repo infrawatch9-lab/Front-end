@@ -21,12 +21,15 @@ import { FaToggleOff } from "react-icons/fa6";
 import { useUserPermissions } from "../hooks/useUserPermissions";
 import UserInfo from "../components/UserInfo";
 
+import { useTheme } from "../hooks/useTheme/useTheme";
+
 export default function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation(); // Pega a rota atual
   const { hasPermission, loading: permissionsLoading } = useUserPermissions();
+  const { theme, toggleTheme } = useTheme();
 
   // Função para verificar se a rota está ativa
   const isActive = (to) => location.pathname === to;
@@ -106,22 +109,7 @@ export default function Sidebar() {
             )}
 
             {/* Relatórios - Comentado temporariamente */}
-            {/*
-            {hasPermission('reports') && (
-              <SidebarItemWithSubmenu
-                icon={<FolderOpen size={20} />}
-                label={t('sidebar.reports', 'Relatórios')}
-                isOpen={isOpen}
-                subItems={[
-                  { label: t('sidebar.servers', 'Servidores'), to: "reports_servers_admin" },
-                  { label: t('sidebar.networks', 'Redes'), to: "reports_networks_admin" },
-                  { label: t('sidebar.webhooks', 'Webhooks'), to: "reports_webhooks_admin" },
-                  { label: t('sidebar.apis', 'APIs'), to: "reports_api_admin" },
-                ]}
-                active={location.pathname.startsWith("/admin/reports")}
-              />
-            )}
-            */}
+            {/* ...existing code... */}
 
             {/* Histórico - ADMIN e USER têm acesso */}
             {hasPermission("history") && (
@@ -172,10 +160,21 @@ export default function Sidebar() {
           <div className="flex items-center gap-2">
             {isOpen && (
               <label className="inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <button>
-                  {/* <FaToggleOff size={30} color='#009cdd' /> */}
-                  <FaToggleOff size={30} color="#010E37" />
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={theme === "dark"}
+                  onChange={toggleTheme}
+                />
+                <button
+                  onClick={toggleTheme}
+                  aria-label="Alternar tema"
+                  type="button"
+                >
+                  <FaToggleOff
+                    size={30}
+                    color={theme === "dark" ? "#009cdd" : "#010E37"}
+                  />
                 </button>
               </label>
             )}

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Filter, Plus, RefreshCw } from 'lucide-react';
+import CustomDiv from "../components/CustomComponents/CustomDiv";
+import { Filter, Plus, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ServiceModal from "./internal_components/ServiceModal";
 import StatusTable from "./internal_components/MonitorStatusTable";
 import Pagination from "./internal_components/MonitorPagination";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
-import { useTranslation } from 'react-i18next';
-import { getServices, deleteService } from '../api/services';
+import { useTranslation } from "react-i18next";
+import { getServices, deleteService } from "../api/services";
 
 export default function MonitorAdmin() {
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingService, setEditingService] = useState(null);
@@ -18,56 +19,56 @@ export default function MonitorAdmin() {
   const [loading, setLoading] = useState(false); // Começa como false e será true apenas quando necessário
   const [error, setError] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
-  const [selectedServiceType, setSelectedServiceType] = useState('');
+  const [selectedServiceType, setSelectedServiceType] = useState("");
   const [cachedData, setCachedData] = useState(null);
   const [lastFetch, setLastFetch] = useState(null);
-  const [cacheKey, setCacheKey] = useState('services_cache');
+  const [cacheKey, setCacheKey] = useState("services_cache");
   const [isInitialLoad, setIsInitialLoad] = useState(false); // Começa como false
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
-    title: '',
-    message: '',
+    title: "",
+    message: "",
     onConfirm: null,
-    loading: false
+    loading: false,
   });
   const servicesPerPage = 11;
   const navigate = useNavigate();
-  
+
   // Cache duration: 1 hour
   const CACHE_DURATION = 60 * 60 * 1000;
 
   // Load cache from localStorage on component mount
   useEffect(() => {
     if (hasCacheLoaded) return; // Evita execução múltipla
-    
+
     const loadCacheFromStorage = () => {
       try {
         const storedCache = localStorage.getItem(cacheKey);
         const storedTimestamp = localStorage.getItem(`${cacheKey}_timestamp`);
-        
+
         if (storedCache && storedTimestamp) {
           const now = new Date().getTime();
           const cacheAge = now - parseInt(storedTimestamp);
-          
+
           // Se o cache ainda é válido, usa ele
           if (cacheAge < CACHE_DURATION) {
             const parsedData = JSON.parse(storedCache);
             setCachedData(parsedData);
             setLastFetch(parseInt(storedTimestamp));
             setServicesData(parsedData);
-            console.log('Loaded valid cache from localStorage');
+            console.log("Loaded valid cache from localStorage");
             setHasCacheLoaded(true);
             return true;
           } else {
             // Cache expirado, remove do localStorage
             localStorage.removeItem(cacheKey);
             localStorage.removeItem(`${cacheKey}_timestamp`);
-            console.log('Cache expired, removed from localStorage');
+            console.log("Cache expired, removed from localStorage");
           }
         }
       } catch (error) {
-        console.error('Error loading cache from localStorage:', error);
+        console.error("Error loading cache from localStorage:", error);
         localStorage.removeItem(cacheKey);
         localStorage.removeItem(`${cacheKey}_timestamp`);
       }
@@ -77,7 +78,7 @@ export default function MonitorAdmin() {
     // Tenta carregar cache do localStorage primeiro
     const cacheLoaded = loadCacheFromStorage();
     setHasCacheLoaded(true);
-    
+
     if (!cacheLoaded) {
       // Só marca como carga inicial se não há cache válido
       setIsInitialLoad(true);
@@ -89,9 +90,9 @@ export default function MonitorAdmin() {
     try {
       localStorage.setItem(cacheKey, JSON.stringify(data));
       localStorage.setItem(`${cacheKey}_timestamp`, timestamp.toString());
-      console.log('Cache saved to localStorage');
+      console.log("Cache saved to localStorage");
     } catch (error) {
-      console.error('Error saving cache to localStorage:', error);
+      console.error("Error saving cache to localStorage:", error);
     }
   };
 
@@ -100,9 +101,9 @@ export default function MonitorAdmin() {
     try {
       localStorage.removeItem(cacheKey);
       localStorage.removeItem(`${cacheKey}_timestamp`);
-      console.log('Cache cleared from localStorage');
+      console.log("Cache cleared from localStorage");
     } catch (error) {
-      console.error('Error clearing cache from localStorage:', error);
+      console.error("Error clearing cache from localStorage:", error);
     }
   };
 
@@ -116,25 +117,25 @@ export default function MonitorAdmin() {
 
       try {
         setLoading(true);
-        
-        console.log('Fetching fresh data from API');
+
+        console.log("Fetching fresh data from API");
         const data = await getServices();
         // Mapear os dados da API para o formato esperado pelo componente
         const mappedData = mapApiDataToTableFormat(data);
         setServicesData(mappedData);
-        
+
         // Cache the data in memory and localStorage
         const timestamp = new Date().getTime();
         setCachedData(mappedData);
         setLastFetch(timestamp);
         saveCacheToStorage(mappedData, timestamp);
-        
+
         setError(null);
         setIsInitialLoad(false); // Marca como concluído
       } catch (err) {
-        setError(t('common.error'));
-        console.error('Error fetching services:', err);
-        
+        setError(t("common.error"));
+        console.error("Error fetching services:", err);
+
         // Em caso de erro, limpar cache para forçar nova tentativa na próxima vez
         clearCacheFromStorage();
         setCachedData(null);
@@ -153,21 +154,21 @@ export default function MonitorAdmin() {
       if (!document.hidden && lastFetch) {
         const now = new Date().getTime();
         const timeAway = now - lastFetch;
-        
+
         // Se esteve fora por mais de 30 minutos, invalidar cache
         const AWAY_THRESHOLD = 30 * 60 * 1000; // 30 minutos
-        
+
         if (timeAway > AWAY_THRESHOLD) {
-          console.log('User returned after long time away, invalidating cache');
+          console.log("User returned after long time away, invalidating cache");
           invalidateCacheAndRefresh();
         }
       }
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [lastFetch]);
 
@@ -175,12 +176,18 @@ export default function MonitorAdmin() {
   useEffect(() => {
     const interval = setInterval(() => {
       // Verificar se o campo de busca foi preenchido incorretamente
-      document.querySelectorAll('input[name*="service-filter"]').forEach(input => {
-        if (input.value && input.value.includes('@') && input !== document.activeElement) {
-          input.value = '';
-          setSearchTerm('');
-        }
-      });
+      document
+        .querySelectorAll('input[name*="service-filter"]')
+        .forEach((input) => {
+          if (
+            input.value &&
+            input.value.includes("@") &&
+            input !== document.activeElement
+          ) {
+            input.value = "";
+            setSearchTerm("");
+          }
+        });
     }, 500);
 
     return () => clearInterval(interval);
@@ -189,14 +196,14 @@ export default function MonitorAdmin() {
   // Close filter dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showFilter && !event.target.closest('.filter-dropdown')) {
+      if (showFilter && !event.target.closest(".filter-dropdown")) {
         setShowFilter(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showFilter]);
 
@@ -205,22 +212,22 @@ export default function MonitorAdmin() {
     try {
       setLoading(true);
       clearCacheFromStorage();
-      
-      console.log('Cache invalidated, fetching fresh data');
+
+      console.log("Cache invalidated, fetching fresh data");
       const data = await getServices();
       const mappedData = mapApiDataToTableFormat(data);
       setServicesData(mappedData);
-      
+
       // Update cache with fresh data
       const timestamp = new Date().getTime();
       setCachedData(mappedData);
       setLastFetch(timestamp);
       saveCacheToStorage(mappedData, timestamp);
-      
+
       setError(null);
     } catch (err) {
-      setError(t('common.error'));
-      console.error('Error refreshing services:', err);
+      setError(t("common.error"));
+      console.error("Error refreshing services:", err);
     } finally {
       setLoading(false);
     }
@@ -243,63 +250,78 @@ export default function MonitorAdmin() {
   };
 
   const handleDeleteService = async (serviceId) => {
-    const serviceToDelete = servicesData.find(s => s.id === serviceId);
-    
+    const serviceToDelete = servicesData.find((s) => s.id === serviceId);
+
     setConfirmModal({
       isOpen: true,
-      title: t('actions.delete'),
-      message: `${t('actions.confirm_delete')} "${serviceToDelete?.name || serviceToDelete?.sla}"?`,
+      title: t("actions.delete"),
+      message: `${t("actions.confirm_delete")} "${
+        serviceToDelete?.name || serviceToDelete?.sla
+      }"?`,
       onConfirm: async () => {
         try {
-          setConfirmModal(prev => ({ ...prev, loading: true }));
-          
+          setConfirmModal((prev) => ({ ...prev, loading: true }));
+
           await deleteService(serviceId);
-          
+
           // Invalidar cache e recarregar dados após deletar
           await invalidateCacheAndRefresh();
-          
+
           // Close modal
-          setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false });
+          setConfirmModal({
+            isOpen: false,
+            title: "",
+            message: "",
+            onConfirm: null,
+            loading: false,
+          });
         } catch (err) {
-          console.error('Error deleting service:', err);
+          console.error("Error deleting service:", err);
           // Show error in modal
           setConfirmModal({
             isOpen: true,
-            title: t('common.error'),
-            message: t('actions.delete_error'),
-            onConfirm: () => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false }),
-            loading: false
+            title: t("common.error"),
+            message: t("actions.delete_error"),
+            onConfirm: () =>
+              setConfirmModal({
+                isOpen: false,
+                title: "",
+                message: "",
+                onConfirm: null,
+                loading: false,
+              }),
+            loading: false,
           });
         }
       },
-      loading: false
+      loading: false,
     });
   };
 
   const mapApiDataToTableFormat = (apiData) => {
     if (!Array.isArray(apiData)) return [];
-    
-    return apiData.map(service => {
+
+    return apiData.map((service) => {
       // Mapear o status
-      let status = '';
+      let status = "";
       switch (service.status) {
-        case 'ACTIVE':
-        case 'UP':
-          status = t('status_badge.fulfilled');
+        case "ACTIVE":
+        case "UP":
+          status = t("status_badge.fulfilled");
           break;
-        case 'PENDING':
-          status = 'PENDING';
+        case "PENDING":
+          status = "PENDING";
           break;
-        case 'WARNING':
-          status = t('status_badge.at_risk');
+        case "WARNING":
+          status = t("status_badge.at_risk");
           break;
-        case 'DOWN':
-        case 'ERROR':
-        case 'FAILED':
-          status = t('status_badge.error');
+        case "DOWN":
+        case "ERROR":
+        case "FAILED":
+          status = t("status_badge.error");
           break;
         default:
-          status = t('status_badge.at_risk');
+          status = t("status_badge.at_risk");
       }
 
       return {
@@ -307,38 +329,42 @@ export default function MonitorAdmin() {
         name: service.name,
         servico: service.type, // Tipo do serviço na coluna TIPO
         sla: service.name, // Nome do serviço na coluna NOME
-        limite: t('monitor.two_seconds'),
-        medido: service.status === 'ACTIVE' ? t('monitor.one_second') : t('monitor.four_seconds'),
+        limite: t("monitor.two_seconds"),
+        medido:
+          service.status === "ACTIVE"
+            ? t("monitor.one_second")
+            : t("monitor.four_seconds"),
         status: status,
         originalType: service.type,
         originalStatus: service.status,
         serviceType: service.type, // Tipo do serviço para navegação
         description: service.description, // Guardar descrição para referência
         // Keep original service data for editing
-        originalData: service
+        originalData: service,
       };
     });
   };
 
   const serviceTypes = [
-    t('monitor.servers'),
-    t('monitor.apis'),
-    t('monitor.networks'),
-    t('monitor.webhooks')
+    t("monitor.servers"),
+    t("monitor.apis"),
+    t("monitor.networks"),
+    t("monitor.webhooks"),
   ];
 
   // Filtrar dados com base no termo de pesquisa e tipo de serviço
-  const filteredData = servicesData.filter(item => {
-    const matchesSearch = 
-      item.sla?.toLowerCase().includes(searchTerm.toLowerCase()) ||      // Nome do serviço (na coluna NOME)
-      item.servico?.toLowerCase().includes(searchTerm.toLowerCase()) ||  // Tipo de serviço (na coluna TIPO)
+  const filteredData = servicesData.filter((item) => {
+    const matchesSearch =
+      item.sla?.toLowerCase().includes(searchTerm.toLowerCase()) || // Nome do serviço (na coluna NOME)
+      item.servico?.toLowerCase().includes(searchTerm.toLowerCase()) || // Tipo de serviço (na coluna TIPO)
       item.description?.toLowerCase().includes(searchTerm.toLowerCase()) || // Descrição
       item.serviceType?.toLowerCase().includes(searchTerm.toLowerCase()); // Tipo de serviço para navegação
-    
-    const matchesServiceType = selectedServiceType === '' || 
+
+    const matchesServiceType =
+      selectedServiceType === "" ||
       item.originalType === selectedServiceType ||
       item.serviceType === selectedServiceType;
-    
+
     return matchesSearch && matchesServiceType;
   });
 
@@ -347,34 +373,37 @@ export default function MonitorAdmin() {
 
   // Dados para a página atual
   const startIndex = (currentPage - 1) * servicesPerPage;
-  const currentPageData = filteredData.slice(startIndex, startIndex + servicesPerPage);
+  const currentPageData = filteredData.slice(
+    startIndex,
+    startIndex + servicesPerPage
+  );
 
   const handleRowClick = (item) => {
     // Usar o tipo original da API se disponível, senão usar o serviceType mapeado
     const serviceType = item.originalType || item.serviceType;
-    
+
     switch (serviceType) {
-      case 'HTTP':
-      case 'API':
-      case t('monitor.apis'):
+      case "HTTP":
+      case "API":
+      case t("monitor.apis"):
         navigate("/admin/dashboard_api_admin");
         break;
-      case 'PING':
-      case 'SERVER':
-      case t('monitor.servers'):
+      case "PING":
+      case "SERVER":
+      case t("monitor.servers"):
         navigate("/admin/dashboard_servers_admin");
         break;
-      case 'SNMP':
-      case 'NETWORK':
-      case t('monitor.networks'):
+      case "SNMP":
+      case "NETWORK":
+      case t("monitor.networks"):
         navigate("/admin/dashboard_networks_admin");
         break;
-      case 'WEBHOOK':
-      case t('monitor.webhooks'):
+      case "WEBHOOK":
+      case t("monitor.webhooks"):
         navigate("/admin/dashboard_webhooks_admin");
         break;
       default:
-        console.log('Tipo de serviço não reconhecido:', serviceType);
+        console.log("Tipo de serviço não reconhecido:", serviceType);
         // Fallback para servidores
         navigate("/admin/dashboard_servers_admin");
         break;
@@ -387,36 +416,45 @@ export default function MonitorAdmin() {
   };
 
   const getUniqueServiceTypes = () => {
-    const types = [...new Set(servicesData.map(item => item.originalType))];
-    return types.filter(type => type); // Remove undefined values
+    const types = [...new Set(servicesData.map((item) => item.originalType))];
+    return types.filter((type) => type); // Remove undefined values
   };
 
   return (
-    <div className="min-h-screen bg-[#081028] flex flex-col">
-      
+    <CustomDiv
+      type="background"
+      className="min-h-screen bg-[#081028] flex flex-col"
+    >
       <main className="p-4 flex-1 flex flex-col pb-16">
         {/* Page Title and Actions */}
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-white mb-1">{t('monitor.title')}</h1>
+            <h1 className="text-2xl font-bold text-white mb-1">
+              {t("monitor.title")}
+            </h1>
             <p className="text-slate-400">
-              {loading 
-                ? t('common.loading')
+              {loading
+                ? t("common.loading")
                 : searchTerm || selectedServiceType
-                  ? `${filteredData.length} serviços encontrados${selectedServiceType ? ` (tipo: ${selectedServiceType})` : ''}` 
-                  : `${servicesData.length} serviços sendo monitorados`
-              }
+                ? `${filteredData.length} serviços encontrados${
+                    selectedServiceType ? ` (tipo: ${selectedServiceType})` : ""
+                  }`
+                : `${servicesData.length} serviços sendo monitorados`}
             </p>
           </div>
-          
+
           <div className="flex items-center space-x-3 relative">
             <div className="relative">
               <input
                 type="text"
-                placeholder={t('monitor.search_placeholder') || 'Pesquisar serviços...'}
+                placeholder={
+                  t("monitor.search_placeholder") || "Pesquisar serviços..."
+                }
                 autoComplete="off"
                 name={`service-filter-${Date.now()}`}
-                id={`filter-services-${Math.random().toString(36).substr(2, 9)}`}
+                id={`filter-services-${Math.random()
+                  .toString(36)
+                  .substr(2, 9)}`}
                 className="pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64"
                 value={searchTerm}
                 onChange={(e) => {
@@ -426,16 +464,20 @@ export default function MonitorAdmin() {
                 onFocus={(e) => {
                   // Protege apenas contra preenchimento automático indevido
                   setTimeout(() => {
-                    if (e.target.value && !searchTerm && e.target.value.includes('@')) {
+                    if (
+                      e.target.value &&
+                      !searchTerm &&
+                      e.target.value.includes("@")
+                    ) {
                       // Se foi preenchido automaticamente com email
-                      setSearchTerm('');
-                      e.target.value = '';
+                      setSearchTerm("");
+                      e.target.value = "";
                     }
                   }, 50);
                 }}
               />
             </div>
-            <button 
+            <button
               className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown"
               onClick={() => setShowFilter(!showFilter)}
             >
@@ -444,34 +486,36 @@ export default function MonitorAdmin() {
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
               )}
             </button>
-            
+
             {/* Filter Dropdown */}
             {showFilter && (
               <div className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">
                 <div className="p-3">
-                  <h3 className="text-white font-medium mb-2">{t('filters.filter_services')}</h3>
+                  <h3 className="text-white font-medium mb-2">
+                    {t("filters.filter_services")}
+                  </h3>
                   <div className="space-y-1">
                     <button
                       className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                        selectedServiceType === '' 
-                          ? 'bg-blue-600 text-white' 
-                          : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                        selectedServiceType === ""
+                          ? "bg-blue-600 text-white"
+                          : "text-slate-300 hover:bg-slate-700 hover:text-white"
                       }`}
                       onClick={() => {
-                        setSelectedServiceType('');
+                        setSelectedServiceType("");
                         setCurrentPage(1);
                         setShowFilter(false);
                       }}
                     >
-                      {t('filters.all')}
+                      {t("filters.all")}
                     </button>
-                    {getUniqueServiceTypes().map(type => (
+                    {getUniqueServiceTypes().map((type) => (
                       <button
                         key={type}
                         className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                          selectedServiceType === type 
-                            ? 'bg-blue-600 text-white' 
-                            : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                          selectedServiceType === type
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-300 hover:bg-slate-700 hover:text-white"
                         }`}
                         onClick={() => {
                           setSelectedServiceType(type);
@@ -490,16 +534,18 @@ export default function MonitorAdmin() {
               className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
               onClick={handleRefresh}
               disabled={loading}
-              title={`${t('actions.refresh_data')} (ignorar cache)`}
+              title={`${t("actions.refresh_data")} (ignorar cache)`}
             >
-              <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw
+                className={`w-5 h-5 ${loading ? "animate-spin" : ""}`}
+              />
             </button>
             <button
-  className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-  onClick={handleCreateService}
->
-  <Plus className="w-5 h-5" />
-</button>
+              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+              onClick={handleCreateService}
+            >
+              <Plus className="w-5 h-5" />
+            </button>
           </div>
         </div>
 
@@ -516,7 +562,7 @@ export default function MonitorAdmin() {
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-              <span className="ml-3 text-slate-400">{t('common.loading')}</span>
+              <span className="ml-3 text-slate-400">{t("common.loading")}</span>
             </div>
           ) : (
             <>
@@ -533,7 +579,9 @@ export default function MonitorAdmin() {
                 {/* No results message */}
                 {filteredData.length === 0 && searchTerm && (
                   <div className="text-center py-8">
-                    <p className="text-slate-400">{t('monitor.no_results') || 'Nenhum serviço encontrado'}</p>
+                    <p className="text-slate-400">
+                      {t("monitor.no_results") || "Nenhum serviço encontrado"}
+                    </p>
                   </div>
                 )}
               </div>
@@ -556,7 +604,7 @@ export default function MonitorAdmin() {
 
         {/* Service Modal */}
         {showCreateModal && (
-          <ServiceModal 
+          <ServiceModal
             onClose={() => {
               setShowCreateModal(false);
               setEditingService(null);
@@ -569,16 +617,24 @@ export default function MonitorAdmin() {
         {/* Confirmation Modal */}
         <ConfirmationModal
           isOpen={confirmModal.isOpen}
-          onClose={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, loading: false })}
+          onClose={() =>
+            setConfirmModal({
+              isOpen: false,
+              title: "",
+              message: "",
+              onConfirm: null,
+              loading: false,
+            })
+          }
           onConfirm={confirmModal.onConfirm}
           title={confirmModal.title}
           message={confirmModal.message}
           loading={confirmModal.loading}
           type="danger"
-          confirmText={t('common.yes')}
-          cancelText={t('service_modal.cancel')}
+          confirmText={t("common.yes")}
+          cancelText={t("service_modal.cancel")}
         />
       </main>
-    </div>
+    </CustomDiv>
   );
 }
