@@ -1,6 +1,8 @@
 import { Activity, Clock, AlertCircle, CheckCircle, Info, Trash2, Settings, RefreshCw } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
+import { useTheme } from '../../hooks/useTheme/useTheme';
 
 const priorityColors = {
   high: 'border-l-red-400 bg-red-500/5',
@@ -20,6 +22,7 @@ export default function ActivitiesList() {
   const [filter, setFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(4);
   const [activities, setActivities] = useState([]);
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     setActivities([
@@ -100,27 +103,27 @@ export default function ActivitiesList() {
   };
 
   return (
-    <div className="bg-[#0B1440] p-6 rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <CustomDiv className="bg-[#0B1440] p-6 rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-500/10 rounded-lg">
+      <CustomDiv className="flex items-center justify-between mb-6">
+        <CustomDiv className="flex items-center gap-3">
+          <CustomDiv className="p-2 bg-blue-500/10 rounded-lg">
             <Activity className="w-6 h-6 text-blue-400" />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold text-white">{t('activities.recent_activities')}</h2>
-            <p className="text-gray-400 text-sm">{t('activities.last_updates')}</p>
-          </div>
-        </div>
+          </CustomDiv>
+          <CustomDiv>
+            <h2 className={"text-xl font-bold text-white " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>{t('activities.recent_activities')}</h2>
+            <p className={"text-gray-400 text-sm " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>{t('activities.last_updates')}</p>
+          </CustomDiv>
+        </CustomDiv>
 
-        <div className="flex items-center gap-2 text-gray-400">
+        <CustomDiv className="flex items-center gap-2 text-gray-400">
           <Clock className="w-4 h-4" />
-          <span className="text-xs">{t('activities.realtime')}</span>
-        </div>
-      </div>
+          <span className={"text-xs " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>{t('activities.realtime')}</span>
+        </CustomDiv>
+      </CustomDiv>
 
       {/* Filter Buttons */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+      <CustomDiv className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {[
           { key: 'all', label: t('activities.all'), count: activities.length },
           { key: 'high', label: t('activities.high'), count: activities.filter(a => a.priority === 'high').length },
@@ -142,16 +145,17 @@ export default function ActivitiesList() {
             </span>
           </button>
         ))}
-      </div>
+      </CustomDiv>
 
       {/* Activities List */}
-      <div className="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
+      <CustomDiv style={{ paddingTop: "15px", paddingBottom: "15px", display: "flex", flexDirection: "column", alignItems: "center" }} className="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
         {visibleActivities.map((item) => {
           const Icon = item.icon;
           const timeInfo = formatTime(item.time);
 
           return (
             <div
+              style={{ width: "95%" }}
               key={item.id}
               className={`group p-4 rounded-lg border-l-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer ${priorityColors[item.priority]}`}
             >
@@ -162,7 +166,7 @@ export default function ActivitiesList() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-gray-200 text-sm font-medium leading-relaxed group-hover:text-white transition-colors duration-300">
+                    <p className={"text-gray-200 text-sm font-medium leading-relaxed transition-colors duration-300 " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>
                       {item.text}
                     </p>
                     {timeInfo.badge && (
@@ -193,28 +197,28 @@ export default function ActivitiesList() {
             </div>
           );
         })}
-      </div>
+      </CustomDiv>
 
       {/* Load More Button */}
       {filteredActivities.length > visibleCount && (
         <button
           onClick={() => setVisibleCount(prev => prev + 3)}
-          className="w-full mt-4 py-2 px-4 bg-slate-800/50 hover:bg-slate-700/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 text-sm font-medium border border-slate-700/50 hover:border-slate-600"
+          className={"w-full mt-4 py-2 px-4 bg-slate-800/50 hover:bg-slate-700/50 text-gray-300  rounded-lg text-sm font-medium border-slate-700/50 " + (theme =='dark' ? " div-dark-mode-bg ": " div-light-mode-bg")}
         >
           {t('activities.load_more', { count: filteredActivities.length - visibleCount })}
         </button>
       )}
 
       {/* Footer */}
-      <div className="flex justify-between items-center mt-4 pt-4 border-t border-slate-700/50">
-        <span className="text-gray-400 text-xs">
+      <CustomDiv className="flex justify-between items-center mt-4 pt-4 border-t border-slate-700/50">
+        <span className={"text-gray-400 text-xs " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>
           {t('activities.footer_count', { count: filteredActivities.length })}
           {filter !== 'all' && ` (${t('activities.' + filter)})`}
         </span>
         <button className="text-blue-400 hover:text-blue-300 text-xs font-medium transition-colors duration-300">
           {t('activities.see_all')}
         </button>
-      </div>
-    </div>
+      </CustomDiv>
+    </CustomDiv>
   );
 }

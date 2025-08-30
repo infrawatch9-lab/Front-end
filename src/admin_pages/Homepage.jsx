@@ -7,17 +7,18 @@ import InfrastructureMap from './internal_components/HomeInfrastructureMap'
 import TopBar from '../components/Topbar';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../hooks/useTheme/useTheme';
+import CustomDiv from '../components/CustomComponents/CustomDiv';
 
 export function HomepageAdmin() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#081028]">
+    <CustomDiv type='background' className="flex flex-col min-h-screen bg-[#081028]">
 
       {/* Conteúdo */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 flex-1">
+      <CustomDiv  type='background' className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 flex-1">
         {/* Coluna Esquerda - Layout Vertical */}
-        <div className="lg:col-span-2 space-y-6">
+        <CustomDiv type='background' className="lg:col-span-2 space-y-6 ">
           {/* Gráfico Principal - Consumo de Recursos */}
           <ResourceConsumptionChart />
           
@@ -26,14 +27,14 @@ export function HomepageAdmin() {
           
           {/* Mapa de Infraestrutura */}
           <InfrastructureMap />
-        </div>
+        </CustomDiv>
 
         {/* Coluna Direita */}
-        <div className="flex flex-col gap-6">
+        <CustomDiv type='background' className="flex flex-col gap-6">
           <SystemOverview />
           <ActivitiesList />
-        </div>
-      </div>
-    </div>
+        </CustomDiv>
+      </CustomDiv>
+    </CustomDiv>
   );
 }

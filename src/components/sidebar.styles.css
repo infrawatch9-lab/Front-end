@@ -1,3 +1,25 @@
 .side-bar-item-hover:hover{
     background-color: #009bdd1a;
 }
+
+.items-colors-dark
+{
+    transition: all 1s;
+    color: #0B143F;
+}
+
+.items-colors-light
+{
+    transition: all 1s;
+    color: #f5f5f572;
+}
+
+.selected-side-bar-item-light
+{
+    background-color: #d8d8d8;
+}
+
+.selected-side-bar-item-dark
+{
+    background-color: #070E23;
+}

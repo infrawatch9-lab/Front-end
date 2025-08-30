@@ -2,6 +2,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Server, Activity, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
+import { useTheme } from '../../hooks/useTheme/useTheme';
 
 const data = [
   { month: 'Jan', service1: 45, service2: 25, service3: 65, service4: 35 },
@@ -14,6 +16,7 @@ const data = [
 
 export default function ResourceConsumptionChart() {
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme()
   const services = [
     { key: 'service1', label: t('resource_chart.database_service'), color: '#06B6D4', visible: true },
     { key: 'service2', label: t('resource_chart.api_gateway'), color: '#F59E0B', visible: true },
@@ -35,75 +38,75 @@ export default function ResourceConsumptionChart() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#0B1440] border border-slate-600 rounded-lg p-3 shadow-xl">
-          <p className="text-gray-300 text-sm mb-2 font-medium">{label}</p>
+        <CustomDiv className="border border-slate-600 rounded-lg p-3 shadow-xl">
+          <p className={"text-gray-300 text-sm mb-2 font-medium " + ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )} >{label}</p>
           {payload.map((entry, index) => {
             const service = services.find(s => s.key === entry.dataKey);
             return (
-              <p key={index} className="text-sm flex items-center gap-2" style={{ color: entry.color }}>
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }}></span>
+              <p key={index} className={"text-sm flex items-center gap-2 " + ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )} style={{ color: entry.color }}>
+                <span className={"w-2 h-2 rounded-full " + ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )} style={{ backgroundColor: entry.color }}></span>
                 {`${service?.label}: ${entry.value}%`}
               </p>
             );
           })}
-        </div>
+        </CustomDiv>
       );
     }
     return null;
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#0B1440] to-[#0F1937] rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <CustomDiv className="rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       {/* Header */}
-      <div className="flex justify-between items-center p-6 pb-4">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-gray-300">
-            <button className="flex items-center gap-2 px-4 py-2 bg-[#162050] rounded-lg text-sm font-medium border border-slate-600/50 hover:bg-[#1a2456] transition-colors">
+      <CustomDiv className="flex justify-between items-center p-6 pb-4 rounded-xl">
+        <CustomDiv className="flex items-center gap-4 ">
+          <CustomDiv className="flex items-center gap-2 text-gray-300 ">
+            <button className= {"flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50 transition-colors " + ( theme == 'dark' ? (" div-dark-mode-bg ") : " div-light-mode-bg" )}>
               {t('resource_chart.all_services')}
             </button>
-            <span className="text-gray-500">|</span>
-            <span className="text-sm">{t('resource_chart.uptime_history')}</span>
-          </div>
-        </div>
+            <span className={"text-gray-500 " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>|</span>
+            <span className={"text-sm " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t('resource_chart.uptime_history')}</span>
+          </CustomDiv>
+        </CustomDiv>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <button className="flex items-center gap-2 px-4 py-2 bg-[#162050] rounded-lg text-sm font-medium text-gray-300 border border-slate-600/50 hover:bg-[#1a2456] transition-colors">
+        <CustomDiv className="flex items-center gap-3 ">
+          <CustomDiv className="relative">
+            <button className= {"flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-300 border border-slate-600/50 transition-colors " + ( theme == 'dark' ? " div-dark-mode-bg" : "div-light-mode-bg" )}>
               {selectedPeriod}
               <ChevronDown className="w-4 h-4" />
             </button>
-          </div>
+          </CustomDiv>
           <button className="p-2 text-gray-400 hover:text-gray-200 transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
             </svg>
           </button>
-        </div>
-      </div>
+        </CustomDiv>
+      </CustomDiv>
 
       {/* Chart */}
-      <div className="px-6 pb-6">
-        <div className="bg-[#0A1235]/30 rounded-lg p-4 border border-slate-700/30">
+      <CustomDiv className="px-6 pb-6 rounded-xl">
+        <CustomDiv className="bg-[#0A1235]/30 rounded-lg p-4 border border-slate-700/30">
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E2A5C" strokeOpacity={0.6} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#596891ff" strokeOpacity={0.6} />
               <XAxis
                 dataKey="month"
-                stroke="#94A3B8"
+                stroke={(theme == 'dark' ? "#f5f5f5" : "#0B143F")}
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
-                tick={{ fill: '#94A3B8' }}
+                tick={{ fill: (theme == 'dark' ? "#f5f5f5" : "#0B143F")} }
               />
               <YAxis
-                stroke="#94A3B8"
+                stroke={(theme == 'dark' ? "#f5f5f5" : "#0B143F")}
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 100]}
                 ticks={[0, 20, 40, 60, 80, 100]}
                 tickFormatter={(value) => `${value}%`}
-                tick={{ fill: '#94A3B8' }}
+                tick={{ fill: (theme == 'dark' ? "#f5f5f5" : "#0B143F")} }
               />
               <Tooltip content={<CustomTooltip />} />
 
@@ -128,10 +131,10 @@ export default function ResourceConsumptionChart() {
               ))}
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </CustomDiv>
 
         {/* Services Legend */}
-        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-slate-700/50">
+        <CustomDiv className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-slate-700/50">
           {services.map((service) => (
             <button
               key={service.key}
@@ -151,26 +154,26 @@ export default function ResourceConsumptionChart() {
               {service.label}
             </button>
           ))}
-        </div>
+        </CustomDiv>
 
         {/* Status Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-4 pt-4 border-t border-slate-700/50 gap-4">
-          <div className="flex items-center gap-2 text-gray-400 text-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span>{t('resource_chart.last_update')}</span>
-          </div>
-          <div className="flex items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400">{t('resource_chart.avg_uptime')}</span>
+        <CustomDiv className="flex flex-col sm:flex-row justify-between items-center mt-4 pt-4 border-t border-slate-700/50 gap-4">
+          <CustomDiv className="flex items-center gap-2 text-gray-400 text-sm">
+            <CustomDiv className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></CustomDiv>
+            <span className={ ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )}>{t('resource_chart.last_update')}</span>
+          </CustomDiv>
+          <CustomDiv className="flex items-center gap-6 text-sm">
+            <CustomDiv className="flex items-center gap-2">
+              <span className={"text-gray-400 " + ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )}>{t('resource_chart.avg_uptime')}</span>
               <span className="text-green-400 font-medium">96.8%</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400">{t('resource_chart.status')}</span>
+            </CustomDiv>
+            <CustomDiv className="flex items-center gap-2">
+              <span className={"text-gray-400 " + + ( theme == "dark" ? " items-colors-light " : " items-colors-dark " )}>{t('resource_chart.status')}</span>
               <span className="text-green-400 font-medium">{t('resource_chart.operational')}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </CustomDiv>
+          </CustomDiv>
+        </CustomDiv>
+      </CustomDiv>
+    </CustomDiv>
   );
 }

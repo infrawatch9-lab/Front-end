@@ -1,10 +1,11 @@
 import CustomDiv from "./CustomDiv"
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps"
 import { useTheme } from "../../hooks/useTheme/useTheme"
+import React from "react"
 
 export const Test = () => {
     const { theme, toggleTheme } = useTheme()
-   
+
     return (
 
       // Exemplo basico de como usar o CustomDiv

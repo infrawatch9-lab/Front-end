@@ -2,24 +2,32 @@
 {
     transition: all 2s;
     background-color: #070E23;
+    border-color: #2a2f49;
+    
 }
 
 .div-dark-mode-fg
 {
     transition: all 2s;
     background-color: #0B143F;
+    color: #e7e7e7;
+    border-color: #29375f;
+
 }
 
 .div-light-mode-bg
 {
     transition: all 2s;
-    background-color: #f8f8f8;
+    background-color: #dcdbdb;
+    color: #0B143F;
+    border-color: #ffffff;
 }
 
 .div-light-mode-fg
 {
     transition: all 2s;
     background-color: #e7e7e7;
+    border-color: white;
 }
 
 .text-dark-mode-emphasis
@@ -27,3 +35,14 @@
 
 }
 
+.text-colors-dark
+{
+    transition: all 2s;
+    color: #0B143F;
+}
+
+.text-colors-light
+{
+    transition: all 2s;
+    color: #f5f5f5;
+}

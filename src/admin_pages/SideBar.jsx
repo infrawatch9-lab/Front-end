@@ -7,10 +7,13 @@ import SidebarItem from '../components/SideBarItem';
 import { useSidebar } from '../contexts/SidebarContext';
 import LanguageSelector from '../components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
-import { FaToggleOff } from "react-icons/fa6";
+import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
+import { useTheme } from '../hooks/useTheme/useTheme';
+import CustomDiv from '../components/CustomComponents/CustomDiv';
 
 export default function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
+  const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation(); // Pega a rota atual
@@ -19,25 +22,25 @@ export default function Sidebar() {
   const isActive = (to) => location.pathname === to;
 
   return (
-    <div className={`bg-[#0B1440] text-white fixed left-0 top-0 h-screen flex flex-col justify-between transition-all duration-300 z-50 ${isOpen ? 'w-64' : 'w-20'} p-4 overflow-y-auto`}>
+    <CustomDiv className={`bg-[#0B1440] text-white fixed left-0 top-0 h-screen flex flex-col justify-between transition-all duration-300 z-50 ${isOpen ? 'w-64' : 'w-20'} p-4 overflow-y-auto`}>
       
       {/* Topo */}
-      <div>
-        <div className="flex items-center space-x-2 mb-6 novo" style={{ display: "flex", gap: 20, }}>
-          {isOpen && <img src="/img/logo_white.png" alt="Logo" className="w-8 h-8" />}
-          {isOpen && <h1 className="text-lg font-semibold">{t('sidebar.brand', 'InfraWatch')}</h1>}
+      <CustomDiv>
+        <CustomDiv className="flex items-center space-x-2 mb-6 novo" style={{ display: "flex", gap: 20, }}>
+          {isOpen && <img src={ theme == 'dark' ? "/img/logo_white.png" : "/img/logo.png"} alt="Logo" className="w-8 h-8" />}
+          {isOpen && <h1 style={{ fontWeight: "bold" }} className={"text-lg font-semibold " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t('sidebar.brand', 'InfraWatch')}</h1>}
           <CollapseButton isOpen={isOpen} toggle={toggleSidebar} />
-        </div>
+        </CustomDiv>
 
         <SidebarItem
-          icon={<Home size={20} />}
+          icon={<Home color={theme == 'dark' ? "#ffffff" : "#0B143F" } size={20} />}
           label={t('sidebar.homepage', 'Início')}
           isOpen={isOpen}
           to="/admin/homepage_admin"
           active={isActive("/admin/homepage_admin")}
         />
         <SidebarItem
-          icon={<BarChart size={20} />}
+          icon={<BarChart color={(theme == 'dark' ? "#ffffff" : "#0B143F" )} size={20} />}
           label={t('sidebar.monitoring', 'Monitoramento')}
           badge="1"
           isOpen={isOpen}
@@ -58,43 +61,47 @@ export default function Sidebar() {
         />
          */}
         <SidebarItem
-          icon={<History size={20} />}
+          icon={<History color={theme == 'dark' ? "#ffffff" : "#0B143F" } size={20} />}
           label={t('sidebar.history', 'Histórico')}
           isOpen={isOpen}
           to="/admin/history_admin"
           active={isActive("/admin/history_admin")}
         />
         <SidebarItem
-          icon={<Users size={20} />}
+          icon={<Users color={theme == 'dark' ? "#ffffff" : "#0B143F" } size={20} />}
           label={t('sidebar.users', 'Usuários')}
           isOpen={isOpen}
           to="/admin/users_admin"
           active={isActive("/admin/users_admin")}
         />
         <SidebarItem
-          icon={<Settings size={20} />}
+          icon={<Settings color={theme == 'dark' ? "#ffffff" : "#0B143F" } size={20} />}
           label={t('sidebar.settings', 'Configurações')}
           isOpen={isOpen}
           to="/admin/settings_admin"
           active={isActive("/admin/settings_admin")}
         />
-      </div>
+      </CustomDiv>
 
       {/* Parte inferior */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             
-            <Moon size={20} />
-            {isOpen && <span>{t('sidebar.dark_mode', 'Modo escuro')}</span>}
+            <Moon color={theme != 'dark' ? "#070E23" : "#d8d8d8"} size={20} />
+            {isOpen && <span className={theme == 'dark' ? " text-colors-light " : " text-colors-dark "}>{t('sidebar.dark_mode', 'Modo escuro')}</span>}
           </div>
           <div className="flex items-center gap-2">
             {isOpen && (
-              <label className="inline-flex items-center cursor-pointer">
+              <label className={"inline-flex items-center cursor-pointer"}>
                 <input type="checkbox" className="sr-only peer" />
-                <button>
-                  {/* <FaToggleOff size={30} color='#009cdd' /> */}
-                  <FaToggleOff size={30} color='#010E37' />
+                <button onClick={() => toggleTheme()}>
+                  {
+                    theme == 'dark' ? 
+                      <FaToggleOn size={30} fill={theme != 'dark' ? "#070E23" : "#d8d8d8"} color='#010E37' />
+                      :
+                      <FaToggleOff size={30} fill={theme != 'dark' ? "#070E23" : "#d8d8d8"} color='#010E37' />
+                  }
                 </button>
               </label>
             )}
@@ -106,6 +113,6 @@ export default function Sidebar() {
           {isOpen && <span>{t('sidebar.logout', 'Sair')}</span>}
         </button>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

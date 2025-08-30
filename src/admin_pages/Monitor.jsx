@@ -67,7 +67,6 @@ export default function MonitorAdmin() {
             <h1 className="text-2xl font-bold text-white mb-1">{t('monitor.title')}</h1>
             <p className="text-slate-400">{t('monitor.subtitle')}</p>
           </div>
-          
           <div className="flex items-center space-x-3">
             <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
               <Filter className="w-5 h-5" />
