@@ -15,6 +15,7 @@ import WebhookDashboard from "./admin_pages/Dashboards/DashboardWebhooks";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
 import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsDetails";
+import InfraWatchLanding from "./landing_page/Landing";
 
 export default function Router() {
   return (
@@ -23,8 +24,8 @@ export default function Router() {
         <AuthProvider>
           <Routes>
             {/* Página inicial = Login */}
-            <Route path="/" element={<Login />} />
-
+            <Route path="/" element={<InfraWatchLanding />} />
+            <Route path="/login" element={<Login />} />
             {/* Páginas protegidas */}
             <Route path="/admin" element={<Layout />}>
               <Route index element={<HomepageAdmin />} />
