@@ -34,8 +34,7 @@ export default function StatusTable({ data, searchTerm, onRowClick }) {
         {filteredData.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-5 gap-4 p-4 transition-colors cursor-pointer"
-            style={{ backgroundColor: "#0B1440" }}
+            className={"grid grid-cols-5 gap-4 p-4 transition-colors cursor-pointer"}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#06194d")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0B1440")}
             onClick={() => onRowClick && onRowClick(item)}

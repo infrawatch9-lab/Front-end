@@ -3,6 +3,7 @@ import PageHeader from "./internal_components/HistoryPageHeader";
 import ControlsBar from "./internal_components/HistoryControlsBar";
 import EventsTable from "./internal_components/HistoryEventsTable";
 import Pagination from "./internal_components/HistoryPagination";
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 
 export default function HistoryAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,7 +80,7 @@ export default function HistoryAdmin() {
   const totalPages = 6;
 
   return (
-    <div className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type='background' className="min-h-screen bg-[#081028] p-6">
       <div className="max-w-7xl mx-auto">
         <PageHeader />
 
@@ -100,6 +101,6 @@ export default function HistoryAdmin() {
           onPageChange={setCurrentPage}
         />
       </div>
-    </div>
+    </CustomDiv>
   );
 }

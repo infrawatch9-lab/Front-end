@@ -5,6 +5,8 @@ import TopBar from "../components/Topbar";
 import StatusTable from "./internal_components/MonitorStatusTable";
 import Pagination from "./internal_components/MonitorPagination";
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../hooks/useTheme/useTheme'; 
+import CustomDiv from "../components/CustomComponents/CustomDiv";
 
 export default function MonitorAdmin() {
   const { t } = useTranslation();
@@ -12,6 +14,7 @@ export default function MonitorAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 6;
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme()
 
   const services = [
     t('monitor.servers'),
@@ -58,13 +61,13 @@ export default function MonitorAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#081028]">
+    <CustomDiv type="background" className="min-h-screen bg-[#081028]">
       
-      <main className="p-6">
+      <main className={"p-6 " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
         {/* Page Title and Actions */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-white mb-1">{t('monitor.title')}</h1>
+            <h1 className={"text-2xl font-bold text-white mb-1 " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark")}>{t('monitor.title')}</h1>
             <p className="text-slate-400">{t('monitor.subtitle')}</p>
           </div>
           <div className="flex items-center space-x-3">
@@ -91,6 +94,6 @@ export default function MonitorAdmin() {
           onPageChange={setCurrentPage}
         />
       </main>
-    </div>
+    </CustomDiv>
   );
 }
