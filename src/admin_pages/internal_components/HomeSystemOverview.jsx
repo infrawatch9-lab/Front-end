@@ -24,10 +24,10 @@ export default function SystemOverview() {
       total: "203",
       percentage: 55,
       icon: AlertTriangle,
-      color: "yellow",
+      color: "#F59E0B",
       bgColor: "bg-yellow-500/10",
       iconColor: "text-yellow-400",
-      barColor: "bg-yellow-400",
+      barColor: "bg-[#F59E0B]",
       trend: "up"
     },
     {

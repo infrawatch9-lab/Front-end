@@ -9,13 +9,13 @@ import { MapView } from '../../components/Map';
 export default function InfrastructureMap() {
   const { t } = useTranslation();
   return (
-    <div className="bg-[#0B1440] p-4 rounded-lg shadow-lg">
+    <div className="bg-[#0B1440] p-4 rounded border border-slate-700/50 shadow-lg">
       <h2 className="text-white font-semibold text-sm mb-4 uppercase tracking-wide">
         {t('infrastructure_map.title')}
       </h2>
       
       {/* World Map Container */}
-      <div className="relative bg-[#12255F] rounded-lg  h-64 overflow-hidden">
+      <div className="relative bg-[#12255F] rounded  h-64 overflow-hidden">
         {/* <iframe style={{ width: "100%", height: "100%" }} src="https://api.maptiler.com/maps/0198c7bb-f83b-7f40-8d4a-b216a5788fe5/?key=uQS6EdoKMHiPUygZkhQq#0.2/-9.150492/13.391056"></iframe> */}
         <MapView />
       </div>

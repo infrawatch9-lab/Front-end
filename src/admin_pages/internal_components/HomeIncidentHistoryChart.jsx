@@ -22,7 +22,7 @@ export default function IncidentHistoryChart() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#0B1440] border border-slate-600 rounded-lg p-3 shadow-xl">
+        <div className="bg-[#0B1440] border border-slate-600 rounded p-3 shadow-xl">
           <p className="text-gray-300 text-sm font-medium mb-2">{label}</p>
           {payload.map((entry, index) => (
             <div key={index} className="flex items-center gap-2 text-sm">
@@ -41,7 +41,7 @@ export default function IncidentHistoryChart() {
   };
 
   return (
-    <div className="bg-[#0B1440] p-4 rounded-lg shadow-lg">
+    <div className="bg-[#0B1440] p-4 rounded border border-slate-700/50 shadow-lg">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-white font-semibold text-sm">{t('internal.incident_history')}</h2>

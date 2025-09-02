@@ -15,7 +15,7 @@ const data = [
 export default function ResourceConsumptionChart() {
   const { t, i18n } = useTranslation();
   const services = [
-    { key: 'service1', label: t('resource_chart.database_service'), color: '#06B6D4', visible: true },
+    { key: 'service1', label: t('resource_chart.database_service'), color: '#3B82F6', visible: true },
     { key: 'service2', label: t('resource_chart.api_gateway'), color: '#F59E0B', visible: true },
     { key: 'service3', label: t('resource_chart.web_server'), color: '#10B981', visible: true },
     { key: 'service4', label: t('resource_chart.cache_service'), color: '#8B5CF6', visible: true }
@@ -53,7 +53,7 @@ export default function ResourceConsumptionChart() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#0B1440] to-[#0F1937] rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <div className="bg-[#0B1440] rounded shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       {/* Header */}
       <div className="flex justify-between items-center p-6 pb-4">
         <div className="flex items-center gap-4">
