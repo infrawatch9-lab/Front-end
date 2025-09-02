@@ -393,7 +393,8 @@ export default function MonitorAdmin() {
         break;
       case "WEBHOOK":
       case t("monitor.webhooks"):
-        navigate("/admin/dashboard_webhooks_admin");
+        // Para webhooks, navega para página individual de monitoramento
+        navigate(`/admin/webhook_monitor/${item.id}`);
         break;
       default:
         console.log("Tipo de serviço não reconhecido:", serviceType);
