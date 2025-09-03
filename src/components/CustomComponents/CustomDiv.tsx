@@ -20,8 +20,6 @@ const CustomDiv: React.FC<CustomDivProps> = ({
 
   React.useEffect(() => {
     if (data) toggleTheme(data as "dark" | "light");
-    console.log("HEY!!!!!!");
-    console.log(data);
   }, []);
   return (
     <div

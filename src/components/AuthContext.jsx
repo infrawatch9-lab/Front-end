@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   // Simulação de logout
   const logout = () => {
     setIsAuthenticated(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (

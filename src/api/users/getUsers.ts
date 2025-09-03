@@ -3,6 +3,9 @@ import {api } from "../confg";
 export async function apiGetUsers() {
   try {
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    console.log("Role do usuário:", role);
+    console.log("Token do usuário:", token);
     
     if (token) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;

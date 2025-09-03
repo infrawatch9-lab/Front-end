@@ -28,8 +28,13 @@ export default function Sidebar() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { hasPermission, permissionsLoading } = useUserPermissions();
+  const { hasPermission, permissionsLoading, clearPermissionsCache } = useUserPermissions();
   const isActive = (route) => window.location.pathname === route;
+
+  const handleLogout = () => {
+    clearPermissionsCache(); // Limpa cache, token, role e perfil do usuário
+    navigate("/"); // Redireciona para a página inicial/login
+  };
 
   return (
     <CustomDiv
@@ -210,7 +215,7 @@ export default function Sidebar() {
           </div>
         </div>
         <button
-          onClick={() => navigate("/")}
+          onClick={handleLogout}
           className="w-full flex items-center justify-center space-x-2 bg-gray-600 hover:bg-red-600 text-white rounded-md py-2 text-sm transition-all"
         >
           <Power size={20} />

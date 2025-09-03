@@ -120,6 +120,10 @@ export const useUserPermissions = () => {
   const clearPermissionsCache = () => {
     localStorage.removeItem("userProfileCache");
     localStorage.removeItem("userPermissionsCache");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    setUserProfile(null);
+    setPermissions(null);
   };
 
   return {
