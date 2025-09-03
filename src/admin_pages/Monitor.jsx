@@ -364,19 +364,20 @@ export default function MonitorAdmin() {
       type="background"
       className="min-h-screen bg-[#081028] flex flex-col"
     >
-      <main
+      <CustomDiv
+      type="background"
         className={
           "p-4 flex-1 flex flex-col pb-16 " +
           (theme == "dark" ? "items-colors-light" : "items-colors-dark")
         }
       >
         {/* Page Title and Actions */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-white mb-1">
+        <CustomDiv type="background" className="flex items-center justify-between mb-4">
+          <CustomDiv type="background">
+            <h1 className={"text-2xl font-bold text-white mb-1 " + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )} >
               {t("monitor.title")}
             </h1>
-            <p className="text-slate-400">
+            <p className={"text-slate-400 " + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>
               {loading
                 ? t("common.loading")
                 : searchTerm || selectedServiceType
@@ -385,11 +386,11 @@ export default function MonitorAdmin() {
                   }`
                 : `${servicesData.length} serviços sendo monitorados`}
             </p>
-          </div>
-          <div className="flex items-center space-x-3 relative"></div>
+          </CustomDiv>
+          <CustomDiv className="flex items-center space-x-3 relative"></CustomDiv>
 
-          <div className="flex items-center space-x-3 relative">
-            <div className="relative">
+          <CustomDiv type="background" className="flex items-center space-x-3 relative">
+            <CustomDiv type="background" className="relative">
               <input
                 type="text"
                 placeholder={
@@ -400,7 +401,7 @@ export default function MonitorAdmin() {
                 id={`filter-services-${Math.random()
                   .toString(36)
                   .substr(2, 9)}`}
-                className="pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64"
+                className={"pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64 " + ( theme == 'dark' ? " div-dark-mode-fg " : " div-light-mode-fg " )}
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -421,9 +422,9 @@ export default function MonitorAdmin() {
                   }, 50);
                 }}
               />
-            </div>
+            </CustomDiv>
             <button
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown"
+              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
               onClick={() => setShowFilter(!showFilter)}
             >
               <Filter className="w-5 h-5" />
@@ -434,18 +435,18 @@ export default function MonitorAdmin() {
 
             {/* Filter Dropdown */}
             {showFilter && (
-              <div className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">
-                <div className="p-3">
+              <CustomDiv className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">
+                <CustomDiv className="p-3">
                   <h3 className="text-white font-medium mb-2">
                     {t("filters.filter_services")}
                   </h3>
-                  <div className="space-y-1">
+                  <CustomDiv className="space-y-1">
                     <button
                       className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
                         selectedServiceType === ""
-                          ? "bg-blue-600 text-white"
-                          : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                      }`}
+                          ? " bg-blue-600 text-white "
+                          : " text-slate-300 hover:bg-slate-700 hover:text-white "
+                      } ${(theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}`}
                       onClick={() => {
                         setSelectedServiceType("");
                         setCurrentPage(1);
@@ -459,9 +460,9 @@ export default function MonitorAdmin() {
                         key={type}
                         className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
                           selectedServiceType === type
-                            ? "bg-blue-600 text-white"
-                            : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                        }`}
+                            ? " bg-blue-600 text-white "
+                            : " text-slate-300 hover:bg-slate-700 hover:text-white "
+                        } ${(theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}`}
                         onClick={() => {
                           setSelectedServiceType(type);
                           setCurrentPage(1);
@@ -471,12 +472,12 @@ export default function MonitorAdmin() {
                         {type}
                       </button>
                     ))}
-                  </div>
-                </div>
-              </div>
+                  </CustomDiv>
+                </CustomDiv>
+              </CustomDiv>
             )}
             <button
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
               onClick={handleRefresh}
               disabled={loading}
               title={`${t("actions.refresh_data")} (ignorar cache)`}
@@ -486,13 +487,13 @@ export default function MonitorAdmin() {
               />
             </button>
             <button
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
               onClick={handleCreateService}
             >
               <Plus className="w-5 h-5" />
             </button>
-          </div>
-        </div>
+          </CustomDiv>
+        </CustomDiv>
 
         {/* Error message */}
         {error && (
@@ -516,7 +517,7 @@ export default function MonitorAdmin() {
           ) : (
             <>
               {/* Status Table */}
-              <div className="flex-1">
+              <CustomDiv className="flex-1">
                 <StatusTable
                   data={currentPageData}
                   searchTerm={searchTerm}
@@ -533,22 +534,22 @@ export default function MonitorAdmin() {
                     </p>
                   </div>
                 )}
-              </div>
+              </CustomDiv>
             </>
           )}
         </div>
 
         {/* Pagination - Always fixed at bottom */}
         {!loading && filteredData.length > 0 && (
-          <div className="fixed bottom-0 left-0 right-0 bg-[#081028] py-2 px-4 z-40">
-            <div className="max-w-7xl mx-auto">
+          <CustomDiv className="fixed bottom-0 left-0 right-0 bg-[#081028] py-2 px-4 z-40">
+            <CustomDiv className="max-w-7xl mx-auto">
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
               />
-            </div>
-          </div>
+            </CustomDiv>
+          </CustomDiv>
         )}
 
         {/* Service Modal */}
@@ -583,7 +584,7 @@ export default function MonitorAdmin() {
           confirmText={t("common.yes")}
           cancelText={t("service_modal.cancel")}
         />
-      </main>
+      </CustomDiv>
     </CustomDiv>
   );
 }
