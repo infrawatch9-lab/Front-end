@@ -110,7 +110,7 @@ export default function ResourceConsumptionChart() {
   };
 
   return (
-    <CustomDiv className="rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <CustomDiv className="rounded shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       {/* Header */}
       <CustomDiv className="flex justify-between items-center p-6 pb-4 rounded-xl">
         <CustomDiv className="flex items-center gap-4 ">

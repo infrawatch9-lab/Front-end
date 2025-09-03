@@ -82,7 +82,7 @@ export default function IncidentHistoryChart() {
   };
 
   return (
-    <CustomDiv className="bg-[#0B1440] border p-4 rounded-lg shadow-lg">
+    <CustomDiv className="bg-[#0B1440] border p-4 rounded shadow-lg">
       {/* Header */}
       <CustomDiv className="flex justify-between items-center mb-4">
         <h2
