@@ -203,8 +203,8 @@ export default function UsersAdmin() {
         </div>
       </div>
       {/* Tabela de usuários */}
-      <div className="overflow-x-auto rounded-lg border border-slate-700">
-        <table className="w-full bg-[#10194A] rounded-lg overflow-hidden shadow-md">
+      <div className="overflow-x-auto rounded border border-slate-700">
+        <table className="w-full bg-[#0B1440] rounded overflow-hidden shadow-md">
           <thead style={{ position: "sticky", top: 0, zIndex: 60 }}>
             <tr className="text-slate-400 text-xs uppercase bg-[#16205A] border-b border-blue-900">
               <th className="py-2 px-4 text-left">Nome</th>
@@ -238,7 +238,7 @@ export default function UsersAdmin() {
               paginatedUsers.map((user) => (
                 <tr
                   key={user.id}
-                  className="border-b border-slate-700 hover:bg-[#18204d] transition-all"
+                  className="border-b border-blue-900 hover:bg-[#18204d] transition-all"
                 >
                   <td className="py-2 px-4 text-white">{user.name}</td>
                   <td className="py-2 px-4 text-white">{user.email}</td>

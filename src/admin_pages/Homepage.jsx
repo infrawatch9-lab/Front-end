@@ -4,7 +4,6 @@ import ResourceConsumptionChart from "./internal_components/HomeResourceConsumpt
 import SystemOverview from "./internal_components/HomeSystemOverview";
 import IncidentHistoryChart from "./internal_components/HomeIncidentHistoryChart";
 import InfrastructureMap from "./internal_components/HomeInfrastructureMap";
-import TopBar from "../components/Topbar";
 import { useTranslation } from "react-i18next";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 

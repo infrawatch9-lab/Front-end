@@ -517,7 +517,7 @@ export default function MonitorAdmin() {
           ) : (
             <>
               {/* Status Table */}
-              <CustomDiv className="flex-1">
+              <CustomDiv type="background" className="flex-1">
                 <StatusTable
                   data={currentPageData}
                   searchTerm={searchTerm}

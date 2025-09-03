@@ -18,6 +18,7 @@ import CustomDiv from "../components/CustomComponents/CustomDiv";
 import LanguageSelector from "../components/LanguageSelector";
 import { useTranslation } from "react-i18next";
 import { useUserPermissions } from "../hooks/useUserPermissions";
+import UserInfo from "../components/UserInfo";
 // import UserInfo from "../components/UserInfo";
 
 export default function Sidebar() {
@@ -173,30 +174,43 @@ export default function Sidebar() {
       <div className="flex-1" />
       {/* Parte inferior */}
       <div className="space-y-4">
+        <UserInfo isOpen={isOpen} />
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <button onClick={toggleTheme} className="ml-1">
-              {theme === "dark" ? (
-                <Sun color="#d8d8d8" size={24} />
-              ) : (
-                <Moon color="#070E23" size={24} />
-              )}
-            </button>
+            <Moon color={theme != "dark" ? "#070E23" : "#d8d8d8"} size={20} />
             {isOpen && (
               <span
                 className={
-                  theme === "dark"
-                    ? " text-colors-light "
-                    : " text-colors-dark "
+                  theme == "dark" ? " text-colors-light " : " text-colors-dark "
                 }
               >
-                {theme === "dark"
-                  ? t("sidebar.dark_mode", "Modo escuro")
-                  : t("sidebar.light_mode", "Modo claro")}
+                {t("sidebar.dark_mode", "Modo escuro")}
               </span>
             )}
           </div>
-          <LanguageSelector />
+          <div className="flex items-center gap-2">
+            {isOpen && (
+              <label className={"inline-flex items-center cursor-pointer"}>
+                <input type="checkbox" className="sr-only peer" />
+                <button onClick={() => toggleTheme()}>
+                  {theme == "dark" ? (
+                    <FaToggleOn
+                      size={30}
+                      fill={theme != "dark" ? "#070E23" : "#d8d8d8"}
+                      color="#010E37"
+                    />
+                  ) : (
+                    <FaToggleOff
+                      size={30}
+                      fill={theme != "dark" ? "#070E23" : "#d8d8d8"}
+                      color="#010E37"
+                    />
+                  )}
+                </button>
+              </label>
+            )}
+            <LanguageSelector />
+          </div>
         </div>
         <button
           onClick={handleLogout}
