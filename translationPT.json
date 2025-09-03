@@ -582,5 +582,64 @@
       "cookies": "Cookies",
       "all_rights_reserved": "Todos os direitos reservados."
     }
+  },
+  "webhook_monitor": {
+    "title": "WebHook",
+    "loading": "Carregando dados do serviço...",
+    "error": "Erro ao carregar dados do serviço",
+    "error_no_id": "ID do serviço não encontrado na rota",
+    "monitoring": "Real-time message monitoring",
+    "message_label": "Mensagem:",
+    "waiting_title": "Aguardando mensagens...",
+    "waiting_subtitle": "Mensagens do webhook aparecerão aqui"
+  },
+  "settings": {
+    "title": "Configurações",
+    "tabs": {
+      "monitoring": "MONITORAMENTO",
+      "notifications": "NOTIFICAÇÕES", 
+      "thresholds": "THRESHOLDS"
+    },
+    "notifications": {
+      "email": {
+        "title": "EMAIL",
+        "smtp": "SMTP",
+        "port": "PORTA",
+        "sender": "REMETENTE"
+      },
+      "slack": {
+        "title": "SLACK / TEAMS",
+        "webhook_url": "Webhook URL",
+        "default_channel": "Canal Padrão"
+      },
+      "sms": {
+        "title": "SMS / TELEGRAM",
+        "api_token": "API Token / Chave",
+        "number_channel": "Número / Canal padrão"
+      },
+      "webhook": {
+        "title": "WEBHOOK GENÉRICO",
+        "endpoint_url": "Endpoint URL",
+        "headers": "Headers",
+        "secret_token": "Secret / Token",
+        "key_label": "Chave",
+        "value_label": "Valor"
+      }
+    },
+    "monitoring": {
+      "general_configs": "CONFIGS GERAIS",
+      "max_latency": "Latência máxima aceitável (segundos)",
+      "expected_status": "Código de status HTTP esperado",
+      "packet_loss": "Perda de pacotes tolerada (PING) (%)",
+      "max_jitter": "Jitter Máximo (segundos)"
+    },
+    "thresholds": {
+      "general_configs": "CONFIGS GERAIS",
+      "check_interval": "Intervalo padrão de verificação (segundos)"
+    },
+    "common": {
+      "save": "SALVAR",
+      "placeholder_ex": "ex: {{value}}"
+    }
   }
 }

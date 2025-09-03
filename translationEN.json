@@ -605,5 +605,64 @@
       "cookies": "Cookies",
       "all_rights_reserved": "All rights reserved."
     }
+  },
+  "webhook_monitor": {
+    "title": "WebHook",
+    "loading": "Loading service data...",
+    "error": "Error loading service data",
+    "error_no_id": "Service ID not found in route",
+    "monitoring": "Real-time message monitoring",
+    "message_label": "Message:",
+    "waiting_title": "Waiting for messages...",
+    "waiting_subtitle": "Webhook messages will appear here"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "monitoring": "MONITORING",
+      "notifications": "NOTIFICATIONS",
+      "thresholds": "THRESHOLDS"
+    },
+    "notifications": {
+      "email": {
+        "title": "EMAIL",
+        "smtp": "SMTP",
+        "port": "PORT",
+        "sender": "SENDER"
+      },
+      "slack": {
+        "title": "SLACK / TEAMS",
+        "webhook_url": "Webhook URL",
+        "default_channel": "Default Channel"
+      },
+      "sms": {
+        "title": "SMS / TELEGRAM",
+        "api_token": "API Token / Key",
+        "number_channel": "Number / Default Channel"
+      },
+      "webhook": {
+        "title": "GENERIC WEBHOOK",
+        "endpoint_url": "Endpoint URL",
+        "headers": "Headers",
+        "secret_token": "Secret / Token",
+        "key_label": "Key",
+        "value_label": "Value"
+      }
+    },
+    "monitoring": {
+      "general_configs": "GENERAL CONFIGS",
+      "max_latency": "Maximum acceptable latency (seconds)",
+      "expected_status": "Expected HTTP status code",
+      "packet_loss": "Tolerated packet loss (PING) (%)",
+      "max_jitter": "Maximum Jitter (seconds)"
+    },
+    "thresholds": {
+      "general_configs": "GENERAL CONFIGS",
+      "check_interval": "Default check interval (seconds)"
+    },
+    "common": {
+      "save": "SAVE",
+      "placeholder_ex": "ex: {{value}}"
+    }
   }
 }

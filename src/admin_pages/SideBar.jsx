@@ -1,19 +1,14 @@
-import React from "react";
 import {
   Home,
-  Monitor,
   BarChart,
   History,
   Users,
   Settings,
   Moon,
   Power,
-  FolderOpen,
-  Sun,
 } from "lucide-react";
 import CollapseButton from "../components/CollapseButton";
 import { useNavigate } from "react-router-dom";
-import SidebarItemWithSubmenu from "../components/SideBarWithSubMenu";
 import SidebarItem from "../components/SideBarItem";
 import { useSidebar } from "../contexts/SidebarContext";
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
@@ -29,8 +24,13 @@ export default function Sidebar() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { hasPermission, permissionsLoading } = useUserPermissions();
+  const { hasPermission, permissionsLoading, clearPermissionsCache } = useUserPermissions();
   const isActive = (route) => window.location.pathname === route;
+
+  const handleLogout = () => {
+    clearPermissionsCache();
+    navigate("/login");
+  };
 
   return (
     <CustomDiv
@@ -198,8 +198,8 @@ export default function Sidebar() {
           <LanguageSelector />
         </div>
         <button
-          onClick={() => navigate("/login")}
-          className="w-full flex items-center justify-center space-x-2 bg-gray-600 hover:bg-red-600 text-white rounded-md py-2 text-sm transition-all mt-2"
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center space-x-2 bg-gray-600 hover:bg-red-600 text-white rounded-md py-2 text-sm transition-all"
         >
           <Power size={20} />
           {isOpen && <span>{t("sidebar.logout", "Sair")}</span>}
