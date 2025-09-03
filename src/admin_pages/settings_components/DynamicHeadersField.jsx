@@ -41,7 +41,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
                 type="text"
                 value={header.chave}
                 onChange={(e) => updateHeader(index, 'chave', e.target.value)}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                 disabled={disabled}
               />
             </div>
@@ -52,7 +52,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
                   type="text"
                   value={header.valor}
                   onChange={(e) => updateHeader(index, 'valor', e.target.value)}
-                  className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-l-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
+                  className="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                   disabled={disabled}
                 />
                 <button

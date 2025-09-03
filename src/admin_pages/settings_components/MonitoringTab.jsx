@@ -30,7 +30,7 @@ export default function MonitoringTab() {
 
   return (
     <div className="max-w-4xl">
-      <div className="bg-[#0B1440] border border-slate-700 rounded-lg p-6">
+      <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
         {/* Header */}
         <div className="mb-6">
           <h3 className="text-white font-medium text-lg mb-2">CONFIGS GERAIS</h3>
@@ -49,7 +49,7 @@ export default function MonitoringTab() {
               value={configs.latenciaMaxima}
               onChange={(e) => handleInputChange('latenciaMaxima', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -61,7 +61,7 @@ export default function MonitoringTab() {
               <select
                 value={configs.codigoStatus}
                 onChange={(e) => handleInputChange('codigoStatus', e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 appearance-none cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 appearance-none cursor-pointer"
               >
                 {statusOptions.map(option => (
                   <option key={option.value} value={option.value} className="bg-slate-900">
@@ -88,7 +88,7 @@ export default function MonitoringTab() {
               value={configs.perdaPacotes}
               onChange={(e) => handleInputChange('perdaPacotes', e.target.value)}
               placeholder="ex: 10"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -101,7 +101,7 @@ export default function MonitoringTab() {
               value={configs.jitterMaximo}
               onChange={(e) => handleInputChange('jitterMaximo', e.target.value)}
               placeholder="ex: 60"
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function MonitoringTab() {
         <div className="flex justify-end mt-8">
           <button
             onClick={handleSave}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-all duration-200"
           >
             SALVAR
           </button>

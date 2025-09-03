@@ -1,18 +1,37 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
 import { ChevronDown, BarChart3 } from "lucide-react";
+
+// Componentes existentes melhorados
 import Header from "./dashboards_components/WebhooksHeader";
 import LatencyMetrics from "./dashboards_components/WebhooksLatencyMetrics";
 import LatencyAreaChart from "./dashboards_components/WebhooksLatencyAreaChart";
 import StatusPanel from "./dashboards_components/WebhooksStatusPanel";
 import ExecutionsTable from "./dashboards_components/WebhooksExecutionsTable";
 
+// Novos componentes criados
+import WebhooksStatusSummary from "./dashboards_components/WebhooksStatusSummary";
+import WebhooksPerformanceMetrics from "./dashboards_components/WebhooksPerformanceMetrics";
+import WebhooksAlertsPanel from "./dashboards_components/WebhooksAlertsPanel";
+import WebhooksTrendsChart from "./dashboards_components/WebhooksTrendsChart";
+import WebhooksIntegrationPanel from "./dashboards_components/WebhooksIntegrationPanel";
+
 const WebhookDashboard = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-[#081028] p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <Header />
-
+        
+        {/* Painel Principal - Status e Resumo dos Eventos */}
+        <WebhooksStatusSummary />
+        
+        {/* Métricas de Desempenho */}
+        <WebhooksPerformanceMetrics />
+        
+        {/* Layout principal com gráfico de latência e status */}
         <div className="grid grid-cols-4 gap-6 mb-8">
           <div className="col-span-3">
             <div className="bg-[#0B1440] border border-[#3B5B75] rounded-lg p-6">
@@ -43,6 +62,16 @@ const WebhookDashboard = () => {
           </div>
         </div>
 
+        {/* Alertas e Ações Pendentes */}
+        <WebhooksAlertsPanel />
+
+        {/* Gráfico de Tendências Históricas */}
+        <WebhooksTrendsChart />
+
+        {/* Painel de Integração GLPI/DocuWare (Opcional) */}
+        <WebhooksIntegrationPanel />
+
+        {/* Tabela de Execuções (Melhorada) */}
         <ExecutionsTable />
       </div>
     </div>

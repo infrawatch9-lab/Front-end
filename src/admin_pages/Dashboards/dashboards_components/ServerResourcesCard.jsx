@@ -1,33 +1,52 @@
-import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend
-} from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../../api/confg";
 
-export default function ResourcesCard({
-  cpu = { usage: 23.75, label: "Alto uso" },
-  ram = { usage: 7.6, total: 32, label: "Baixo Uso" },
-  disk = { usage: 10, unit: "TB", free: 52, inUse: 48 }
-}) {
-  // cores iguais à imagem
+function ServerResourcesCard() {
   const COLORS = ["#F9C74F", "#C77DFF"];
+  const [resourceData, setResourceData] = useState(null);
+
+  useEffect(() => {
+    const source = new EventSource(`${apiUrl}/dashboard/dash/test-sse`);
+    source.onmessage = (event) => {
+      try {
+        const parsed = JSON.parse(event.data);
+        setResourceData(parsed);
+      } catch (e) {
+        console.error("Erro ao processar evento SSE:", e);
+      }
+    };
+    return () => {
+      source.close();
+    };
+  }, []);
+
+  if (
+    !resourceData ||
+    !resourceData.cpuData ||
+    !resourceData.ram ||
+    !resourceData.disk
+  ) {
+    return <div className="text-white">Carregando recursos...</div>;
+  }
 
   const cpuData = [
-    { name: "In Use", value: cpu.usage },
-    { name: "Free", value: 100 - cpu.usage },
+    { name: "In Use", value: resourceData.cpuData.usage },
+    { name: "Free", value: 100 - resourceData.cpuData.usage },
   ];
-
   const ramData = [
-    { name: "In Use", value: (ram.usage / ram.total) * 100 },
-    { name: "Free", value: 100 - (ram.usage / ram.total) * 100 },
+    {
+      name: "In Use",
+      value: (resourceData.ram.usage / resourceData.ram.total) * 100,
+    },
+    {
+      name: "Free",
+      value: 100 - (resourceData.ram.usage / resourceData.ram.total) * 100,
+    },
   ];
-
   const diskData = [
-    { name: "In Use", value: disk.inUse },
-    { name: "Free", value: disk.free },
+    { name: "In Use", value: resourceData.disk.inUse },
+    { name: "Free", value: resourceData.disk.free },
   ];
 
   return (
@@ -48,12 +67,16 @@ export default function ResourcesCard({
               endAngle={-270}
             >
               {cpuData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                <Cell key={`cell-cpu-${index}`} fill={COLORS[index]} />
               ))}
             </Pie>
           </PieChart>
-          <div className="mt-[-20px] text-yellow-400 font-semibold">{cpu.label}</div>
-          <div className="text-xs text-gray-300">In Use: {cpu.usage}%</div>
+          <div className="mt-[-20px] text-yellow-400 font-semibold">
+            {resourceData.cpuData.label}
+          </div>
+          <div className="text-xs text-gray-300">
+            In Use: {resourceData.cpuData.usage}%
+          </div>
         </div>
 
         {/* RAM */}
@@ -71,14 +94,22 @@ export default function ResourcesCard({
               endAngle={-270}
             >
               {ramData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                <Cell key={`cell-ram-${index}`} fill={COLORS[index]} />
               ))}
             </Pie>
           </PieChart>
-          <div className="mt-[-20px] text-pink-400 font-semibold">{ram.label}</div>
-          <div className="text-xs text-gray-300">{ram.usage}GB / {ram.total}GB</div>
+          <div className="mt-[-20px] text-pink-400 font-semibold">
+            {resourceData.ram.label}
+          </div>
           <div className="text-xs text-gray-300">
-            In Use: {((ram.usage / ram.total) * 100).toFixed(2)}%
+            {resourceData.ram.usage}GB / {resourceData.ram.total}GB
+          </div>
+          <div className="text-xs text-gray-300">
+            In Use:{" "}
+            {((resourceData.ram.usage / resourceData.ram.total) * 100).toFixed(
+              2
+            )}
+            %
           </div>
         </div>
 
@@ -97,7 +128,7 @@ export default function ResourcesCard({
               endAngle={-270}
             >
               {diskData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                <Cell key={`cell-disk-${index}`} fill={COLORS[index]} />
               ))}
             </Pie>
             <text
@@ -107,15 +138,22 @@ export default function ResourcesCard({
               dominantBaseline="middle"
               className="text-white font-bold text-lg"
             >
-              {disk.usage}{disk.unit}
+              {resourceData.disk.usage}
+              {resourceData.disk.unit}
             </text>
           </PieChart>
           <div className="flex gap-4 text-xs text-gray-300 mt-[-10px]">
-            <span className="text-pink-400">Free {disk.free}%</span>
-            <span className="text-yellow-400">In Use {disk.inUse}%</span>
+            <span className="text-pink-400">
+              Free {resourceData.disk.free}%
+            </span>
+            <span className="text-yellow-400">
+              In Use {resourceData.disk.inUse}%
+            </span>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default ServerResourcesCard;

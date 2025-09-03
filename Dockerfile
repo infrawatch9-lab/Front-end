@@ -1,18 +1,25 @@
-# Etapa 1: Build da aplicação
-FROM node:18 AS build
+# ===== Build Stage =====
+FROM node:20-alpine AS builder
+
 WORKDIR /app
+
 COPY package*.json ./
+
+
 RUN npm install
+
 COPY . .
+
 RUN npm run build
-# Etapa 2: Imagem de produção
-FROM node:18-slim
-# Instala o servidor 'serve'
-RUN npm install -g serve
-WORKDIR /app
-# Copia os arquivos estáticos do build
-COPY --from=build /app/build ./build
-# Porta exposta
-EXPOSE 3000
-# Comando de inicialização
-CMD ["serve", "-s", "build", "-l", "3000"]
+
+# ===== Production Stage =====
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copia o arquivo de configuração do nginx (opcional)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

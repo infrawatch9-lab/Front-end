@@ -3,18 +3,17 @@ import NotificationsTab from "./settings_components/NotificationsTab";
 import ThresholdsTab from "./settings_components/ThresholdsTab";
 import MonitoringTab from "./settings_components/MonitoringTab";
 import AccessPermissionsTab from "./settings_components/AccessPermissionsTab";
-import { useTheme } from '../hooks/useTheme/useTheme';
+import { useTheme } from "../hooks/useTheme/useTheme";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 
 export default function SettingsAdmin() {
   const [activeTab, setActiveTab] = useState("notifications");
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   const tabs = [
     { id: "monitoring", label: "MONITORAMENTO" },
     { id: "notifications", label: "NOTIFICAÇÕES" },
     { id: "thresholds", label: "THRESHOLDS" },
-    { id: "permissions", label: "ACESSO / PERMISSÕES" }
   ];
 
   const renderTabContent = () => {
@@ -25,8 +24,6 @@ export default function SettingsAdmin() {
         return <ThresholdsTab />;
       case "monitoring":
         return <MonitoringTab />;
-      case "permissions":
-        return <AccessPermissionsTab />;
       default:
         return <NotificationsTab />;
     }
@@ -36,19 +33,36 @@ export default function SettingsAdmin() {
     <CustomDiv type="background" className="min-h-screen bg-[#081028] p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className={"text-2xl font-bold text-white mb-6 " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>Configurações</h1>
-        
+        <h1
+          className={
+            "text-2xl font-bold text-white mb-6 " +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+          }
+        >
+          Configurações
+        </h1>
+
         {/* Tabs Navigation */}
-        <div className={"flex gap-4 mb-8 " + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
+        <div
+          className={
+            "flex gap-4 mb-8 " +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+          }
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                activeTab === tab.id
-                  ? "bg-blue-600 text-white border border-blue-500"
-                  : "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white"
-              }` + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}
+              className={
+                `px-4 py-2 rounded text-sm font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? "bg-blue-600 text-white border border-blue-500"
+                    : "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white"
+                }` +
+                (theme == "dark"
+                  ? " items-colors-light "
+                  : " items-colors-dark ")
+              }
             >
               {tab.label}
             </button>
@@ -57,9 +71,7 @@ export default function SettingsAdmin() {
       </div>
 
       {/* Tab Content */}
-      <div className="transition-all duration-300">
-        {renderTabContent()}
-      </div>
+      <div className="transition-all duration-300">{renderTabContent()}</div>
     </CustomDiv>
   );
 }

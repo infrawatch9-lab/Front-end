@@ -1,4 +1,4 @@
-import {api} from "../confg";
+import { api } from "../confg";
 
 export async function apiUpdateUser(data: any) {
   try {
@@ -9,7 +9,8 @@ export async function apiUpdateUser(data: any) {
     const response = await api.put<any>(`/users/update-user`, data);
     return response.data.message || "Usuário atualizado com sucesso";
   } catch (error: any) {
-    const errorMessage = error.response?.data?.message || "Erro ao atualizar usuário";
+    const errorMessage =
+      error.response?.data?.message || "Erro ao atualizar usuário";
     throw new Error(errorMessage);
   }
 }
