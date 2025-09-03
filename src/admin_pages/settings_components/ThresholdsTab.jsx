@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 
 export default function ThresholdsTab() {
   const { t } = useTranslation();
@@ -24,7 +25,8 @@ export default function ThresholdsTab() {
 
   return (
     <div className="max-w-4xl">
-      <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
+      <CustomDiv type="foreground" className="border border-slate-700 rounded p-6">
+
         {/* Header */}
         <div className="mb-6">
           <h3 className="text-white font-medium text-lg mb-2">{t("settings.thresholds.general_configs")}</h3>
@@ -97,7 +99,7 @@ export default function ThresholdsTab() {
             {t("settings.common.save")}
           </button>
         </div>
-      </div>
+      </CustomDiv>
     </div>
   );
 }

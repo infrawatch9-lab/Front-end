@@ -24,11 +24,20 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
     const { theme, toggleTheme } = useTheme()
 
     return (
-        <table className={" tuas-classes-tw " + theme == 'dark' ? 'div-dark-mode-fg' : 'div-light-mode-fg'}>
+        <table
+            className={
+                "w-full border border-slate-700 text-center " +
+                (theme === "dark" ? "div-dark-mode-fg" : "div-light-mode-fg")
+            }
+        >
             <thead>
-                <tr className={ " tuas-classes-tw " + theme == 'dark' ? " table-th-dark " : "table-th-light" }>
+                <tr
+                    className={
+                        (theme === "dark" ? "table-th-dark" : "table-th-light")
+                    }
+                >
                     { head.map((item, index) => (
-                        <th key={index}>{item}</th>
+                        <th key={index} className="px-4 py-3 border-b border-slate-700 text-center">{item}</th>
                     )) }
                     { typeof onDelete != 'undefined' ? <th></th> : null }
                     { typeof onUpdate != 'undefined' ? <th></th> : null }
@@ -44,7 +53,7 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                 extractkeys.map((key, i) => (
                                     <td
                                     onClick={() => typeof onDataClick != 'undefined' ? onDataClick(item[extractId]) : null} 
-                                    key={i}>
+                                    key={i} className="px-4 py-3 border-b border-blue-900 text-center">
                                         {
                                            types[i] == 'text' ? <span>{item[key]}</span> :
                                            types[i] == 'password' ? <span>{"**********"}</span>: 

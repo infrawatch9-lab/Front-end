@@ -1,11 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 
 export default function ConfigCard({ title, icon, enabled, onToggle, onSave, children }) {
   const { t } = useTranslation();
   return (
-    <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
+    <CustomDiv type="foreground" className="border border-slate-700 rounded p-6">
+
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -34,6 +36,6 @@ export default function ConfigCard({ title, icon, enabled, onToggle, onSave, chi
           </button>
         </div>
       </div>
-    </div>
+    </CustomDiv>
   );
 }
