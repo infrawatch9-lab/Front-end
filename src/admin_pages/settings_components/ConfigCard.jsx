@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
 
 export default function ConfigCard({ title, icon, enabled, onToggle, onSave, children }) {
+  const { t } = useTranslation();
   return (
     <div className="bg-[#0B1440] border border-slate-700 rounded p-6">
       {/* Header */}
@@ -28,7 +30,7 @@ export default function ConfigCard({ title, icon, enabled, onToggle, onSave, chi
                 : "bg-slate-700 text-slate-500 cursor-not-allowed"
             }`}
           >
-            SALVAR
+            {t("settings.common.save")}
           </button>
         </div>
       </div>

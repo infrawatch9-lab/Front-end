@@ -11,7 +11,7 @@ import SettingsAdmin from "./admin_pages/Settings";
 import APIDashboard from "./admin_pages/Dashboards/DashboardAPI";
 import NetworkDashboard from "./admin_pages/Dashboards/DashboardNetworks";
 import ServerDashboard from "./admin_pages/Dashboards/DashboardServers";
-import WebhookDashboard from "./admin_pages/Dashboards/DashboardWebhooks";
+import WebhookMonitor from "./admin_pages/WebhookMonitor";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
 import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsDetails";
@@ -120,11 +120,22 @@ export default function Router() {
                   </ProtectedRoute>
                 }
               />
+              {/* Webhook - Redireciona diretamente para monitor individual */}
               <Route
                 path="dashboard_webhooks_admin"
                 element={
                   <ProtectedRoute requiredPermission="monitoring">
-                    <WebhookDashboard />
+                    <WebhookMonitor />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Monitor individual de webhook */}
+              <Route
+                path="webhook_monitor/:webhookId"
+                element={
+                  <ProtectedRoute requiredPermission="monitoring">
+                    <WebhookMonitor />
                   </ProtectedRoute>
                 }
               />

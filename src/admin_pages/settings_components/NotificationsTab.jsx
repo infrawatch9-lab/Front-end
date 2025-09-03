@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
 import ConfigCard from "./ConfigCard";
 import DynamicHeadersField from "./DynamicHeadersField";
@@ -8,6 +9,7 @@ import DynamicHeadersField from "./DynamicHeadersField";
 // import DynamicHeadersField from "./DynamicHeadersField";
 
 export default function NotificationsTab() {
+  const { t } = useTranslation();
   // Estados para os toggles
   const [emailEnabled, setEmailEnabled] = useState(true);
   const [slackEnabled, setSlackEnabled] = useState(false);
@@ -49,7 +51,7 @@ export default function NotificationsTab() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* EMAIL Card */}
       <ConfigCard
-        title="EMAIL"
+        title={t("settings.notifications.email.title")}
         icon="📧"
         enabled={emailEnabled}
         onToggle={setEmailEnabled}
@@ -58,7 +60,7 @@ export default function NotificationsTab() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              SMTP
+              {t("settings.notifications.email.smtp")}
             </label>
             <input
               type="text"
@@ -71,7 +73,7 @@ export default function NotificationsTab() {
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              PORTA
+              {t("settings.notifications.email.port")}
             </label>
             <input
               type="text"
@@ -84,7 +86,7 @@ export default function NotificationsTab() {
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              REMETENTE
+              {t("settings.notifications.email.sender")}
             </label>
             <input
               type="email"
@@ -99,7 +101,7 @@ export default function NotificationsTab() {
 
       {/* SLACK / TEAMS Card */}
       <ConfigCard
-        title="SLACK / TEAMS"
+        title={t("settings.notifications.slack.title")}
         icon="#"
         enabled={slackEnabled}
         onToggle={setSlackEnabled}
@@ -108,7 +110,7 @@ export default function NotificationsTab() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Webhook URL
+              {t("settings.notifications.slack.webhook_url")}
             </label>
             <input
               type="url"
@@ -121,7 +123,7 @@ export default function NotificationsTab() {
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Canal Padrão
+              {t("settings.notifications.slack.default_channel")}
             </label>
             <input
               type="text"
@@ -136,7 +138,7 @@ export default function NotificationsTab() {
 
       {/* SMS / TELEGRAM Card */}
       <ConfigCard
-        title="SMS / TELEGRAM"
+        title={t("settings.notifications.sms.title")}
         icon="💬"
         enabled={smsEnabled}
         onToggle={setSmsEnabled}
@@ -145,7 +147,7 @@ export default function NotificationsTab() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              API Token / Chave
+              {t("settings.notifications.sms.api_token")}
             </label>
             <input
               type="password"
@@ -158,7 +160,7 @@ export default function NotificationsTab() {
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Número / Canal padrão
+              {t("settings.notifications.sms.number_channel")}
             </label>
             <input
               type="text"
@@ -173,7 +175,7 @@ export default function NotificationsTab() {
 
       {/* WEBHOOK GENÉRICO Card */}
       <ConfigCard
-        title="WEBHOOK GENÉRICO"
+        title={t("settings.notifications.webhook.title")}
         icon="#"
         enabled={webhookEnabled}
         onToggle={setWebhookEnabled}
@@ -182,7 +184,7 @@ export default function NotificationsTab() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Endpoint URL
+              {t("settings.notifications.webhook.endpoint_url")}
             </label>
             <input
               type="url"
@@ -201,7 +203,7 @@ export default function NotificationsTab() {
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Secret / Token
+              {t("settings.notifications.webhook.secret_token")}
             </label>
             <input
               type="password"

@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function DynamicHeadersField({ headers, onChange, disabled }) {
+  const { t } = useTranslation();
   const addHeader = () => {
     onChange([...headers, { chave: "#alertas", valor: "#alertas" }]);
   };
@@ -21,7 +23,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
     <div>
       <div className="flex items-center justify-between mb-2">
         <label className="block text-sm font-medium text-slate-300">
-          Headers
+          {t("settings.notifications.webhook.headers")}
         </label>
         <button
           onClick={addHeader}
@@ -36,7 +38,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
         {headers.map((header, index) => (
           <div key={index} className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Chave</label>
+              <label className="block text-xs text-slate-400 mb-1">{t("settings.notifications.webhook.key_label")}</label>
               <input
                 type="text"
                 value={header.chave}
@@ -46,7 +48,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
               />
             </div>
             <div className="relative">
-              <label className="block text-xs text-slate-400 mb-1">Valor</label>
+              <label className="block text-xs text-slate-400 mb-1">{t("settings.notifications.webhook.value_label")}</label>
               <div className="flex">
                 <input
                   type="text"
