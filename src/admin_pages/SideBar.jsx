@@ -1,18 +1,14 @@
-import React from "react";
 import {
   Home,
-  Monitor,
   BarChart,
   History,
   Users,
   Settings,
   Moon,
   Power,
-  FolderOpen,
 } from "lucide-react";
 import CollapseButton from "../components/CollapseButton";
 import { useNavigate } from "react-router-dom";
-import SidebarItemWithSubmenu from "../components/SideBarWithSubMenu";
 import SidebarItem from "../components/SideBarItem";
 import { useSidebar } from "../contexts/SidebarContext";
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
@@ -32,8 +28,8 @@ export default function Sidebar() {
   const isActive = (route) => window.location.pathname === route;
 
   const handleLogout = () => {
-    clearPermissionsCache(); // Limpa cache, token, role e perfil do usuário
-    navigate("/"); // Redireciona para a página inicial/login
+    clearPermissionsCache();
+    navigate("/login");
   };
 
   return (
