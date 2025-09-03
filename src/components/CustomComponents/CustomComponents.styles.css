@@ -2,6 +2,7 @@
   transition: all 2s;
   background-color: #070e23;
   border-color: #2a2f49;
+  outline: none;
 }
 
 .div-dark-mode-fg {
@@ -9,6 +10,8 @@
   background-color: #0b143f;
   color: #e7e7e7;
   border-color: #29375f;
+  outline: none;
+
 }
 
 .div-light-mode-bg {
@@ -16,12 +19,17 @@
   background-color: #dcdbdb;
   color: #0b143f;
   border-color: #ffffff;
+  outline: none;
+
 }
 
 .div-light-mode-fg {
   transition: all 2s;
   background-color: #e7e7e7;
   border-color: white;
+  color: #0b143f;
+  outline: none;
+
 }
 
 .text-dark-mode-emphasis {
@@ -35,4 +43,65 @@
 .text-colors-light {
   transition: all 2s;
   color: #f5f5f5;
+}
+
+.btn-dark-mode-bg:hover {
+  transition: all 2s;
+  background-color: #070e2389;
+  border-color: #2a2f49;
+  outline: none;
+}
+
+.btn-dark-mode-bg {
+  transition: all 2s;
+  background-color: #070e23;
+  border-color: #2a2f49;
+  outline: none;
+}
+
+.btn-dark-mode-fg:hover {
+
+}
+
+.btn-dark-mode-fg {
+  transition: all 2s;
+  background-color: #0b143f;
+  color: #e7e7e7;
+  border-color: #29375f;
+  outline: none;
+
+}
+
+.btn-light-mode-bg:hover {
+  transition: all 2s;
+  background-color: #dcdbdb73;
+  color: #0b143f;
+  border-color: #ffffff;
+  outline: none;
+}
+
+.btn-light-mode-bg {
+  transition: all 2s;
+  background-color: #dcdbdb;
+  color: #0b143f;
+  border-color: #ffffff;
+  outline: none;
+
+}
+
+.btn-light-mode-fg:hover {
+  transition: all 2s;
+  background-color: #e7e7e77f;
+  border-color: white;
+  color: #0b143f;
+  outline: none;
+}
+
+.btn-light-mode-fg {
+  transition: all 2s;
+  background-color: #e7e7e7;
+  border-color: white;
+  color: #0b143f;
+  outline: none;
+
 }
