@@ -5,44 +5,46 @@ import {
   Lock,
   CheckCircle,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // API & Webhooks Section
 const APISection = () => {
+  const { t } = useTranslation();
   return (
     <section id="api" className="bg-slate-900 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Powerful API & Webhooks
+            {t('landing.api.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Integrate InfraWatch with your existing tools and workflows using our comprehensive REST API
+            {t('landing.api.description')}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white">REST API</h3>
+            <h3 className="text-2xl font-bold text-white">{t('landing.api.rest_api')}</h3>
             <p className="text-slate-300">
-              Access all monitoring data, configure alerts, and manage your infrastructure programmatically with our RESTful API.
+              {t('landing.api.rest_description')}
             </p>
             
             <div className="space-y-3">
               <div className="flex items-center text-sm">
                 <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
-                <span className="text-slate-300">Retrieve metrics and performance data</span>
+                <span className="text-slate-300">{t('landing.api.features.retrieve_metrics')}</span>
               </div>
               <div className="flex items-center text-sm">
                 <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
-                <span className="text-slate-300">Configure monitoring rules and alerts</span>
+                <span className="text-slate-300">{t('landing.api.features.configure_rules')}</span>
               </div>
               <div className="flex items-center text-sm">
                 <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
-                <span className="text-slate-300">Manage team members and permissions</span>
+                <span className="text-slate-300">{t('landing.api.features.manage_team')}</span>
               </div>
               <div className="flex items-center text-sm">
                 <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
-                <span className="text-slate-300">Export data for custom reporting</span>
+                <span className="text-slate-300">{t('landing.api.features.export_data')}</span>
               </div>
             </div>
 
@@ -130,9 +132,9 @@ const APISection = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Lock className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Secure Authentication</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('landing.api.secure_auth.title')}</h3>
             <p className="text-slate-300 text-sm">
-              API keys with granular permissions and rate limiting for secure access to your monitoring data.
+              {t('landing.api.secure_auth.description')}
             </p>
           </div>
           
@@ -140,9 +142,9 @@ const APISection = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <FileText className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Comprehensive Docs</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('landing.api.comprehensive_docs_section.title')}</h3>
             <p className="text-slate-300 text-sm">
-              Detailed documentation with code examples, SDKs, and interactive API explorer for easy integration.
+              {t('landing.api.comprehensive_docs_section.description')}
             </p>
           </div>
           
@@ -150,9 +152,9 @@ const APISection = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Zap className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">High Performance</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('landing.api.high_performance.title')}</h3>
             <p className="text-slate-300 text-sm">
-              Sub-second response times with 99.9% uptime SLA and global CDN for optimal API performance.
+              {t('landing.api.high_performance.description')}
             </p>
           </div>
         </div>

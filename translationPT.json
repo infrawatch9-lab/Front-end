@@ -313,5 +313,274 @@
     "settings": "Configurações",
     "dark_mode": "Modo escuro",
     "logout": "Sair"
+  },
+  "landing": {
+    "header": {
+      "features": "Recursos",
+      "dashboard": "Dashboard",
+      "services": "Serviços",
+      "integrations": "Integrações",
+      "api": "API",
+      "team": "Equipe",
+      "get_started": "Começar"
+    },
+    "hero": {
+      "badge": "Monitoramento de Infraestrutura em Tempo Real",
+      "title_1": "Monitore Sua",
+      "title_2": "Infraestrutura",
+      "title_3": "Como Nunca Antes",
+      "description": "Solução de monitoramento abrangente para servidores, redes, APIs e aplicações com alertas em tempo real e insights inteligentes.",
+      "start_monitoring": "Começar Monitoramento",
+      "view_demo": "Ver Demo"
+    },
+    "features": {
+      "title": "Recursos Poderosos",
+      "subtitle": "Tudo que você precisa para monitorar sua infraestrutura",
+      "real_time": {
+        "title": "Monitoramento em Tempo Real",
+        "description": "Acompanhe o desempenho de seus sistemas 24/7 com atualizações instantâneas e métricas precisas."
+      },
+      "intelligent_alerts": {
+        "title": "Alertas Inteligentes",
+        "description": "Receba notificações personalizadas quando algo precisar de sua atenção, reduzindo falsos alarmes."
+      },
+      "api_monitoring": {
+        "title": "Monitoramento de API",
+        "description": "Monitore a performance, disponibilidade e tempo de resposta de suas APIs com relatórios detalhados."
+      },
+      "network_insights": {
+        "title": "Insights de Rede",
+        "description": "Visualize a saúde da sua rede com mapas interativos e análises de tráfego em tempo real."
+      },
+      "automated_scaling": {
+        "title": "Escalonamento Automatizado",
+        "description": "Responda automaticamente a mudanças de demanda com políticas de escalonamento inteligentes."
+      },
+      "comprehensive_reports": {
+        "title": "Relatórios Abrangentes",
+        "description": "Obtenha insights detalhados com relatórios personalizáveis e análises históricas."
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard Intuitivo",
+      "description": "Visualize todos os seus sistemas em uma única tela com dashboards personalizáveis e métricas em tempo real.",
+      "explore_dashboard": "Explorar Dashboard"
+    },
+    "services": {
+      "title": "Serviços Monitorados",
+      "description": "Monitore uma ampla variedade de serviços e tecnologias",
+      "web_servers": "Servidores Web",
+      "databases": "Bancos de Dados",
+      "apis": "APIs & Microserviços",
+      "containers": "Contêineres",
+      "cloud_services": "Serviços em Nuvem",
+      "networks": "Infraestrutura de Rede",
+      "database_monitoring": {
+        "title": "Monitoramento de Banco de Dados",
+        "description": "Monitore o desempenho do banco de dados, tempos de execução de consultas, pools de conexão e utilização de recursos através de MySQL, PostgreSQL, MongoDB e mais.",
+        "avg_query_time": "Tempo Médio de Consulta",
+        "active_connections": "Conexões Ativas",
+        "queries_per_second": "Consultas por Segundo",
+        "cache_hit_ratio": "Taxa de Acerto do Cache",
+        "slow_queries": "Consultas Lentas",
+        "database_size": "Tamanho do Banco"
+      },
+      "cloud_monitoring": {
+        "title": "Monitoramento em Nuvem",
+        "description": "Monitore recursos da nuvem, custos, desempenho e conformidade através de múltiplas plataformas de nuvem.",
+        "cost_optimization": "Otimização de Custos",
+        "auto_scaling": "Escalonamento Automático",
+        "multi_cloud": "Multi-Nuvem",
+        "compliance": "Conformidade",
+        "cloud_resources": "Recursos da Nuvem",
+        "ec2_instances": "Instâncias EC2",
+        "running": "Executando",
+        "lambda_functions": "Funções Lambda",
+        "invocations": "Invocações",
+        "rds_databases": "Bancos RDS",
+        "healthy": "Saudável",
+        "storage_buckets": "Buckets de Armazenamento",
+        "objects": "Objetos"
+      },
+      "cloud_infrastructure": {
+        "title": "Infraestrutura em Nuvem",
+        "description": "Monitoramento abrangente através de AWS, Google Cloud, Azure e outras plataformas de nuvem com dashboards unificados e insights de otimização de custos.",
+        "monthly_cost": "Custo Mensal",
+        "active_resources": "Recursos Ativos"
+      },
+      "application_performance": {
+        "title": "Performance da Aplicação",
+        "description": "Monitore a performance da aplicação, taxas de erro, experiência do usuário e métricas de negócio com rastreamento distribuído e monitoramento de usuários reais.",
+        "error_rate": "Taxa de Erro",
+        "avg_response": "Resposta Média",
+        "throughput": "Taxa de Transferência",
+        "user_sessions": "Sessões de Usuário",
+        "application_metrics": "Métricas da Aplicação",
+        "response_time": "Tempo de Resposta",
+        "good": "Bom",
+        "excellent": "Excelente"
+      }
+    },
+    "terminal": {
+      "title": "Interface de Linha de Comando",
+      "description": "Gerencie sua infraestrutura diretamente do terminal com nossa CLI poderosa"
+    },
+    "alerts": {
+      "title": "Integrações de Alertas",
+      "description": "Conecte-se com suas ferramentas favoritas para receber alertas onde você trabalha",
+      "slack": "Notificações instantâneas no Slack",
+      "email": "Alertas personalizados por email",
+      "webhooks": "Webhooks flexíveis para automação",
+      "mobile": "Notificações push no celular",
+      "smart_alerts": "Alertas Inteligentes",
+      "instant_slack": "Notificações instantâneas no Slack",
+      "push_mobile": "Notificações push no celular",
+      "custom_email": "Alertas personalizados por email",
+      "application_performance": "Performance da Aplicação",
+      "cloud_infrastructure": "Infraestrutura em Nuvem",
+      "slack_description": "Envie alertas diretamente para canais do Slack com formatação rica, botões interativos e gerenciamento de incidentes baseado em threads.",
+      "mobile_description": "Receba notificações instantâneas via aplicativo móvel com teclados inline para ações rápidas e atualizações de status.",
+      "email_description": "Configure alertas de email personalizados com templates ricos, filtros avançados e escalação automática.",
+      "webhooks_description": "Configure webhooks flexíveis para automação personalizada e integração com ferramentas de terceiros.",
+      "smart_alert_routing": "Roteamento Inteligente de Alertas",
+      "intelligent_filtering": {
+        "title": "Filtragem Inteligente",
+        "description": "Reduza ruído com filtragem inteligente de alertas baseada em severidade, frequência e padrões históricos."
+      },
+      "escalation_policies": {
+        "title": "Políticas de Escalação",
+        "description": "Configure escalação multi-nível com roteamento baseado em tempo para garantir que questões críticas sejam resolvidas."
+      },
+      "on_call_scheduling": {
+        "title": "Agendamento de Plantão",
+        "description": "Rotação automática de plantão com suporte a fuso horário e gerenciamento de feriados para equipes globais."
+      }
+    },
+    "api": {
+      "title": "API RESTful Poderosa",
+      "description": "Integre o InfraWatch com seus sistemas existentes usando nossa API completa",
+      "real_time_data": "Dados em Tempo Real",
+      "easy_integration": "Integração Fácil",
+      "comprehensive_docs": "Documentação Completa",
+      "rest_api": "REST API",
+      "rest_description": "Acesse todos os dados de monitoramento, configure alertas e gerencie sua infraestrutura programaticamente com nossa API RESTful.",
+      "features": {
+        "retrieve_metrics": "Recuperar métricas e dados de performance",
+        "configure_rules": "Configurar regras de monitoramento e alertas",
+        "manage_team": "Gerenciar membros da equipe e permissões",
+        "export_data": "Exportar dados para relatórios customizados"
+      },
+      "webhooks": {
+        "title": "Webhooks",
+        "description": "Configure webhooks para receber notificações em tempo real quando eventos específicos ocorrem.",
+        "real_time_notifications": "Notificações em tempo real",
+        "custom_payloads": "Payloads customizáveis",
+        "secure_delivery": "Entrega segura",
+        "retry_logic": "Lógica de retry"
+      },
+      "code_examples": {
+        "get_services": "// Obter todos os serviços",
+        "create_service": "// Criar novo serviço",
+        "webhook_example": "// Exemplo de webhook"
+      },
+      "secure_auth": {
+        "title": "Autenticação Segura",
+        "description": "Chaves de API com permissões granulares e limitação de taxa para acesso seguro aos seus dados de monitoramento."
+      },
+      "comprehensive_docs_section": {
+        "title": "Documentação Completa",
+        "description": "Documentação detalhada com exemplos de código, SDKs e explorador de API interativo para integração fácil."
+      },
+      "high_performance": {
+        "title": "Alta Performance",
+        "description": "Tempos de resposta sub-segundo com SLA de 99.9% de uptime e CDN global para performance otimizada da API."
+      }
+    },
+    "team": {
+      "title": "Conheça Nossa Equipe",
+      "description": "Profissionais apaixonados dedicados a criar as melhores soluções de monitoramento",
+      "roles": {
+        "fullstack_dev": "Desenvolvedor Full Stack",
+        "devops_engineer": "Engenheiro DevOps",
+        "ui_ux_designer": "Designer UI/UX",
+        "project_manager": "Gestor do Projeto",
+        "backend_leader": "Líder do Team Backend",
+        "backend_dev": "Desenvolvedor Backend",
+        "frontend_dev": "Desenvolvedor Frontend",
+        "frontend_leader": "Líder do Team Frontend",
+        "deploy_specialist": "Especialista em Deploy"
+      }
+    },
+    "enterprise": {
+      "title": "Soluções Empresariais",
+      "description": "Recursos avançados para organizações de grande porte",
+      "unlimited_monitoring": "Monitoramento Ilimitado",
+      "priority_support": "Suporte Prioritário",
+      "custom_integrations": "Integrações Personalizadas",
+      "dedicated_account": "Gerente de Conta Dedicado",
+      "contact_sales": "Falar com Vendas",
+      "sla_compliance": {
+        "title": "Conformidade de SLA",
+        "description": "Garanta uptime com monitoramento abrangente de SLA, relatórios automatizados e rastreamento de conformidade para requisitos regulatórios.",
+        "uptime_sla": "SLA de Uptime",
+        "response_time_sla": "SLA de Tempo de Resposta",
+        "support_response": "Resposta do Suporte"
+      },
+      "snmp_monitoring": {
+        "title": "Monitoramento SNMP",
+        "description": "Monitoramento empresarial completo de dispositivos de rede com suporte para SNMP v1, v2c e v3 com MIBs personalizáveis."
+      },
+      "webhook_integration": {
+        "title": "Integração de Webhook",
+        "description": "Sistema avançado de webhook com lógica de retry, autenticação e formatação de payload personalizada para integrações perfeitas."
+      },
+      "features": {
+        "scale_thousands": "Escale para milhares de serviços monitorados",
+        "custom_dashboards": "Dashboards e relatórios personalizados",
+        "sso_integration": "Integração SSO e controle de acesso",
+        "dedicated_support": "Suporte dedicado com SLA garantido",
+        "on_premise": "Opções de implantação on-premise",
+        "api_access": "Acesso completo à API e webhooks"
+      },
+      "compliance": {
+        "soc2": {
+          "title": "SOC 2",
+          "description": "Certificado para controles de segurança, disponibilidade e confidencialidade"
+        },
+        "iso27001": {
+          "title": "ISO 27001",
+          "description": "Certificação do sistema de gestão de segurança da informação"
+        },
+        "gdpr": {
+          "title": "GDPR",
+          "description": "Conformidade total com os regulamentos europeus de proteção de dados"
+        },
+        "hipaa": {
+          "title": "HIPAA",
+          "description": "Conformidade com proteção e privacidade de dados de saúde"
+        }
+      }
+    },
+    "footer": {
+      "description": "Monitore sua infraestrutura com confiança",
+      "product": "Produto",
+      "features": "Recursos",
+      "pricing": "Preços",
+      "documentation": "Documentação",
+      "api_reference": "Referência da API",
+      "company": "Empresa",
+      "about": "Sobre",
+      "team": "Equipe",
+      "careers": "Carreiras",
+      "contact": "Contato",
+      "support": "Suporte",
+      "help_center": "Central de Ajuda",
+      "status": "Status",
+      "legal": "Legal",
+      "privacy": "Privacidade",
+      "terms": "Termos",
+      "cookies": "Cookies",
+      "all_rights_reserved": "Todos os direitos reservados."
+    }
   }
 }

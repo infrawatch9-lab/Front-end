@@ -2,18 +2,20 @@ import {
   Server, 
   Activity,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Terminal Section
 const TerminalSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-slate-900 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Live Terminal & SSH Monitoring
+            {t('landing.terminal.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Monitor active SSH connections, running processes, and system logs in real-time
+            {t('landing.terminal.description')}
           </p>
         </div>
 

@@ -6,11 +6,13 @@ import {
   Shield,
   CheckCircle,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Link } from 'react-router-dom';
 
 // Hero Section Component
 const HeroSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -18,21 +20,20 @@ const HeroSection = () => {
           <div className="space-y-8">
             <div className="inline-flex items-center px-4 py-2 bg-indigo-600/20 border border-indigo-500/30 rounded-full text-indigo-300 text-sm font-medium">
               <BarChart3 className="w-4 h-4 mr-2" />
-              Real-time Infrastructure Monitoring
+              {t('landing.hero.badge')}
             </div>
             
             <div className="space-y-6">
               <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                <span className="text-white">Monitor Your</span><br />
+                <span className="text-white">{t('landing.hero.title_1')}</span><br />
                 <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                  Infrastructure
+                  {t('landing.hero.title_2')}
                 </span><br />
-                <span className="text-white">Like Never Before</span>
+                <span className="text-white">{t('landing.hero.title_3')}</span>
               </h1>
               
               <p className="text-xl text-slate-300 max-w-2xl">
-                Comprehensive monitoring solution for servers, networks, APIs, and applications 
-                with real-time alerts and intelligent insights.
+                {t('landing.hero.description')}
               </p>
             </div>
 
@@ -41,11 +42,11 @@ const HeroSection = () => {
                 to="/login"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center">
                 <Zap className="w-5 h-5 mr-2" />
-                Start Monitoring
+                {t('landing.hero.start_monitoring')}
               </Link>
               <button className="border border-slate-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-slate-800 transition-colors flex items-center">
                 <Activity className="w-5 h-5 mr-2" />
-                View Demo
+                {t('landing.hero.view_demo')}
               </button>
             </div>
 

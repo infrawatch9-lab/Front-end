@@ -5,35 +5,37 @@ import {
   Bell,
   CheckCircle,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Features Section Component
 const FeaturesSection = () => {
+  const { t } = useTranslation();
   const features = [
     {
       icon: <Network className="w-8 h-8" />,
-      title: "Network Monitoring",
-      description: "Monitor network performance, bandwidth usage, and connectivity across all your network devices and endpoints.",
+      title: t('landing.features.network_insights.title'),
+      description: t('landing.features.network_insights.description'),
       features: ["Real-time network topology", "Bandwidth monitoring", "SNMP support"],
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: <Server className="w-8 h-8" />,
-      title: "Server Monitoring",
-      description: "Track server performance, resource utilization, and health status across physical and virtual environments.",
+      title: t('landing.features.real_time.title'),
+      description: t('landing.features.real_time.description'),
       features: ["CPU & Memory tracking", "Disk usage monitoring", "Process monitoring"],
       color: "from-purple-500 to-pink-500"
     },
     {
       icon: <Activity className="w-8 h-8" />,
-      title: "API Monitoring",
-      description: "Monitor API endpoints, response times, and availability with detailed performance analytics and error tracking.",
+      title: t('landing.features.api_monitoring.title'),
+      description: t('landing.features.api_monitoring.description'),
       features: ["Response time tracking", "Error rate monitoring", "SLA compliance"],
       color: "from-teal-500 to-green-500"
     },
     {
       icon: <Bell className="w-8 h-8" />,
-      title: "Real-time Alerts",
-      description: "Intelligent alerting system with customizable thresholds, escalation policies, and multiple notification channels.",
+      title: t('landing.features.intelligent_alerts.title'),
+      description: t('landing.features.intelligent_alerts.description'),
       features: ["Smart alert routing", "Multi-channel notifications", "Escalation policies"],
       color: "from-red-500 to-orange-500"
     }
@@ -44,10 +46,10 @@ const FeaturesSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Comprehensive Infrastructure Monitoring
+            {t('landing.features.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Monitor every aspect of your infrastructure with advanced analytics, real-time alerts, and intelligent insights
+            {t('landing.features.subtitle')}
           </p>
         </div>
 

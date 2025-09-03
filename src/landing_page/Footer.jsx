@@ -5,9 +5,11 @@ import {
   Twitter,
   Youtube
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Footer Component
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-slate-800 border-t border-slate-700 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-6">
@@ -20,8 +22,7 @@ const Footer = () => {
               <span className="text-xl font-semibold text-white">InfraWatch</span>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed">
-              The most comprehensive infrastructure monitoring platform for modern enterprises. 
-              Monitor everything, miss nothing.
+              {t('landing.footer.description')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-slate-400 hover:text-white transition-colors">
@@ -40,38 +41,38 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Product</h3>
+            <h3 className="text-white font-semibold mb-4">{t('landing.footer.product')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Features</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.features')}</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Dashboard</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Integrations</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">API Documentation</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.api_reference')}</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Mobile Apps</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Enterprise</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Company</h3>
+            <h3 className="text-white font-semibold mb-4">{t('landing.footer.company')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">About Us</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Careers</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.about')}</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.careers')}</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Blog</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Press</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Partners</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Contact</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.contact')}</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Support</h3>
+            <h3 className="text-white font-semibold mb-4">{t('landing.footer.support')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Help Center</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Documentation</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.help_center')}</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.documentation')}</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Community</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Status Page</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.status')}</a></li>
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Security</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.privacy')}</a></li>
             </ul>
           </div>
         </div>
@@ -79,12 +80,12 @@ const Footer = () => {
         <div className="border-t border-slate-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-slate-400 text-sm">
-              © 2024 InfraWatch. All rights reserved.
+              © 2024 InfraWatch. {t('landing.footer.all_rights_reserved')}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Terms of Service</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Cookie Policy</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.terms')}</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.privacy')}</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{t('landing.footer.cookies')}</a>
             </div>
           </div>
         </div>

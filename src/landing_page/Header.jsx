@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Moon,
   BarChart3,
 } from 'lucide-react';
+import LanguageSelector from '../components/LanguageSelector';
 
 // Header Component
 const Header = () => {
+  const { t } = useTranslation();
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   return (
@@ -20,15 +23,16 @@ const Header = () => {
         </div>
 
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-slate-300 hover:text-white transition-colors">Features</a>
-          <a href="#dashboard" className="text-slate-300 hover:text-white transition-colors">Dashboard</a>
-          <a href="#services" className="text-slate-300 hover:text-white transition-colors">Services</a>
-          <a href="#integrations" className="text-slate-300 hover:text-white transition-colors">Integrations</a>
-          <a href="#api" className="text-slate-300 hover:text-white transition-colors">API</a>
-          <a href="#team" className="text-slate-300 hover:text-white transition-colors">Team</a>
+          <a href="#features" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.features')}</a>
+          <a href="#dashboard" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.dashboard')}</a>
+          <a href="#services" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.services')}</a>
+          <a href="#integrations" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.integrations')}</a>
+          <a href="#api" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.api')}</a>
+          <a href="#team" className="text-slate-300 hover:text-white transition-colors">{t('landing.header.team')}</a>
         </nav>
 
         <div className="flex items-center space-x-4">
+          <LanguageSelector />
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="p-2 text-slate-300 hover:text-white transition-colors"
@@ -39,7 +43,7 @@ const Header = () => {
             to="/login"
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
           >
-            Get Started
+            {t('landing.header.get_started')}
           </Link>
         </div>
       </div>

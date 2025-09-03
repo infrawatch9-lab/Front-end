@@ -336,5 +336,274 @@
     "settings": "Settings",
     "dark_mode": "Dark mode",
     "logout": "Logout"
+  },
+  "landing": {
+    "header": {
+      "features": "Features",
+      "dashboard": "Dashboard",
+      "services": "Services",
+      "integrations": "Integrations",
+      "api": "API",
+      "team": "Team",
+      "get_started": "Get Started"
+    },
+    "hero": {
+      "badge": "Real-time Infrastructure Monitoring",
+      "title_1": "Monitor Your",
+      "title_2": "Infrastructure",
+      "title_3": "Like Never Before",
+      "description": "Comprehensive monitoring solution for servers, networks, APIs, and applications with real-time alerts and intelligent insights.",
+      "start_monitoring": "Start Monitoring",
+      "view_demo": "View Demo"
+    },
+    "features": {
+      "title": "Powerful Features",
+      "subtitle": "Everything you need to monitor your infrastructure",
+      "real_time": {
+        "title": "Real-time Monitoring",
+        "description": "Track your systems performance 24/7 with instant updates and precise metrics."
+      },
+      "intelligent_alerts": {
+        "title": "Intelligent Alerts",
+        "description": "Receive personalized notifications when something needs your attention, reducing false alarms."
+      },
+      "api_monitoring": {
+        "title": "API Monitoring",
+        "description": "Monitor the performance, availability, and response time of your APIs with detailed reports."
+      },
+      "network_insights": {
+        "title": "Network Insights",
+        "description": "Visualize your network health with interactive maps and real-time traffic analysis."
+      },
+      "automated_scaling": {
+        "title": "Automated Scaling",
+        "description": "Automatically respond to demand changes with intelligent scaling policies."
+      },
+      "comprehensive_reports": {
+        "title": "Comprehensive Reports",
+        "description": "Get detailed insights with customizable reports and historical analysis."
+      }
+    },
+    "dashboard": {
+      "title": "Intuitive Dashboard",
+      "description": "Visualize all your systems in a single screen with customizable dashboards and real-time metrics.",
+      "explore_dashboard": "Explore Dashboard"
+    },
+    "services": {
+      "title": "Monitored Services",
+      "description": "Monitor a wide variety of services and technologies",
+      "web_servers": "Web Servers",
+      "databases": "Databases",
+      "apis": "APIs & Microservices",
+      "containers": "Containers",
+      "cloud_services": "Cloud Services",
+      "networks": "Network Infrastructure",
+      "database_monitoring": {
+        "title": "Database Monitoring",
+        "description": "Monitor database performance, query execution times, connection pools, and resource utilization across MySQL, PostgreSQL, MongoDB, and more.",
+        "avg_query_time": "Avg Query Time",
+        "active_connections": "Active Connections",
+        "queries_per_second": "Queries per Second",
+        "cache_hit_ratio": "Cache Hit Ratio",
+        "slow_queries": "Slow Queries",
+        "database_size": "Database Size"
+      },
+      "cloud_monitoring": {
+        "title": "Cloud Monitoring",
+        "description": "Monitor cloud resources, costs, performance, and compliance across multiple cloud platforms.",
+        "cost_optimization": "Cost Optimization",
+        "auto_scaling": "Auto Scaling",
+        "multi_cloud": "Multi-Cloud",
+        "compliance": "Compliance",
+        "cloud_resources": "Cloud Resources",
+        "ec2_instances": "EC2 Instances",
+        "running": "Running",
+        "lambda_functions": "Lambda Functions",
+        "invocations": "Invocations",
+        "rds_databases": "RDS Databases",
+        "healthy": "Healthy",
+        "storage_buckets": "Storage Buckets",
+        "objects": "Objects"
+      },
+      "cloud_infrastructure": {
+        "title": "Cloud Infrastructure",
+        "description": "Comprehensive monitoring across AWS, Google Cloud, Azure, and other cloud platforms with unified dashboards and cost optimization insights.",
+        "monthly_cost": "Monthly Cost",
+        "active_resources": "Active Resources"
+      },
+      "application_performance": {
+        "title": "Application Performance",
+        "description": "Monitor application performance, error rates, user experience, and business metrics with distributed tracing and real-user monitoring.",
+        "error_rate": "Error Rate",
+        "avg_response": "Avg Response",
+        "throughput": "Throughput",
+        "user_sessions": "User Sessions",
+        "application_metrics": "Application Metrics",
+        "response_time": "Response Time",
+        "good": "Good",
+        "excellent": "Excellent"
+      }
+    },
+    "terminal": {
+      "title": "Command Line Interface",
+      "description": "Manage your infrastructure directly from the terminal with our powerful CLI"
+    },
+    "alerts": {
+      "title": "Alert Integrations",
+      "description": "Connect with your favorite tools to receive alerts where you work",
+      "slack": "Instant Slack notifications",
+      "email": "Custom email alerts",
+      "webhooks": "Flexible webhooks for automation",
+      "mobile": "Mobile push notifications",
+      "smart_alerts": "Smart Alerts",
+      "instant_slack": "Instant Slack notifications",
+      "push_mobile": "Mobile push notifications",
+      "custom_email": "Custom email alerts",
+      "application_performance": "Application Performance",
+      "cloud_infrastructure": "Cloud Infrastructure",
+      "slack_description": "Send alerts directly to Slack channels with rich formatting, interactive buttons, and thread-based incident management.",
+      "mobile_description": "Receive instant notifications via mobile app with inline keyboards for quick actions and status updates.",
+      "email_description": "Configure custom email alerts with rich templates, advanced filters, and automatic escalation.",
+      "webhooks_description": "Set up flexible webhooks for custom automation and integration with third-party tools.",
+      "smart_alert_routing": "Smart Alert Routing",
+      "intelligent_filtering": {
+        "title": "Intelligent Filtering",
+        "description": "Reduce noise with smart alert filtering based on severity, frequency, and historical patterns."
+      },
+      "escalation_policies": {
+        "title": "Escalation Policies",
+        "description": "Configure multi-level escalation with time-based routing to ensure critical issues are addressed."
+      },
+      "on_call_scheduling": {
+        "title": "On-Call Scheduling",
+        "description": "Automated on-call rotation with timezone support and holiday management for global teams."
+      }
+    },
+    "api": {
+      "title": "Powerful RESTful API",
+      "description": "Integrate InfraWatch with your existing systems using our comprehensive API",
+      "real_time_data": "Real-time Data",
+      "easy_integration": "Easy Integration",
+      "comprehensive_docs": "Comprehensive Documentation",
+      "rest_api": "REST API",
+      "rest_description": "Access all monitoring data, configure alerts, and manage your infrastructure programmatically with our RESTful API.",
+      "features": {
+        "retrieve_metrics": "Retrieve metrics and performance data",
+        "configure_rules": "Configure monitoring rules and alerts",
+        "manage_team": "Manage team members and permissions",
+        "export_data": "Export data for custom reporting"
+      },
+      "webhooks": {
+        "title": "Webhooks",
+        "description": "Set up webhooks to receive real-time notifications when specific events occur.",
+        "real_time_notifications": "Real-time notifications",
+        "custom_payloads": "Customizable payloads",
+        "secure_delivery": "Secure delivery",
+        "retry_logic": "Retry logic"
+      },
+      "code_examples": {
+        "get_services": "// Get all services",
+        "create_service": "// Create new service",
+        "webhook_example": "// Webhook example"
+      },
+      "secure_auth": {
+        "title": "Secure Authentication",
+        "description": "API keys with granular permissions and rate limiting for secure access to your monitoring data."
+      },
+      "comprehensive_docs_section": {
+        "title": "Comprehensive Docs",
+        "description": "Detailed documentation with code examples, SDKs, and interactive API explorer for easy integration."
+      },
+      "high_performance": {
+        "title": "High Performance",
+        "description": "Sub-second response times with 99.9% uptime SLA and global CDN for optimal API performance."
+      }
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "description": "Passionate professionals dedicated to creating the best monitoring solutions",
+      "roles": {
+        "fullstack_dev": "Full Stack Developer",
+        "devops_engineer": "DevOps Engineer",
+        "ui_ux_designer": "UI/UX Designer",
+        "project_manager": "Project Manager",
+        "backend_leader": "Backend Team Leader",
+        "backend_dev": "Backend Developer",
+        "frontend_dev": "Frontend Developer",
+        "frontend_leader": "Frontend Team Leader",
+        "deploy_specialist": "Deploy Specialist"
+      }
+    },
+    "enterprise": {
+      "title": "Enterprise Solutions",
+      "description": "Advanced features for large-scale organizations",
+      "unlimited_monitoring": "Unlimited Monitoring",
+      "priority_support": "Priority Support",
+      "custom_integrations": "Custom Integrations",
+      "dedicated_account": "Dedicated Account Manager",
+      "contact_sales": "Contact Sales",
+      "sla_compliance": {
+        "title": "SLA Compliance",
+        "description": "Guarantee uptime with comprehensive SLA monitoring, automated reporting, and compliance tracking for regulatory requirements.",
+        "uptime_sla": "Uptime SLA",
+        "response_time_sla": "Response Time SLA",
+        "support_response": "Support Response"
+      },
+      "snmp_monitoring": {
+        "title": "SNMP Monitoring",
+        "description": "Complete enterprise network device monitoring with support for SNMP v1, v2c, and v3 with customizable MIBs."
+      },
+      "webhook_integration": {
+        "title": "Webhook Integration",
+        "description": "Advanced webhook system with retry logic, authentication, and custom payload formatting for seamless integrations."
+      },
+      "features": {
+        "scale_thousands": "Scale to thousands of monitored services",
+        "custom_dashboards": "Custom dashboards and reports",
+        "sso_integration": "SSO integration and access control",
+        "dedicated_support": "Dedicated support with guaranteed SLA",
+        "on_premise": "On-premise deployment options",
+        "api_access": "Full API and webhook access"
+      },
+      "compliance": {
+        "soc2": {
+          "title": "SOC 2",
+          "description": "Certified for security, availability, and confidentiality controls"
+        },
+        "iso27001": {
+          "title": "ISO 27001",
+          "description": "Information security management system certification"
+        },
+        "gdpr": {
+          "title": "GDPR",
+          "description": "Full compliance with European data protection regulations"
+        },
+        "hipaa": {
+          "title": "HIPAA",
+          "description": "Healthcare data protection and privacy compliance"
+        }
+      }
+    },
+    "footer": {
+      "description": "Monitor your infrastructure with confidence",
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "documentation": "Documentation",
+      "api_reference": "API Reference",
+      "company": "Company",
+      "about": "About",
+      "team": "Team",
+      "careers": "Careers",
+      "contact": "Contact",
+      "support": "Support",
+      "help_center": "Help Center",
+      "status": "Status",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "all_rights_reserved": "All rights reserved."
+    }
   }
 }

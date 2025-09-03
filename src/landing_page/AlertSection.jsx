@@ -7,14 +7,16 @@ import {
   GitBranch,
   Calendar,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Alert Integrations Section
 const AlertIntegrationsSection = () => {
+  const { t } = useTranslation();
   const integrations = [
     {
-      name: "Slack Integration",
+      name: t('landing.alerts.slack'),
       icon: <Hash className="w-8 h-8" />,
-      description: "Send alerts directly to Slack channels with rich formatting, interactive buttons, and thread-based incident management.",
+      description: t('landing.alerts.slack_description'),
       color: "from-purple-500 to-pink-500",
       alertExample: {
         type: "Critical Alert",
@@ -24,9 +26,9 @@ const AlertIntegrationsSection = () => {
       }
     },
     {
-      name: "Telegram Bot",
+      name: t('landing.alerts.mobile'),
       icon: <Send className="w-8 h-8" />,
-      description: "Receive instant notifications via Telegram with inline keyboards for quick actions and status updates.",
+      description: t('landing.alerts.mobile_description'),
       color: "from-blue-500 to-cyan-500",
       alertExample: {
         type: "InfraWatch Bot",
@@ -36,9 +38,9 @@ const AlertIntegrationsSection = () => {
       }
     },
     {
-      name: "Google Chat",
+      name: t('landing.alerts.email'),
       icon: <MessageSquare className="w-8 h-8" />,
-      description: "Integrate with Google Workspace to send alerts to Google Chat spaces with card-based notifications.",
+      description: t('landing.alerts.email_description'),
       color: "from-green-500 to-teal-500",
       alertExample: {
         type: "Warning Alert",
@@ -54,10 +56,10 @@ const AlertIntegrationsSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Alert Integrations
+            {t('landing.alerts.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Get notified instantly through your preferred channels with smart routing and escalation policies
+            {t('landing.alerts.description')}
           </p>
         </div>
 
@@ -100,16 +102,16 @@ const AlertIntegrationsSection = () => {
         </div>
 
         <div className="bg-slate-700/20 backdrop-blur-sm border border-slate-600 rounded-2xl p-8">
-          <h3 className="text-2xl font-bold text-white text-center mb-8">Smart Alert Routing</h3>
+          <h3 className="text-2xl font-bold text-white text-center mb-8">{t('landing.alerts.smart_alert_routing')}</h3>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Filter className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Intelligent Filtering</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.intelligent_filtering.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Reduce noise with smart alert filtering based on severity, frequency, and historical patterns.
+                {t('landing.alerts.intelligent_filtering.description')}
               </p>
             </div>
             
@@ -117,9 +119,9 @@ const AlertIntegrationsSection = () => {
               <div className="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <GitBranch className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Escalation Policies</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.escalation_policies.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Configure multi-level escalation with time-based routing to ensure critical issues are addressed.
+                {t('landing.alerts.escalation_policies.description')}
               </p>
             </div>
             
@@ -127,9 +129,9 @@ const AlertIntegrationsSection = () => {
               <div className="w-16 h-16 bg-teal-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">On-Call Scheduling</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.on_call_scheduling.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Automated on-call rotation with timezone support and holiday management for global teams.
+                {t('landing.alerts.on_call_scheduling.description')}
               </p>
             </div>
           </div>

@@ -3,18 +3,20 @@ import {
   Globe,
   Settings,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Dashboard Analytics Section
 const DashboardSection = () => {
+  const { t } = useTranslation();
   return (
     <section id="dashboard" className="bg-slate-900 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Powerful Dashboard Analytics
+            {t('landing.dashboard.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Visualize your infrastructure data with customizable dashboards, real-time charts, and comprehensive reporting
+            {t('landing.dashboard.description')}
           </p>
         </div>
 

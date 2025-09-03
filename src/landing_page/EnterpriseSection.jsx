@@ -7,18 +7,20 @@ import {
   CheckCircle,
   Star,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Enterprise Features Section
 const EnterpriseSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-slate-900 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Enterprise-Grade Compliance & Features
+            {t('landing.enterprise.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Meet the strictest security and compliance requirements with enterprise features built for scale
+            {t('landing.enterprise.description')}
           </p>
         </div>
 
@@ -28,22 +30,22 @@ const EnterpriseSection = () => {
               <CheckCircle className="w-8 h-8 text-white" />
             </div>
             
-            <h3 className="text-xl font-semibold text-white mb-4">SLA Compliance</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">{t('landing.enterprise.sla_compliance.title')}</h3>
             <p className="text-slate-300 mb-6 text-sm leading-relaxed">
-              Guarantee uptime with comprehensive SLA monitoring, automated reporting, and compliance tracking for regulatory requirements.
+              {t('landing.enterprise.sla_compliance.description')}
             </p>
             
             <div className="space-y-3">
               <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                <span className="text-slate-300 text-sm">Uptime SLA</span>
+                <span className="text-slate-300 text-sm">{t('landing.enterprise.sla_compliance.uptime_sla')}</span>
                 <span className="text-green-400 text-sm font-semibold">99.99%</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                <span className="text-slate-300 text-sm">Response Time SLA</span>
+                <span className="text-slate-300 text-sm">{t('landing.enterprise.sla_compliance.response_time_sla')}</span>
                 <span className="text-blue-400 text-sm font-semibold">100ms</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                <span className="text-slate-300 text-sm">Support Response</span>
+                <span className="text-slate-300 text-sm">{t('landing.enterprise.sla_compliance.support_response')}</span>
                 <span className="text-amber-400 text-sm font-semibold"> 15min</span>
               </div>
             </div>
@@ -54,9 +56,9 @@ const EnterpriseSection = () => {
               <Network className="w-8 h-8 text-white" />
             </div>
             
-            <h3 className="text-xl font-semibold text-white mb-4">SNMP Monitoring</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">{t('landing.enterprise.snmp_monitoring.title')}</h3>
             <p className="text-slate-300 mb-6 text-sm leading-relaxed">
-              Comprehensive SNMP monitoring for network devices, switches, routers, and enterprise hardware with custom MIB support.
+              {t('landing.enterprise.snmp_monitoring.description')}
             </p>
             
             <div className="bg-slate-700/30 p-4 rounded-lg">
@@ -87,9 +89,9 @@ const EnterpriseSection = () => {
               <Activity className="w-8 h-8 text-white" />
             </div>
             
-            <h3 className="text-xl font-semibold text-white mb-4">Webhook Integration</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">{t('landing.enterprise.webhook_integration.title')}</h3>
             <p className="text-slate-300 mb-6 text-sm leading-relaxed">
-              Advanced webhook system with retry logic, authentication, and custom payload formatting for seamless integrations.
+              {t('landing.enterprise.webhook_integration.description')}
             </p>
             
             <div className="bg-slate-700/30 p-4 rounded-lg font-mono text-xs">
@@ -113,9 +115,9 @@ const EnterpriseSection = () => {
               <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Star className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">SOC 2 Type II</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.enterprise.compliance.soc2.title')} Type II</h4>
               <p className="text-slate-300 text-sm">
-                Certified for security, availability, and confidentiality controls
+                {t('landing.enterprise.compliance.soc2.description')}
               </p>
             </div>
             
@@ -123,9 +125,9 @@ const EnterpriseSection = () => {
               <div className="w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">ISO 27001</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.enterprise.compliance.iso27001.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Information security management system certification
+                {t('landing.enterprise.compliance.iso27001.description')}
               </p>
             </div>
             
@@ -133,9 +135,9 @@ const EnterpriseSection = () => {
               <div className="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">GDPR</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.enterprise.compliance.gdpr.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Full compliance with European data protection regulations
+                {t('landing.enterprise.compliance.gdpr.description')}
               </p>
             </div>
             
@@ -143,9 +145,9 @@ const EnterpriseSection = () => {
               <div className="w-16 h-16 bg-yellow-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Lock className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">HIPAA</h4>
+              <h4 className="text-lg font-semibold text-white mb-2">{t('landing.enterprise.compliance.hipaa.title')}</h4>
               <p className="text-slate-300 text-sm">
-                Healthcare data protection and privacy compliance
+                {t('landing.enterprise.compliance.hipaa.description')}
               </p>
             </div>
           </div>

@@ -3,18 +3,20 @@ import {
   Cloud, 
   Zap,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Services Section
 const ServicesSection = () => {
+  const { t } = useTranslation();
   return (
     <section id="services" className="bg-slate-800 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Detailed Service Monitoring
+            {t('landing.services.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Deep dive into each service with dedicated dashboards and comprehensive analytics
+            {t('landing.services.description')}
           </p>
         </div>
 
@@ -25,9 +27,9 @@ const ServicesSection = () => {
                 <Database className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Database Monitoring</h3>
+                <h3 className="text-2xl font-bold text-white">{t('landing.services.database_monitoring.title')}</h3>
                 <p className="text-slate-300">
-                  Monitor database performance, query execution times, connection pools, and resource utilization across MySQL, PostgreSQL, MongoDB, and more.
+                  {t('landing.services.database_monitoring.description')}
                 </p>
               </div>
             </div>
@@ -35,11 +37,11 @@ const ServicesSection = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-700/50 p-4 rounded-lg">
                 <div className="text-green-400 text-2xl font-bold">2.3ms</div>
-                <div className="text-slate-400 text-sm">Avg Query Time</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.database_monitoring.avg_query_time')}</div>
               </div>
               <div className="bg-slate-700/50 p-4 rounded-lg">
                 <div className="text-blue-400 text-2xl font-bold">1,247</div>
-                <div className="text-slate-400 text-sm">Active Connections</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.database_monitoring.active_connections')}</div>
               </div>
             </div>
           </div>
@@ -86,15 +88,15 @@ const ServicesSection = () => {
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="bg-slate-700/30 backdrop-blur-sm border border-slate-600 rounded-xl p-6">
             <div className="mb-6">
-              <h3 className="text-white text-lg font-semibold mb-2">Cloud Resources</h3>
+              <h3 className="text-white text-lg font-semibold mb-2">{t('landing.services.cloud_monitoring.cloud_resources')}</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-slate-600/30 rounded-lg">
                   <div className="flex items-center">
                     <div className="w-6 h-6 bg-orange-500 rounded mr-3 flex items-center justify-center text-xs text-white font-bold">AWS</div>
-                    <span className="text-white text-sm">EC2 Instances</span>
+                    <span className="text-white text-sm">{t('landing.services.cloud_monitoring.ec2_instances')}</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-green-400 text-sm mr-2">47 Running</span>
+                    <span className="text-green-400 text-sm mr-2">47 {t('landing.services.cloud_monitoring.running')}</span>
                     <div className="w-2 h-2 rounded-full bg-green-400"></div>
                   </div>
                 </div>
@@ -105,7 +107,7 @@ const ServicesSection = () => {
                     <span className="text-white text-sm">GCP Compute</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-green-400 text-sm mr-2">23 Running</span>
+                    <span className="text-green-400 text-sm mr-2">23 {t('landing.services.cloud_monitoring.running')}</span>
                     <div className="w-2 h-2 rounded-full bg-green-400"></div>
                   </div>
                 </div>
@@ -130,9 +132,9 @@ const ServicesSection = () => {
                 <Cloud className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Cloud Infrastructure</h3>
+                <h3 className="text-2xl font-bold text-white">{t('landing.services.cloud_infrastructure.title')}</h3>
                 <p className="text-slate-300">
-                  Comprehensive monitoring across AWS, Google Cloud, Azure, and other cloud platforms with unified dashboards and cost optimization insights.
+                  {t('landing.services.cloud_infrastructure.description')}
                 </p>
               </div>
             </div>
@@ -140,11 +142,11 @@ const ServicesSection = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-700/50 p-4 rounded-lg">
                 <div className="text-cyan-400 text-2xl font-bold">$2,847</div>
-                <div className="text-slate-400 text-sm">Monthly Cost</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.cloud_infrastructure.monthly_cost')}</div>
               </div>
               <div className="bg-slate-700/50 p-4 rounded-lg">
                 <div className="text-blue-400 text-2xl font-bold">85</div>
-                <div className="text-slate-400 text-sm">Active Resources</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.cloud_infrastructure.active_resources')}</div>
               </div>
             </div>
           </div>
@@ -158,8 +160,8 @@ const ServicesSection = () => {
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Application Performance</h3>
-                  <p className="text-slate-400 text-sm">Monitor application performance, error rates, user experience, and business metrics with distributed tracing and real-user monitoring.</p>
+                  <h3 className="text-xl font-bold text-white">{t('landing.services.application_performance.title')}</h3>
+                  <p className="text-slate-400 text-sm">{t('landing.services.application_performance.description')}</p>
                 </div>
               </div>
             </div>
@@ -167,35 +169,35 @@ const ServicesSection = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-slate-600/30 p-4 rounded-lg">
                 <div className="text-green-400 text-2xl font-bold">0.02%</div>
-                <div className="text-slate-400 text-sm">Error Rate</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.application_performance.error_rate')}</div>
               </div>
               
               <div className="bg-slate-600/30 p-4 rounded-lg">
                 <div className="text-blue-400 text-2xl font-bold">234ms</div>
-                <div className="text-slate-400 text-sm">Avg Response</div>
+                <div className="text-slate-400 text-sm">{t('landing.services.application_performance.avg_response')}</div>
               </div>
               
               <div className="bg-slate-600/30 p-4 rounded-lg">
-                <h4 className="text-teal-400 text-sm font-medium mb-3">Application Metrics</h4>
+                <h4 className="text-teal-400 text-sm font-medium mb-3">{t('landing.services.application_performance.application_metrics')}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Response Time</span>
-                    <span className="text-green-400 text-sm">Good</span>
+                    <span className="text-slate-300 text-sm">{t('landing.services.application_performance.response_time')}</span>
+                    <span className="text-green-400 text-sm">{t('landing.services.application_performance.good')}</span>
                   </div>
                   <div className="w-full bg-slate-700 rounded-full h-1">
                     <div className="bg-green-400 h-1 rounded-full" style={{width: '85%'}}></div>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Throughput</span>
-                    <span className="text-blue-400 text-sm">Excellent</span>
+                    <span className="text-slate-300 text-sm">{t('landing.services.application_performance.throughput')}</span>
+                    <span className="text-blue-400 text-sm">{t('landing.services.application_performance.excellent')}</span>
                   </div>
                   <div className="w-full bg-slate-700 rounded-full h-1">
                     <div className="bg-blue-400 h-1 rounded-full" style={{width: '92%'}}></div>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Error Rate</span>
+                    <span className="text-slate-300 text-sm">{t('landing.services.application_performance.error_rate')}</span>
                     <span className="text-green-400 text-sm">Low</span>
                   </div>
                   <div className="w-full bg-slate-700 rounded-full h-1">

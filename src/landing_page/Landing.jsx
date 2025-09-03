@@ -1,3 +1,5 @@
+import React from 'react';
+import '../translate';
 import Header from './Header';
 import HeroSection from './HeroSection';
 import FeaturesSection from './FeaturesSection';
