@@ -29,11 +29,6 @@ export default function TopBar() {
         <button className="p-2 rounded-full bg-white/10 hover:bg-white/20" style={{ backgroundColor: theme == 'dark'? "": "#ddddddff" }}>
           <HelpCircle className={ theme == 'dark' ? "items-colors-light" + " w-5 h-5" : "items-colors-dark" + " w-5 h-5"} />
         </button>
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" // coloca sua imagem na pasta public
-          alt="Perfil"
-          className="w-10 h-10 rounded-full border-2 border-white"
-        />
       </CustomDiv>
     </CustomDiv>
   );
