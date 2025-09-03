@@ -15,54 +15,63 @@ export default function HistoryAdmin() {
     {
       date: '2025-05-12 12:32:12',
       user: 'LIONEL MESSI',
+      service: 'SMTP',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'MANUEL BORGES',
+      service: 'PING',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'JOÃO RIBEIRO',
+      service: 'WEBHOOK',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'DANIEL NASCIMENTO',
+      service: 'SMTP',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'CARLOS ARMANDO',
+      service: 'SMTP',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'FLÁVIO JOSÉ',
+      service: 'SMTP',
       type: 'info',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'ROGÉRIO PAIXÃO',
+      service: 'SMTP',
       type: 'error',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'DANIEL NASCIMENTO',
+      service: 'SMTP',
       type: 'warning',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text c...'
     },
     {
       date: '2025-05-12 12:32:12',
       user: 'LIONEL MESSI',
+      service: 'SMTP',
       type: 'warning',
       description: '"Lorem ipsum dolor sit amet" is a placeholder text...'
     }
@@ -73,14 +82,14 @@ export default function HistoryAdmin() {
       event.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = !typeFilter || event.type === typeFilter;
-    const matchesService = !serviceFilter;
+    const matchesService = !serviceFilter || event.service === serviceFilter;
     return matchesSearch && matchesType && matchesService;
   });
 
   const totalPages = 6;
 
   return (
-    <CustomDiv type="background" className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type='background' className="min-h-screen bg-[#081028] p-6">
       <div className="max-w-7xl mx-auto">
         <PageHeader />
 
@@ -101,6 +110,6 @@ export default function HistoryAdmin() {
           onPageChange={setCurrentPage}
         />
       </div>
-    </CustomDiv >
+    </CustomDiv>
   );
 }

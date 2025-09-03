@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function DynamicHeadersField({ headers, onChange, disabled }) {
+  const { t } = useTranslation();
   const addHeader = () => {
     onChange([...headers, { chave: "#alertas", valor: "#alertas" }]);
   };
@@ -21,7 +23,7 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
     <div>
       <div className="flex items-center justify-between mb-2">
         <label className="block text-sm font-medium text-slate-300">
-          Headers
+          {t("settings.notifications.webhook.headers")}
         </label>
         <button
           onClick={addHeader}
@@ -36,23 +38,23 @@ export default function DynamicHeadersField({ headers, onChange, disabled }) {
         {headers.map((header, index) => (
           <div key={index} className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Chave</label>
+              <label className="block text-xs text-slate-400 mb-1">{t("settings.notifications.webhook.key_label")}</label>
               <input
                 type="text"
                 value={header.chave}
                 onChange={(e) => updateHeader(index, 'chave', e.target.value)}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
+                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                 disabled={disabled}
               />
             </div>
             <div className="relative">
-              <label className="block text-xs text-slate-400 mb-1">Valor</label>
+              <label className="block text-xs text-slate-400 mb-1">{t("settings.notifications.webhook.value_label")}</label>
               <div className="flex">
                 <input
                   type="text"
                   value={header.valor}
                   onChange={(e) => updateHeader(index, 'valor', e.target.value)}
-                  className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-l-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
+                  className="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                   disabled={disabled}
                 />
                 <button

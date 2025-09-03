@@ -4,23 +4,23 @@ export default function CreateUserModal({ onClose, onCreate }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [userData, setUserData] = useState({
     name: "",
-    phone: "",
+    number: "",
     email: "",
     role: "",
-    tag: ""
+    tag: "",
   });
 
   const handleInputChange = (field, value) => {
-    setUserData(prev => ({
+    setUserData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleContinue = () => {
     if (currentStep === 1) {
       // Validação básica do step 1
-      if (userData.name && userData.phone && userData.email) {
+      if (userData.name && userData.number && userData.email) {
         setCurrentStep(2);
       } else {
         alert("Por favor, preencha todos os campos obrigatórios.");
@@ -36,14 +36,33 @@ export default function CreateUserModal({ onClose, onCreate }) {
     if (userData.role) {
       // Definir permissões padrão baseadas no role
       const defaultPermissions = {
-        Admin: { dashboard: true, monitoring: true, reports: true, settings: true, users: true },
-        User: { dashboard: true, monitoring: true, reports: false, settings: false, users: false },
-        Viewer: { dashboard: true, monitoring: false, reports: false, settings: false, users: false }
+        Admin: {
+          dashboard: true,
+          monitoring: true,
+          reports: true,
+          settings: true,
+          users: true,
+        },
+        User: {
+          dashboard: true,
+          monitoring: true,
+          reports: false,
+          settings: false,
+          users: false,
+        },
+        Viewer: {
+          dashboard: true,
+          monitoring: false,
+          reports: false,
+          settings: false,
+          users: false,
+        },
       };
 
       const newUser = {
         ...userData,
-        permissions: defaultPermissions[userData.role] || defaultPermissions.Viewer
+        permissions:
+          defaultPermissions[userData.role] || defaultPermissions.Viewer,
       };
 
       onCreate(newUser);
@@ -76,7 +95,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
           <input
             type="text"
             value={userData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
+            onChange={(e) => handleInputChange("name", e.target.value)}
             placeholder="Como prefere ser chamado"
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
@@ -88,8 +107,8 @@ export default function CreateUserModal({ onClose, onCreate }) {
           </label>
           <input
             type="tel"
-            value={userData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
+            value={userData.number}
+            onChange={(e) => handleInputChange("number", e.target.value)}
             placeholder="Digite seu número de WhatsApp"
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
@@ -102,7 +121,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
           <input
             type="email"
             value={userData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
+            onChange={(e) => handleInputChange("email", e.target.value)}
             placeholder="Digite seu e-mail"
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
@@ -143,13 +162,21 @@ export default function CreateUserModal({ onClose, onCreate }) {
           </label>
           <select
             value={userData.role}
-            onChange={(e) => handleInputChange('role', e.target.value)}
+            onChange={(e) => handleInputChange("role", e.target.value)}
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           >
-            <option value="" className="bg-slate-900">Tipo de usuário</option>
-            <option value="Admin" className="bg-slate-900">Administrador</option>
-            <option value="User" className="bg-slate-900">Usuário</option>
-            <option value="Viewer" className="bg-slate-900">Visualizador</option>
+            <option value="" className="bg-slate-900">
+              Tipo de usuário
+            </option>
+            <option value="Admin" className="bg-slate-900">
+              Administrador
+            </option>
+            <option value="User" className="bg-slate-900">
+              Usuário
+            </option>
+            <option value="Viewer" className="bg-slate-900">
+              Visualizador
+            </option>
           </select>
         </div>
 
@@ -160,7 +187,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
           <input
             type="text"
             value={userData.tag}
-            onChange={(e) => handleInputChange('tag', e.target.value)}
+            onChange={(e) => handleInputChange("tag", e.target.value)}
             placeholder="Digite uma tag"
             className="w-full px-3 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
@@ -186,7 +213,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-900 border border-slate-700 rounded-lg w-full max-w-md">
+      <div className="bg-[#0B1440] border border-slate-700 rounded-lg w-full max-w-md">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
           <h2 className="text-xl font-bold text-white">CRIAR USUÁRIO</h2>
@@ -194,8 +221,18 @@ export default function CreateUserModal({ onClose, onCreate }) {
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-all duration-200"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>

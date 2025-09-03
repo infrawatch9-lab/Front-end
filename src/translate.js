@@ -12,8 +12,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('i18nextLng') || 'pt', // idioma padrão salvo
-    fallbackLng: 'en',
+    lng: localStorage.getItem('i18nextLng') || 'pt', // português como padrão
+    fallbackLng: 'pt',
     interpolation: {
       escapeValue: false,
     },

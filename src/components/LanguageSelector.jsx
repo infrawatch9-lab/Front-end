@@ -61,13 +61,13 @@ export default function LanguageSelector() {
     <div ref={ref} className="relative inline-block text-left">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none min-w-0 p-0 overflow-hidden"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-700 border border-slate-600 shadow-sm hover:bg-slate-600 focus:outline-none min-w-0 p-0 overflow-hidden transition-colors"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className="w-10 h-10 flex items-center justify-center rounded-full bg-white">{flags[current.code]}</span>
+        <span className="w-8 h-8 flex items-center justify-center rounded-full">{flags[current.code]}</span>
       </button>
-      <div className={`absolute z-10 mb-2 bottom-full left-1/2 -translate-x-1/2 w-16 transition-all duration-200 ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} style={{transformOrigin: 'bottom center'}}>
+      <div className={`absolute z-50 mt-2 top-full left-1/2 -translate-x-1/2 w-16 transition-all duration-200 ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} style={{transformOrigin: 'top center'}}>
         {open && (
           <ul className="bg-white border border-gray-200 rounded shadow-lg flex flex-col items-center py-2">
             {languages.map(lang => (

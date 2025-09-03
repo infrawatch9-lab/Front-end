@@ -1,47 +1,80 @@
 import React, { useState } from "react";
 
-export default function UserDetailsModal({ user, onClose, onSave }) {
+export default function UserDetailsModal({
+  user,
+  onClose,
+  onSave,
+  onDelete,
+  readOnly = false,
+}) {
   const [activeTab, setActiveTab] = useState("info");
-  const [editedUser, setEditedUser] = useState({ ...user });
-  
+
+  // Função igual AccessPermissionsTab
+  const getPermissionsByRole = (role) => {
+    const defaultPermissions = {
+      ADMIN: {
+        dashboard: true,
+        monitoring: true,
+        reports: true,
+        settings: true,
+        users: true,
+      },
+      USER: {
+        dashboard: true,
+        monitoring: true,
+        reports: true,
+        settings: false,
+        users: false,
+      },
+      VIEWER: {
+        dashboard: true,
+        monitoring: false,
+        reports: false,
+        settings: false,
+        users: false,
+      },
+    };
+    return defaultPermissions[role] || defaultPermissions.USER;
+  };
+
+  // Inicializa as permissões se não existirem
+  const [editedUser, setEditedUser] = useState(() => {
+    if (!user.permissions) {
+      return { ...user, permissions: getPermissionsByRole(user.role) };
+    }
+    return { ...user };
+  });
+
   const tabs = [
     { id: "info", label: "INFORMAÇÕES GERAIS" },
     { id: "permissions", label: "PERMISSÕES" },
-    { id: "history", label: "HISTÓRICO DE ATIVIDADES" }
+    { id: "history", label: "HISTÓRICO DE ATIVIDADES" },
   ];
 
   const handleSave = () => {
-    onSave(editedUser);
+    if (!readOnly) onSave(editedUser);
   };
 
   const handleDelete = () => {
-    if (window.confirm("Tem certeza que deseja deletar esta conta? Esta ação não pode ser desfeita.")) {
-      onClose();
-      // Aqui você chamaria a função de delete do componente pai
-    }
+    if (readOnly) return;
+    if (onDelete) onDelete(editedUser);
   };
 
   const handleResetPassword = () => {
-    if (window.confirm("Tem certeza que deseja resetar a senha deste usuário?")) {
+    if (readOnly) return;
+    if (
+      window.confirm("Tem certeza que deseja resetar a senha deste usuário?")
+    ) {
       console.log("Resetar senha para:", user.email);
       // Implementar lógica de reset de senha
     }
   };
 
-  const handlePermissionChange = (permission) => {
-    setEditedUser({
-      ...editedUser,
-      permissions: {
-        ...editedUser.permissions,
-        [permission]: !editedUser.permissions[permission]
-      }
-    });
-  };
-
   const renderInfoTab = () => (
     <div className="space-y-6">
-      <h3 className="text-white font-medium text-lg">1. Informações de usuário</h3>
-      
+      <h3 className="text-white font-medium text-lg">
+        1. Informações de usuário
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -50,11 +83,17 @@ export default function UserDetailsModal({ user, onClose, onSave }) {
           <input
             type="text"
             value={editedUser.name}
-            onChange={(e) => setEditedUser({...editedUser, name: e.target.value})}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) => setEditedUser({ ...editedUser, name: e.target.value })
+            }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o nome completo"
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             Email
@@ -62,133 +101,185 @@ export default function UserDetailsModal({ user, onClose, onSave }) {
           <input
             type="email"
             value={editedUser.email}
-            onChange={(e) => setEditedUser({...editedUser, email: e.target.value})}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) => setEditedUser({ ...editedUser, email: e.target.value })
+            }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o email"
           />
         </div>
-
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Telefone
+          </label>
+          <input
+            type="tel"
+            value={editedUser.number || editedUser.phone || ""}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) =>
+                    setEditedUser({ ...editedUser, number: e.target.value })
+            }
+            className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            readOnly={readOnly}
+            disabled={readOnly}
+            placeholder="Digite o número de telemóvel"
+          />
+        </div>
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             Papel
           </label>
           <select
             value={editedUser.role}
-            onChange={(e) => setEditedUser({...editedUser, role: e.target.value})}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) => setEditedUser({ ...editedUser, role: e.target.value })
+            }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            disabled={readOnly}
           >
-            <option value="Admin" className="bg-slate-900">ADMINISTRADOR</option>
-            <option value="User" className="bg-slate-900">USUÁRIO</option>
-            <option value="Viewer" className="bg-slate-900">VISUALIZADOR</option>
+            <option value="ADMIN" className="bg-slate-900">
+              ADMINISTRADOR
+            </option>
+            <option value="USER" className="bg-slate-900">
+              USUÁRIO
+            </option>
+            <option value="VIEWER" className="bg-slate-900">
+              VISUALIZADOR
+            </option>
           </select>
         </div>
-
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             STATUS
           </label>
           <select
             value={editedUser.status}
-            onChange={(e) => setEditedUser({...editedUser, status: e.target.value})}
+            onChange={
+              readOnly
+                ? undefined
+                : (e) =>
+                    setEditedUser({ ...editedUser, status: e.target.value })
+            }
             className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            disabled={readOnly}
           >
-            <option value="online" className="bg-slate-900">ATIVO</option>
-            <option value="offline" className="bg-slate-900">INATIVO</option>
-            <option value="blocked" className="bg-slate-900">BLOQUEADO</option>
+            <option value="ACTIVE" className="bg-slate-900">
+              ATIVO
+            </option>
+            <option value="INACTIVE" className="bg-slate-900">
+              INATIVO
+            </option>
           </select>
         </div>
       </div>
 
       <div className="flex justify-between pt-4">
-        <button
-          onClick={handleDelete}
-          className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-        >
-          DELETAR CONTA
-        </button>
-
-        <div className="flex gap-3">
-          <button
-            onClick={handleResetPassword}
-            className="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-          >
-            RESETAR SENHA
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-          >
-            SALVAR
-          </button>
-        </div>
+        {!readOnly && (
+          <>
+            <button
+              onClick={handleDelete}
+              className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+            >
+              DELETAR CONTA
+            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={handleResetPassword}
+                className="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+              >
+                RESETAR SENHA
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+              >
+                SALVAR
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 
+  // Permissões possíveis (igual AccessPermissionsTab)
+  const allPermissions = [
+    { key: "dashboard", label: "Dashboard" },
+    { key: "monitoring", label: "Monitoramento" },
+    { key: "reports", label: "Relatórios" },
+    { key: "settings", label: "Configurações" },
+    { key: "users", label: "Usuários" },
+  ];
+
   const renderPermissionsTab = () => (
     <div className="space-y-6">
-      <h3 className="text-white font-medium text-lg">2. Permissões de usuário</h3>
-      
+      <h3 className="text-white font-medium text-lg">
+        2. Permissões de usuário
+      </h3>
       <div className="bg-slate-900 border border-slate-600 rounded-lg overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="bg-slate-800">
-              <th className="text-left p-4 text-slate-300 font-medium">Descrição</th>
-              <th className="text-center p-4 text-slate-300 font-medium">Estado</th>
+              <th className="text-left p-4 text-slate-300 font-medium">
+                Descrição
+              </th>
+              <th className="text-center p-4 text-slate-300 font-medium">
+                Estado
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Visualizar a Dashboard</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.dashboard || false}
-                  onChange={() => handlePermissionChange('dashboard')}
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                />
-              </td>
-            </tr>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Editar perfil</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.monitoring || false}
-                  onChange={() => handlePermissionChange('monitoring')}
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                />
-              </td>
-            </tr>
-            <tr className="border-t border-slate-700">
-              <td className="p-4 text-slate-300">Visualizar Logs</td>
-              <td className="p-4 text-center">
-                <input
-                  type="checkbox"
-                  checked={editedUser.permissions?.reports || false}
-                  onChange={() => handlePermissionChange('reports')}
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                />
-              </td>
-            </tr>
+            {allPermissions.map((perm) => (
+              <tr className="border-t border-slate-700" key={perm.key}>
+                <td className="p-4 text-slate-300">{perm.label}</td>
+                <td className="p-4 text-center">
+                  <div className="flex justify-center">
+                    {editedUser.permissions?.[perm.key] ? (
+                      <svg
+                        className="w-4 h-4 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-4 h-4 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex justify-between pt-4">
-        <button
-          onClick={handleDelete}
-          className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-        >
-          DELETAR CONTA
-        </button>
-
-        <button
-          onClick={handleSave}
-          className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-        >
-          SALVAR
-        </button>
-      </div>
+      {/* Nenhum botão de ação na aba de permissões */}
     </div>
   );
 
@@ -196,71 +287,66 @@ export default function UserDetailsModal({ user, onClose, onSave }) {
     <div className="space-y-6">
       <div className="bg-slate-900 border border-slate-600 rounded-lg p-4">
         <h3 className="text-white font-medium text-lg mb-4">Logs do Sistema</h3>
-        
         {/* Filtro de logs */}
         <div className="flex items-center gap-4 mb-4">
           <div className="flex-1">
             <input
               type="text"
-              placeholder="Filtrar logs ex: DB, ERROR,"
+              placeholder="Filtrar logs ex: DB, ERROR, ..."
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              disabled={readOnly}
             />
           </div>
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200">
+          <button
+            type="button"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
+            onClick={() => {
+              /* TODO: implementar atualização dos logs se necessário */
+            }}
+            disabled={readOnly}
+            title="Atualizar histórico"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 4v5h.582M20 20v-5h-.581M5.21 17.293A9 9 0 0021 12.082M18.79 6.707A9 9 0 003 11.918"
+              />
+            </svg>
             Atualizar
           </button>
         </div>
-
-        {/* Cabeçalho da tabela */}
-        <div className="bg-slate-800 rounded-lg mb-4">
-          <div className="grid grid-cols-3 gap-4 p-3 text-sm font-medium text-slate-300">
-            <div>Data e Hora</div>
-            <div>Nível</div>
-            <div>Mensagem</div>
-          </div>
-        </div>
-
-        {/* Lista de logs */}
-        <div className="space-y-2 max-h-64 overflow-y-auto">
-          {user.activityLogs && user.activityLogs.length > 0 ? (
-            user.activityLogs.map((log, index) => (
-              <div key={index} className="grid grid-cols-3 gap-4 p-3 bg-slate-800 rounded-lg text-sm">
-                <div className="text-slate-300">{log.date}</div>
-                <div>
-                  <span className={`px-2 py-1 rounded text-xs font-medium ${
-                    log.level === 'ERROR' ? 'bg-red-600 text-white' :
-                    log.level === 'WARN' ? 'bg-yellow-600 text-white' :
-                    'bg-green-600 text-white'
-                  }`}>
-                    {log.level}
+        <div className="divide-y divide-slate-700">
+          {Array.isArray(user.activityLogs) && user.activityLogs.length > 0 ? (
+            user.activityLogs.map((log, idx) => (
+              <div key={idx} className="py-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-300 font-medium">
+                    {log.action}
+                  </span>
+                  <span className="text-slate-400 text-xs">
+                    {log.timestamp}
                   </span>
                 </div>
-                <div className="text-slate-300">{log.message}</div>
+                {log.details && (
+                  <div className="text-slate-400 text-sm mt-1">
+                    {log.details}
+                  </div>
+                )}
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-slate-400">
-              Nenhum log encontrado para este usuário
+            <div className="text-slate-400 text-center py-8">
+              Nenhuma atividade encontrada para este usuário.
             </div>
           )}
         </div>
-
-        {/* Paginação dos logs */}
-        {user.activityLogs && user.activityLogs.length > 0 && (
-          <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-slate-700">
-            <button className="p-2 text-slate-400 hover:text-slate-300 transition-colors">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <span className="text-sm text-slate-400">Página 1 de 6</span>
-            <button className="p-2 text-slate-400 hover:text-slate-300 transition-colors">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -288,8 +374,18 @@ export default function UserDetailsModal({ user, onClose, onSave }) {
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-all duration-200"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>

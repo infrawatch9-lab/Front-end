@@ -4,7 +4,7 @@ import TableRow from "./HistoryTableRow";
 
 export default function EventsTable({ events }) {
   return (
-    <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+    <div className="bg-gray-900 rounded overflow-hidden border border-gray-700">
       <table className="w-full">
         <TableHeader />
         <tbody className="divide-y divide-gray-700">

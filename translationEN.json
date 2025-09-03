@@ -98,11 +98,11 @@
     "all": "All",
     "escalar": "Escalate",
     "analyze": "Analyze",
-    "sla": "SLA",
+    "sla": "NAME",
     "limit": "LIMIT (GOAL)",
     "measured": "MEASURED (ACTUAL)",
     "status": "STATUS",
-    "service": "SERVICE",
+    "service": "TYPE",
     "none": "-"
   },
   "status_badge": {
@@ -120,6 +120,29 @@
     "last_24h": "in the last 24h",
     "general_status": "System General Status",
     "operational": "Operational"
+  },
+  "common": {
+    "add": "Add",
+    "remove": "Remove",
+    "required": "Required",
+    "optional": "Optional",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "saved": "Saved successfully!",
+    "error": "An error occurred",
+    "success": "Success!",
+    "confirmation": "Confirmation",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "filters": {
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "warning": "Warning",
+    "error": "Error",
+    "filter_services": "Filter services",
+    "no_services": "No services match the current filter"
   },
   "activities": {
     "cpu_limit_updated": "CPU usage limit updated",
@@ -155,12 +178,149 @@
     "networks": "Networks",
     "webhooks": "Web hooks",
     "response_time": "Response Time",
+    "one_second": "One second",
     "two_seconds": "Two seconds",
     "four_seconds": "Four seconds",
     "two_point_zero_one_seconds": "Two point zero one seconds",
     "monthly_uptime": "Monthly Uptime",
     "min_9999": "At least 99.99%",
-    "uptime_guaranteed": "Guaranteed availability (>99.99%)"
+    "uptime_guaranteed": "Guaranteed availability (>99.99%)",
+    "search_placeholder": "Search services...",
+    "no_results": "No services found"
+  },
+  "service_modal": {
+    "new_service": "New Service",
+    "edit_service": "Edit Service",
+    "select_type": "Select service type",
+    "basic_info": "Basic information",
+    "specific_config": "Specific configuration",
+    "service_name": "Service name",
+    "service_name_placeholder": "Ex: Main Server",
+    "description": "Description",
+    "description_placeholder": "Describe what this service monitors...",
+    "type": "Type",
+    "users_to_notify": "Users to Notify",
+    "add_email_placeholder": "email@example.com",
+    "email_help": "Add emails of users who should receive notifications about this service",
+    "no_users_added": "No users added for notifications",
+    "monitoring_config": "Monitoring Configuration",
+    "interval_seconds": "Interval (seconds)",
+    "timeout_ms": "Timeout (ms)",
+    "retries": "Retries",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "create_service": "Create Service",
+    "save": "Save",
+    "invalid_email": "Please enter a valid email",
+    "email_already_added": "This email has already been added"
+  },
+  "service_types": {
+    "ping": {
+      "name": "Servers (PING)",
+      "description": "Ping monitoring to verify connectivity",
+      "ip_address": "IP Address",
+      "ip_placeholder": "192.168.1.1",
+      "webhook_url": "Webhook URL",
+      "webhook_placeholder": "https://example.com/webhook",
+      "packet_size": "Packet Size (bytes)",
+      "ttl": "TTL (Time To Live)"
+    },
+    "http": {
+      "name": "HTTP APIs",
+      "description": "HTTP/HTTPS endpoint monitoring",
+      "endpoint": "Endpoint URL",
+      "endpoint_placeholder": "https://api.example.com/health",
+      "method": "HTTP Method",
+      "auth_type": "Authentication Type",
+      "auth_none": "None",
+      "auth_bearer": "Bearer Token",
+      "auth_basic": "Basic Auth",
+      "token_placeholder": "Token...",
+      "credentials_placeholder": "username:password",
+      "custom_headers": "Custom Headers",
+      "header_name": "Header name",
+      "header_value": "Header value",
+      "body_json": "Body (JSON)",
+      "body_placeholder": "{\"key\": \"value\"}",
+      "expected_status": "Expected HTTP Status",
+      "max_response_time": "Maximum Response Time (ms)",
+      "expected_text": "Expected Text in Body",
+      "expected_text_placeholder": "success, ok, running...",
+      "validate_ssl": "Validate SSL",
+      "follow_redirects": "Follow Redirects"
+    },
+    "snmp": {
+      "name": "Networks (SNMP)",
+      "description": "Network device monitoring via SNMP",
+      "host": "Host",
+      "host_placeholder": "192.168.1.1",
+      "version": "SNMP Version",
+      "oid": "OID",
+      "oid_placeholder": "1.3.6.1.2.1.1.1.0",
+      "community": "Community String",
+      "community_placeholder": "public",
+      "username": "Username",
+      "auth_protocol": "Authentication Protocol",
+      "auth_password": "Authentication Password",
+      "priv_protocol": "Privacy Protocol",
+      "priv_password": "Privacy Password",
+      "monitoring_mode": "Monitoring Mode",
+      "mode_cron": "Cron",
+      "mode_interval": "Interval",
+      "timezone": "Timezone",
+      "timezone_placeholder": "UTC, America/Sao_Paulo",
+      "cron_expression": "Cron Expression",
+      "cron_placeholder": "*/5 * * * * (every 5 minutes)",
+      "delay_between_retries": "Delay between retries (ms)",
+      "expected_response_time": "Expected Response Time (ms)",
+      "auto_generate": "Auto-generate settings"
+    },
+    "webhook": {
+      "name": "Webhooks",
+      "description": "Webhook configuration for receiving notifications",
+      "provider": "Provider",
+      "provider_placeholder": "Select a provider",
+      "provider_help": "Specify where this webhook will come from (GitHub, GitLab, etc.)",
+      "custom_provider": "Custom Provider Name",
+      "custom_provider_placeholder": "Ex: My Custom System, Custom API, etc.",
+      "custom_provider_help": "Enter the name of the system or service where the webhook will come from",
+      "endpoint": "Endpoint URL",
+      "endpoint_placeholder": "https://webhook.example.com/notify",
+      "method": "HTTP Method",
+      "secret": "Secret (Secret key for signature)",
+      "secret_placeholder": "Secret key for webhook validation",
+      "secret_help": "Used to generate HMAC signature of payload",
+      "custom_headers": "Custom Headers",
+      "header_name": "Header name",
+      "header_value": "Header value",
+      "common_headers": "Common headers:",
+      "webhook_info_title": "📋 Webhook Information",
+      "webhook_info_1": "• The endpoint will be automatically generated after service creation",
+      "webhook_info_2": "• Configure the provider to specify where the webhook will come from",
+      "webhook_info_3": "• Use secret to validate request authenticity",
+      "webhook_info_4": "• Custom headers can be used for additional authentication",
+      "webhook_info_5": "• HTTP method will always be POST for webhook reception",
+      "webhook_success_title": "Webhook created successfully!",
+      "webhook_success_message": "Your webhook endpoint has been generated. Use this URL in your provider:",
+      "webhook_endpoint_label": "Webhook Endpoint:",
+      "copy_button": "Copy",
+      "copied_message": "Endpoint copied to clipboard",
+      "next_steps_title": "📋 Next steps:",
+      "next_step_1": "1. Copy the endpoint above",
+      "next_step_2": "2. Configure this URL in your provider",
+      "next_step_3": "3. Use POST method to send webhooks",
+      "next_step_4": "4. Configure the secret for security validation",
+      "finish_button": "Finish"
+    }
+  },
+  "actions": {
+    "actions": "ACTIONS",
+    "edit": "Edit service",
+    "delete": "Delete service",
+    "confirm_delete": "Are you sure you want to delete this service?",
+    "delete_error": "Error deleting service. Please try again.",
+    "refresh_data": "Refresh data"
   },
   "sidebar": {
     "brand": "InfraWatch",
@@ -176,5 +336,274 @@
     "settings": "Settings",
     "dark_mode": "Dark mode",
     "logout": "Logout"
+  },
+  "landing": {
+    "header": {
+      "features": "Features",
+      "dashboard": "Dashboard",
+      "services": "Services",
+      "integrations": "Integrations",
+      "api": "API",
+      "team": "Team",
+      "get_started": "Get Started"
+    },
+    "hero": {
+      "badge": "Real-time Infrastructure Monitoring",
+      "title_1": "Monitor Your",
+      "title_2": "Infrastructure",
+      "title_3": "Like Never Before",
+      "description": "Comprehensive monitoring solution for servers, networks, APIs, and applications with real-time alerts and intelligent insights.",
+      "start_monitoring": "Start Monitoring",
+      "view_demo": "View Demo"
+    },
+    "features": {
+      "title": "Powerful Features",
+      "subtitle": "Everything you need to monitor your infrastructure",
+      "real_time": {
+        "title": "Real-time Monitoring",
+        "description": "Track your systems performance 24/7 with instant updates and precise metrics."
+      },
+      "intelligent_alerts": {
+        "title": "Intelligent Alerts",
+        "description": "Receive personalized notifications when something needs your attention, reducing false alarms."
+      },
+      "api_monitoring": {
+        "title": "API Monitoring",
+        "description": "Monitor the performance, availability, and response time of your APIs with detailed reports."
+      },
+      "network_insights": {
+        "title": "Network Insights",
+        "description": "Visualize your network health with interactive maps and real-time traffic analysis."
+      },
+      "automated_scaling": {
+        "title": "Automated Scaling",
+        "description": "Automatically respond to demand changes with intelligent scaling policies."
+      },
+      "comprehensive_reports": {
+        "title": "Comprehensive Reports",
+        "description": "Get detailed insights with customizable reports and historical analysis."
+      }
+    },
+    "dashboard": {
+      "title": "Intuitive Dashboard",
+      "description": "Visualize all your systems in a single screen with customizable dashboards and real-time metrics.",
+      "explore_dashboard": "Explore Dashboard"
+    },
+    "services": {
+      "title": "Monitored Services",
+      "description": "Monitor a wide variety of services and technologies",
+      "web_servers": "Web Servers",
+      "databases": "Databases",
+      "apis": "APIs & Microservices",
+      "containers": "Containers",
+      "cloud_services": "Cloud Services",
+      "networks": "Network Infrastructure",
+      "database_monitoring": {
+        "title": "Database Monitoring",
+        "description": "Monitor database performance, query execution times, connection pools, and resource utilization across MySQL, PostgreSQL, MongoDB, and more.",
+        "avg_query_time": "Avg Query Time",
+        "active_connections": "Active Connections",
+        "queries_per_second": "Queries per Second",
+        "cache_hit_ratio": "Cache Hit Ratio",
+        "slow_queries": "Slow Queries",
+        "database_size": "Database Size"
+      },
+      "cloud_monitoring": {
+        "title": "Cloud Monitoring",
+        "description": "Monitor cloud resources, costs, performance, and compliance across multiple cloud platforms.",
+        "cost_optimization": "Cost Optimization",
+        "auto_scaling": "Auto Scaling",
+        "multi_cloud": "Multi-Cloud",
+        "compliance": "Compliance",
+        "cloud_resources": "Cloud Resources",
+        "ec2_instances": "EC2 Instances",
+        "running": "Running",
+        "lambda_functions": "Lambda Functions",
+        "invocations": "Invocations",
+        "rds_databases": "RDS Databases",
+        "healthy": "Healthy",
+        "storage_buckets": "Storage Buckets",
+        "objects": "Objects"
+      },
+      "cloud_infrastructure": {
+        "title": "Cloud Infrastructure",
+        "description": "Comprehensive monitoring across AWS, Google Cloud, Azure, and other cloud platforms with unified dashboards and cost optimization insights.",
+        "monthly_cost": "Monthly Cost",
+        "active_resources": "Active Resources"
+      },
+      "application_performance": {
+        "title": "Application Performance",
+        "description": "Monitor application performance, error rates, user experience, and business metrics with distributed tracing and real-user monitoring.",
+        "error_rate": "Error Rate",
+        "avg_response": "Avg Response",
+        "throughput": "Throughput",
+        "user_sessions": "User Sessions",
+        "application_metrics": "Application Metrics",
+        "response_time": "Response Time",
+        "good": "Good",
+        "excellent": "Excellent"
+      }
+    },
+    "terminal": {
+      "title": "Command Line Interface",
+      "description": "Manage your infrastructure directly from the terminal with our powerful CLI"
+    },
+    "alerts": {
+      "title": "Alert Integrations",
+      "description": "Connect with your favorite tools to receive alerts where you work",
+      "slack": "Instant Slack notifications",
+      "email": "Custom email alerts",
+      "webhooks": "Flexible webhooks for automation",
+      "mobile": "Mobile push notifications",
+      "smart_alerts": "Smart Alerts",
+      "instant_slack": "Instant Slack notifications",
+      "push_mobile": "Mobile push notifications",
+      "custom_email": "Custom email alerts",
+      "application_performance": "Application Performance",
+      "cloud_infrastructure": "Cloud Infrastructure",
+      "slack_description": "Send alerts directly to Slack channels with rich formatting, interactive buttons, and thread-based incident management.",
+      "mobile_description": "Receive instant notifications via mobile app with inline keyboards for quick actions and status updates.",
+      "email_description": "Configure custom email alerts with rich templates, advanced filters, and automatic escalation.",
+      "webhooks_description": "Set up flexible webhooks for custom automation and integration with third-party tools.",
+      "smart_alert_routing": "Smart Alert Routing",
+      "intelligent_filtering": {
+        "title": "Intelligent Filtering",
+        "description": "Reduce noise with smart alert filtering based on severity, frequency, and historical patterns."
+      },
+      "escalation_policies": {
+        "title": "Escalation Policies",
+        "description": "Configure multi-level escalation with time-based routing to ensure critical issues are addressed."
+      },
+      "on_call_scheduling": {
+        "title": "On-Call Scheduling",
+        "description": "Automated on-call rotation with timezone support and holiday management for global teams."
+      }
+    },
+    "api": {
+      "title": "Powerful RESTful API",
+      "description": "Integrate InfraWatch with your existing systems using our comprehensive API",
+      "real_time_data": "Real-time Data",
+      "easy_integration": "Easy Integration",
+      "comprehensive_docs": "Comprehensive Documentation",
+      "rest_api": "REST API",
+      "rest_description": "Access all monitoring data, configure alerts, and manage your infrastructure programmatically with our RESTful API.",
+      "features": {
+        "retrieve_metrics": "Retrieve metrics and performance data",
+        "configure_rules": "Configure monitoring rules and alerts",
+        "manage_team": "Manage team members and permissions",
+        "export_data": "Export data for custom reporting"
+      },
+      "webhooks": {
+        "title": "Webhooks",
+        "description": "Set up webhooks to receive real-time notifications when specific events occur.",
+        "real_time_notifications": "Real-time notifications",
+        "custom_payloads": "Customizable payloads",
+        "secure_delivery": "Secure delivery",
+        "retry_logic": "Retry logic"
+      },
+      "code_examples": {
+        "get_services": "// Get all services",
+        "create_service": "// Create new service",
+        "webhook_example": "// Webhook example"
+      },
+      "secure_auth": {
+        "title": "Secure Authentication",
+        "description": "API keys with granular permissions and rate limiting for secure access to your monitoring data."
+      },
+      "comprehensive_docs_section": {
+        "title": "Comprehensive Docs",
+        "description": "Detailed documentation with code examples, SDKs, and interactive API explorer for easy integration."
+      },
+      "high_performance": {
+        "title": "High Performance",
+        "description": "Sub-second response times with 99.9% uptime SLA and global CDN for optimal API performance."
+      }
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "description": "Passionate professionals dedicated to creating the best monitoring solutions",
+      "roles": {
+        "fullstack_dev": "Full Stack Developer",
+        "devops_engineer": "DevOps Engineer",
+        "ui_ux_designer": "UI/UX Designer",
+        "project_manager": "Project Manager",
+        "backend_leader": "Backend Team Leader",
+        "backend_dev": "Backend Developer",
+        "frontend_dev": "Frontend Developer",
+        "frontend_leader": "Frontend Team Leader",
+        "deploy_specialist": "Deploy Specialist"
+      }
+    },
+    "enterprise": {
+      "title": "Enterprise Solutions",
+      "description": "Advanced features for large-scale organizations",
+      "unlimited_monitoring": "Unlimited Monitoring",
+      "priority_support": "Priority Support",
+      "custom_integrations": "Custom Integrations",
+      "dedicated_account": "Dedicated Account Manager",
+      "contact_sales": "Contact Sales",
+      "sla_compliance": {
+        "title": "SLA Compliance",
+        "description": "Guarantee uptime with comprehensive SLA monitoring, automated reporting, and compliance tracking for regulatory requirements.",
+        "uptime_sla": "Uptime SLA",
+        "response_time_sla": "Response Time SLA",
+        "support_response": "Support Response"
+      },
+      "snmp_monitoring": {
+        "title": "SNMP Monitoring",
+        "description": "Complete enterprise network device monitoring with support for SNMP v1, v2c, and v3 with customizable MIBs."
+      },
+      "webhook_integration": {
+        "title": "Webhook Integration",
+        "description": "Advanced webhook system with retry logic, authentication, and custom payload formatting for seamless integrations."
+      },
+      "features": {
+        "scale_thousands": "Scale to thousands of monitored services",
+        "custom_dashboards": "Custom dashboards and reports",
+        "sso_integration": "SSO integration and access control",
+        "dedicated_support": "Dedicated support with guaranteed SLA",
+        "on_premise": "On-premise deployment options",
+        "api_access": "Full API and webhook access"
+      },
+      "compliance": {
+        "soc2": {
+          "title": "SOC 2",
+          "description": "Certified for security, availability, and confidentiality controls"
+        },
+        "iso27001": {
+          "title": "ISO 27001",
+          "description": "Information security management system certification"
+        },
+        "gdpr": {
+          "title": "GDPR",
+          "description": "Full compliance with European data protection regulations"
+        },
+        "hipaa": {
+          "title": "HIPAA",
+          "description": "Healthcare data protection and privacy compliance"
+        }
+      }
+    },
+    "footer": {
+      "description": "Monitor your infrastructure with confidence",
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "documentation": "Documentation",
+      "api_reference": "API Reference",
+      "company": "Company",
+      "about": "About",
+      "team": "Team",
+      "careers": "Careers",
+      "contact": "Contact",
+      "support": "Support",
+      "help_center": "Help Center",
+      "status": "Status",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "all_rights_reserved": "All rights reserved."
+    }
   }
 }
