@@ -35,5 +35,6 @@ jobs:
             IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/infrawatch-frontend:latest"
             docker stop Frontend || true
             docker rm Frontend || true
+            docker rmi $IMAGE || true
             docker pull $IMAGE
-            docker run -d --name Frontend -p 3002:80 $IMAGE
+            docker run -d --restart unless-stopped --name Frontend -p 3002:80 $IMAGE
