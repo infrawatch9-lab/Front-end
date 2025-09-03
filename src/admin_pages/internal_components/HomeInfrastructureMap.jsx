@@ -27,7 +27,7 @@ export default function InfrastructureMap() {
   ]
 
   return (
-    <CustomDiv className="bg-[#0B1440] p-4 rounded-lg shadow-lg border">
+    <CustomDiv className="bg-[#0B1440] p-4 rounded shadow-lg border">
       <h2
         className={
           "text-white font-semibold text-sm mb-4 uppercase tracking-wide " +

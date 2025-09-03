@@ -56,7 +56,7 @@ export default function SystemOverview() {
   ];
 
   return (
-    <CustomDiv className="bg-[#0B1440] p-6 rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <CustomDiv className="bg-[#0B1440] p-6 rounded shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       <CustomDiv className="flex items-center justify-between mb-6">
         <h2
           className={

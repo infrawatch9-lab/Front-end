@@ -112,7 +112,7 @@ export default function ActivitiesList() {
   };
 
   return (
-    <CustomDiv className="bg-[#0B1440] p-6 rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-sm">
+    <CustomDiv className="bg-[#0B1440] p-6 rounded shadow-2xl border border-slate-700/50 backdrop-blur-sm">
       {/* Header */}
       <CustomDiv className="flex items-center justify-between mb-6">
         <CustomDiv className="flex items-center gap-3">

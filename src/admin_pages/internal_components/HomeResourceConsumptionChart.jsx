@@ -68,7 +68,7 @@ export default function ResourceConsumptionChart() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <CustomDiv className="border border-slate-600 rounded-lg p-3 shadow-xl">
+        <CustomDiv className="border border-slate-600 rounded p-3 shadow-xl">
           <p
             className={
               "text-gray-300 text-sm mb-2 font-medium " +

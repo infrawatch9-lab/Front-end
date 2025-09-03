@@ -34,7 +34,7 @@ export default function IncidentHistoryChart() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <CustomDiv className="bg-[#0B1440] border border-slate-600 rounded-lg p-3 shadow-xl">
+        <CustomDiv className="bg-[#0B1440] border border-slate-600 rounded p-3 shadow-xl">
           <p
             className={
               "text-gray-300 text-sm font-medium mb-2 " +
