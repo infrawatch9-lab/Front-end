@@ -1,4 +1,4 @@
-import { 
+import {
   Bell,
   MessageSquare,
   Send,
@@ -6,8 +6,12 @@ import {
   Filter,
   GitBranch,
   Calendar,
+<<<<<<< HEAD
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+=======
+} from "lucide-react";
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
 
 // Alert Integrations Section
 const AlertIntegrationsSection = () => {
@@ -16,39 +20,54 @@ const AlertIntegrationsSection = () => {
     {
       name: t('landing.alerts.slack'),
       icon: <Hash className="w-8 h-8" />,
+<<<<<<< HEAD
       description: t('landing.alerts.slack_description'),
+=======
+      description:
+        "Send alerts directly to Slack channels with rich formatting, interactive buttons, and thread-based incident management.",
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
       color: "from-purple-500 to-pink-500",
       alertExample: {
         type: "Critical Alert",
         message: "Server web-01 is down",
         time: "2 minutes ago",
-        actions: ["Acknowledge", "View Details"]
-      }
+        actions: ["Acknowledge", "View Details"],
+      },
     },
     {
       name: t('landing.alerts.mobile'),
       icon: <Send className="w-8 h-8" />,
+<<<<<<< HEAD
       description: t('landing.alerts.mobile_description'),
+=======
+      description:
+        "Receive instant notifications via Telegram with inline keyboards for quick actions and status updates.",
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
       color: "from-blue-500 to-cyan-500",
       alertExample: {
         type: "InfraWatch Bot",
         message: "Database connection timeout",
         time: "mysql-prod-01 • 5 minutes ago",
-        actions: ["✅ Ack", "📊 Details"]
-      }
+        actions: ["✅ Ack", "📊 Details"],
+      },
     },
     {
       name: t('landing.alerts.email'),
       icon: <MessageSquare className="w-8 h-8" />,
+<<<<<<< HEAD
       description: t('landing.alerts.email_description'),
+=======
+      description:
+        "Integrate with Google Workspace to send alerts to Google Chat spaces with card-based notifications.",
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
       color: "from-green-500 to-teal-500",
       alertExample: {
         type: "Warning Alert",
         message: "High memory usage detected",
         time: "app-server-03 • Memory: 87%",
-        actions: ["View in Dashboard"]
-      }
-    }
+        actions: ["View in Dashboard"],
+      },
+    },
   ];
 
   return (
@@ -59,39 +78,58 @@ const AlertIntegrationsSection = () => {
             {t('landing.alerts.title')}
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+<<<<<<< HEAD
             {t('landing.alerts.description')}
+=======
+            Get notified instantly through your preferred channels with smart
+            routing and escalation policies
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
           </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
           {integrations.map((integration, index) => (
-            <div key={index} className="bg-slate-700/30 backdrop-blur-sm border border-slate-600 rounded-xl p-6 hover:border-slate-500 transition-all duration-300 group">
-              <div className={`w-16 h-16 bg-gradient-to-r ${integration.color} rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
+            <div
+              key={index}
+              className="bg-slate-700/30 backdrop-blur-sm border border-slate-600 rounded-xl p-6 hover:border-slate-500 transition-all duration-300 group"
+            >
+              <div
+                className={`w-16 h-16 bg-gradient-to-r ${integration.color} rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}
+              >
                 {integration.icon}
               </div>
-              
+
               <h3 className="text-xl font-semibold text-white mb-3">
                 {integration.name}
               </h3>
-              
+
               <p className="text-slate-300 mb-6 text-sm leading-relaxed">
                 {integration.description}
               </p>
-              
+
               <div className="bg-slate-600/30 rounded-lg p-4">
                 <div className="flex items-center space-x-2 mb-2">
                   <div className="w-6 h-6 bg-indigo-600 rounded flex items-center justify-center">
                     <Bell className="w-3 h-3 text-white" />
                   </div>
-                  <span className="text-white text-sm font-medium">{integration.alertExample.type}</span>
+                  <span className="text-white text-sm font-medium">
+                    {integration.alertExample.type}
+                  </span>
                 </div>
-                
-                <div className="text-white text-sm mb-1">{integration.alertExample.message}</div>
-                <div className="text-slate-400 text-xs mb-3">{integration.alertExample.time}</div>
-                
+
+                <div className="text-white text-sm mb-1">
+                  {integration.alertExample.message}
+                </div>
+                <div className="text-slate-400 text-xs mb-3">
+                  {integration.alertExample.time}
+                </div>
+
                 <div className="flex space-x-2">
                   {integration.alertExample.actions.map((action, i) => (
-                    <button key={i} className="bg-slate-500/50 hover:bg-slate-500 text-white text-xs px-3 py-1 rounded transition-colors">
+                    <button
+                      key={i}
+                      className="bg-slate-500/50 hover:bg-slate-500 text-white text-xs px-3 py-1 rounded transition-colors"
+                    >
                       {action}
                     </button>
                   ))}
@@ -102,36 +140,70 @@ const AlertIntegrationsSection = () => {
         </div>
 
         <div className="bg-slate-700/20 backdrop-blur-sm border border-slate-600 rounded-2xl p-8">
+<<<<<<< HEAD
           <h3 className="text-2xl font-bold text-white text-center mb-8">{t('landing.alerts.smart_alert_routing')}</h3>
           
+=======
+          <h3 className="text-2xl font-bold text-white text-center mb-8">
+            Smart Alert Routing
+          </h3>
+
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Filter className="w-8 h-8 text-white" />
               </div>
+<<<<<<< HEAD
               <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.intelligent_filtering.title')}</h4>
               <p className="text-slate-300 text-sm">
                 {t('landing.alerts.intelligent_filtering.description')}
+=======
+              <h4 className="text-lg font-semibold text-white mb-2">
+                Intelligent Filtering
+              </h4>
+              <p className="text-slate-300 text-sm">
+                Reduce noise with smart alert filtering based on severity,
+                frequency, and historical patterns.
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <GitBranch className="w-8 h-8 text-white" />
               </div>
+<<<<<<< HEAD
               <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.escalation_policies.title')}</h4>
               <p className="text-slate-300 text-sm">
                 {t('landing.alerts.escalation_policies.description')}
+=======
+              <h4 className="text-lg font-semibold text-white mb-2">
+                Escalation Policies
+              </h4>
+              <p className="text-slate-300 text-sm">
+                Configure multi-level escalation with time-based routing to
+                ensure critical issues are addressed.
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-8 h-8 text-white" />
               </div>
+<<<<<<< HEAD
               <h4 className="text-lg font-semibold text-white mb-2">{t('landing.alerts.on_call_scheduling.title')}</h4>
               <p className="text-slate-300 text-sm">
                 {t('landing.alerts.on_call_scheduling.description')}
+=======
+              <h4 className="text-lg font-semibold text-white mb-2">
+                On-Call Scheduling
+              </h4>
+              <p className="text-slate-300 text-sm">
+                Automated on-call rotation with timezone support and holiday
+                management for global teams.
+>>>>>>> 14164fb (ultimo update sobre o ultimo merge)
               </p>
             </div>
           </div>
