@@ -11,7 +11,6 @@ import { apiDeleteUser } from "../api/users/deleteUser";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 
 export default function UsersAdmin() {
-  // Estados principais
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
