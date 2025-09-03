@@ -105,3 +105,40 @@
   outline: none;
 
 }
+
+.ass-status{
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+
+}
+
+.table-th-dark {
+
+  background-color: #16205A;
+}
+
+.table-th-light {
+  background-color: #d1d1d1;
+  
+}
+
+.table-td-log-info{
+  background-color: green;
+}
+
+.table-td-log-warn{
+  background-color: orange;
+}
+
+.table-td-log-err{
+  background-color: red;
+}
+.btn{
+
+  padding: 10px;
+}
+
+.click {
+  cursor: pointer;
+}

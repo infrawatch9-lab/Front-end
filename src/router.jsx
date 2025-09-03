@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
 import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsDetails";
 import InfraWatchLanding from "./landing_page/Landing";
+import { Test } from "./components/CustomComponents/Test";
 
 export default function Router() {
   return (
@@ -25,7 +26,7 @@ export default function Router() {
           <Routes>
             {/* Página inicial = Login */}
             <Route path="/" element={<InfraWatchLanding />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Test />} />
             {/* Páginas protegidas */}
             <Route path="/admin" element={<Layout />}>
               <Route index element={<HomepageAdmin />} />
