@@ -5,6 +5,7 @@ import {
   Users,
   Settings,
   Moon,
+  Sun,
   Power,
 } from "lucide-react";
 import CollapseButton from "../components/CollapseButton";
