@@ -1,6 +1,6 @@
 import React from "react";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Download } from "lucide-react";
 import StatusBadge from "./MonitorStatusBadge";
 import { useTranslation } from "react-i18next";
 
@@ -10,6 +10,8 @@ export default function StatusTable({
   onRowClick,
   onEditService,
   onDeleteService,
+  onExportPdf,
+  exportPeriod,
 }) {
   const { t } = useTranslation();
   const filteredData = data.filter(
@@ -118,6 +120,18 @@ export default function StatusTable({
               >
                 <Trash2 className="w-4 h-4" />
               </button>
+              {onExportPdf && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onExportPdf(item.id, item.sla);
+                  }}
+                  className="p-1.5 text-green-400 hover:text-green-300 hover:bg-slate-700 rounded transition-colors"
+                  title={`Exportar PDF (${exportPeriod || "período"})`}
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         ))}

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { apiRegister } from "../../api/users/register";
 import { apiGetUsers } from "../../api/users/getUsers";
 import { apiUpdateUser } from "../../api/users/updateUser";
 import { apiDeleteUser } from "../../api/users/deleteUser";
 
 export default function AccessPermissionsTab() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: "", email: "", role: "USER" });
   const [showAddUser, setShowAddUser] = useState(false);
@@ -14,17 +16,17 @@ export default function AccessPermissionsTab() {
   const fetchingRef = useRef(false);
 
   const roles = [
-    { value: "ADMIN", label: "Administrador", color: "bg-red-600" },
-    { value: "USER", label: "Usuário", color: "bg-blue-600" },
-    { value: "VIEWER", label: "Visualizador", color: "bg-green-600" },
+    { value: "ADMIN", label: t("settings.access.roles.admin"), color: "bg-red-600" },
+    { value: "USER", label: t("settings.access.roles.user"), color: "bg-blue-600" },
+    { value: "VIEWER", label: t("settings.access.roles.viewer"), color: "bg-green-600" },
   ];
 
   const permissions = [
-    { key: "dashboard", label: "Dashboard" },
-    { key: "monitoring", label: "Monitoramento" },
-    { key: "reports", label: "Relatórios" },
-    { key: "settings", label: "Configurações" },
-    { key: "users", label: "Usuários" },
+    { key: "dashboard", label: t("settings.access.permissions.dashboard") },
+    { key: "monitoring", label: t("settings.access.permissions.monitoring") },
+    { key: "reports", label: t("settings.access.permissions.reports") },
+    { key: "settings", label: t("settings.access.permissions.settings") },
+    { key: "users", label: t("settings.access.permissions.users") },
   ];
 
   // Função para obter permissões baseadas no role
@@ -98,7 +100,7 @@ export default function AccessPermissionsTab() {
         console.error("Erro ao buscar usuários:", error);
         setMessage({
           type: "error",
-          text: "Erro ao carregar usuários. Tente recarregar a página.",
+          text: t("settings.access.errors.load_users"),
         });
         setTimeout(() => setMessage({ type: "", text: "" }), 5000);
       } finally {
@@ -214,14 +216,14 @@ export default function AccessPermissionsTab() {
         setShowAddUser(false);
         setMessage({
           type: "success",
-          text: response || "Usuário registrado com sucesso!",
+          text: response || t("settings.access.success.user_registered"),
         });
         setTimeout(() => setMessage({ type: "", text: "" }), 3000);
       } catch (error) {
         console.error("Erro ao registrar usuário:", error);
         setMessage({
           type: "error",
-          text: error.message || "Erro ao registrar usuário. Tente novamente.",
+          text: error.message || t("settings.access.errors.register_user"),
         });
         setTimeout(() => setMessage({ type: "", text: "" }), 5000);
       } finally {
@@ -230,14 +232,14 @@ export default function AccessPermissionsTab() {
     } else {
       setMessage({
         type: "error",
-        text: "Por favor, preencha todos os campos obrigatórios.",
+  text: t("settings.access.errors.required_fields"),
       });
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     }
   };
 
   const deleteUser = async (userId) => {
-    if (!window.confirm("Tem certeza que deseja remover este usuário?")) {
+  if (!window.confirm(t("settings.access.confirm.delete_user"))) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Filter, Plus, RefreshCw } from "lucide-react";
+import { Filter, Plus, RefreshCw, FileText, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ServiceModal from "./internal_components/ServiceModal";
 import StatusTable from "./internal_components/MonitorStatusTable";
@@ -10,6 +10,21 @@ import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
 import { getServices, deleteService } from "../api/services";
+// import removido: funções não utilizadas
+import { exportSlaPdfByService } from "../api/sla/exportSlaPdf";
+import { exportSlaPdfAll } from "../api/sla/exportSlaPdf";
+// Função utilitária para download de blob
+function downloadBlob(blob, filename) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+// Utilitário para datas
 
 export default function MonitorAdmin() {
   const { t } = useTranslation();
@@ -25,6 +40,73 @@ export default function MonitorAdmin() {
   // Removed unused cachedData state
   const [lastFetch, setLastFetch] = useState(null);
   const [cacheKey] = useState("services_cache");
+  // (period/setPeriod removido: não utilizado)
+
+  // Exportação PDF geral consolidada (todos os serviços) - sem seleção de datas
+  const [exportAllLoading, setExportAllLoading] = useState(false);
+  const handleExportAllPdf = async () => {
+    setExportAllLoading(true);
+    try {
+      // Exporta o período padrão: últimos 7 dias
+      const now = new Date();
+      const start = new Date(now);
+      start.setDate(now.getDate() - 6);
+      const params = {
+        startDate: start.toISOString().slice(0, 10),
+        endDate: now.toISOString().slice(0, 10),
+      };
+      const blob = await exportSlaPdfAll(params);
+      downloadBlob(blob, `sla_geral_${params.startDate}_${params.endDate}.pdf`);
+    } catch {
+      alert("Erro ao exportar PDF geral");
+    } finally {
+      setExportAllLoading(false);
+    }
+  };
+
+  // Quick filter for individual export
+  const [quickFilter, setQuickFilter] = useState("7d");
+  // Helper to get params for quick filter
+  function getQuickFilterParams(filter) {
+    const now = new Date();
+    if (filter === "7d") {
+      const start = new Date(now);
+      start.setDate(now.getDate() - 6);
+      return {
+        startDate: start.toISOString().slice(0, 10),
+        endDate: now.toISOString().slice(0, 10),
+      };
+    }
+    if (filter === "month") {
+      const start = new Date(now.getFullYear(), now.getMonth(), 1);
+      return {
+        startDate: start.toISOString().slice(0, 10),
+        endDate: now.toISOString().slice(0, 10),
+      };
+    }
+    if (filter === "year") {
+      const start = new Date(now.getFullYear(), 0, 1);
+      return {
+        startDate: start.toISOString().slice(0, 10),
+        endDate: now.toISOString().slice(0, 10),
+      };
+    }
+    return {};
+  }
+  const handleExportPdf = async (serviceId, serviceName) => {
+    try {
+      const params = getQuickFilterParams(quickFilter);
+      const blob = await exportSlaPdfByService(serviceId, params);
+      downloadBlob(
+        blob,
+        `sla_${serviceName}_${params.startDate || "inicio"}_${
+          params.endDate || "fim"
+        }.pdf`
+      );
+    } catch {
+      alert(`Erro ao exportar PDF para ${serviceName}`);
+    }
+  };
   // const [isInitialLoad, setIsInitialLoad] = useState(false); // Removido: não utilizado
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
   const [confirmModal, setConfirmModal] = useState({
@@ -163,26 +245,22 @@ export default function MonitorAdmin() {
   // Detect when user returns to page after long time away
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (!document.hidden && lastFetch) {
+      // Só atualiza se o cache já foi carregado
+      if (hasCacheLoaded && !document.hidden && lastFetch) {
         const now = new Date().getTime();
         const timeAway = now - lastFetch;
-
-        // Se esteve fora por mais de 30 minutos, invalidar cache
         const AWAY_THRESHOLD = 30 * 60 * 1000; // 30 minutos
-
         if (timeAway > AWAY_THRESHOLD) {
           console.log("User returned after long time away, invalidating cache");
           invalidateCacheAndRefresh();
         }
       }
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [lastFetch, invalidateCacheAndRefresh]);
+  }, [hasCacheLoaded, lastFetch, invalidateCacheAndRefresh]);
 
   // Proteção contra autocomplete indevido
   useEffect(() => {
@@ -386,7 +464,22 @@ export default function MonitorAdmin() {
                 : `${servicesData.length} serviços sendo monitorados`}
             </p>
           </div>
-          <div className="flex items-center space-x-3 relative"></div>
+
+          <div className="flex items-center space-x-3 relative">
+            <button
+              className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded border border-gray-600 transition-colors min-w-[120px] justify-center"
+              onClick={handleExportAllPdf}
+              title="Exportar PDF geral consolidado"
+              disabled={exportAllLoading}
+            >
+              {exportAllLoading ? (
+                <AppLoader size={15} minHeight={0} />
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
+              PDF Geral
+            </button>
+          </div>
 
           <div className="flex items-center space-x-3 relative">
             <div className="relative">
@@ -517,12 +610,26 @@ export default function MonitorAdmin() {
             <>
               {/* Status Table */}
               <div className="flex-1">
+                {/* Quick filter select for individual export */}
+                <div className="flex gap-2 mb-2">
+                  <select
+                    className="bg-gray-700 text-white px-2 py-2 rounded border border-gray-600 text-sm"
+                    value={quickFilter}
+                    onChange={(e) => setQuickFilter(e.target.value)}
+                    title="Período do relatório individual"
+                  >
+                    <option value="7d">Últimos 7 dias</option>
+                    <option value="month">Este mês</option>
+                    <option value="year">Este ano</option>
+                  </select>
+                </div>
                 <StatusTable
                   data={currentPageData}
                   searchTerm={searchTerm}
                   onRowClick={handleRowClick}
                   onEditService={handleEditService}
                   onDeleteService={handleDeleteService}
+                  onExportPdf={handleExportPdf}
                 />
 
                 {/* No results message */}
