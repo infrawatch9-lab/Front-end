@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AppLoader from "../components/AppLoader";
 import SearchAndFilters from "./users_components/SearchAndFilters";
 import UserActionsButtons from "./users_components/UserActionsButtons";
 import Pagination from "./users_components/Pagination";
@@ -59,120 +60,91 @@ export default function UsersAdmin() {
     const matchesSearch =
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.phone?.toString().includes(searchTerm);
-    const matchesRole = roleFilter ? user.role === roleFilter : true;
-    const matchesStatus = statusFilter ? user.status === statusFilter : true;
-    return matchesSearch && matchesRole && matchesStatus;
+      user.phone?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
   });
+
+  // ...existing code...
+
   // Paginação
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
   );
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
   // Handlers
-  // Novo estado para controlar modo de edição/visualização
-  const [detailsReadOnly, setDetailsReadOnly] = useState(true);
-  const handleShowDetails = (user) => {
+  function handleShowDetails(user, readOnly = true) {
     setSelectedUser(user);
-    setDetailsReadOnly(true);
     setShowDetailsModal(true);
-  };
-  const handleEditUser = (user) => {
-    setSelectedUser(user);
-    setDetailsReadOnly(false);
-    setShowDetailsModal(true);
-  };
-  // Handler para abrir modal de criação
-  const handleCreateUser = () => {
-    setShowCreateModal(true);
-  };
-  // Handler para abrir modal de confirmação
-  const handleDeleteUser = (userId) => {
-    setUserIdToDelete(userId);
-    setShowDeleteModal(true);
-  };
+    setDetailsReadOnly(readOnly);
+  }
 
-  // Handler para confirmar exclusão
-  const confirmDeleteUser = async () => {
-    if (!userIdToDelete) return;
+  function handleEditUser(user) {
+    setSelectedUser(user);
+    setShowDetailsModal(true);
+    setDetailsReadOnly(false);
+  }
+
+  function handleDeleteUser(user) {
+    setUserIdToDelete(user.id);
+    setShowDeleteModal(true);
+  }
+
+  async function handleCreateUserSubmit(newUser) {
+    setLoading(true);
     try {
-      await apiDeleteUser(userIdToDelete);
-      setMessage({ type: "success", text: "Usuário deletado com sucesso!" });
-      setTimeout(() => setMessage({ type: "", text: "" }), 3000);
-      setTimeout(() => setRefresh((r) => !r), 100);
-    } catch (err) {
-      setMessage({
-        type: "error",
-        text: err.message || "Erro ao deletar usuário",
-      });
-      setTimeout(() => setMessage({ type: "", text: "" }), 5000);
-    } finally {
-      setShowDeleteModal(false);
-      setUserIdToDelete(null);
-    }
-  };
-  const handleCreateUserSubmit = async (data) => {
-    // Limpa cache ao criar
-    localStorage.removeItem("usersCache");
-    // Enviar apenas campos aceitos pela API, status sempre em maiúsculo
-    const payload = {
-      name: data.name,
-      email: data.email,
-      number: data.number,
-      role: data.role,
-      tag: data.tag,
-      status: data.status
-        ? data.status.toUpperCase() === "INACTIVE"
-          ? "INACTIVE"
-          : "ACTIVE"
-        : "ACTIVE",
-    };
-    try {
-      await apiRegister(payload);
+      await apiRegister(newUser);
       setShowCreateModal(false);
       setMessage({ type: "success", text: "Usuário criado com sucesso!" });
-      setTimeout(() => setMessage({ type: "", text: "" }), 3000);
-      setTimeout(() => setRefresh((r) => !r), 100); // recarrega após feedback
+      setRefresh((r) => !r);
     } catch (err) {
       setMessage({
         type: "error",
         text: err.message || "Erro ao criar usuário",
       });
-      setTimeout(() => setMessage({ type: "", text: "" }), 5000);
+    } finally {
+      setLoading(false);
     }
-  };
-  const handleUpdateUserSubmit = async (data) => {
-    // Limpa cache ao editar
-    localStorage.removeItem("usersCache");
-    // Limpa cache ao deletar
-    localStorage.removeItem("usersCache");
-    // Enviar apenas campos aceitos pela API, status sempre em maiúsculo
-    const payload = {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      number: data.number,
-      role: data.role,
-      status: data.status,
-    };
+  }
+
+  async function handleUpdateUserSubmit(updatedUser) {
+    setLoading(true);
     try {
-      await apiUpdateUser(payload);
+      await apiUpdateUser(updatedUser);
       setShowDetailsModal(false);
       setMessage({ type: "success", text: "Usuário atualizado com sucesso!" });
-      setTimeout(() => setMessage({ type: "", text: "" }), 3000);
-      setTimeout(() => setRefresh((r) => !r), 100); // recarrega após feedback
+      setRefresh((r) => !r);
     } catch (err) {
       setMessage({
         type: "error",
         text: err.message || "Erro ao atualizar usuário",
       });
-      setTimeout(() => setMessage({ type: "", text: "" }), 5000);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
-  // Handlers
+  async function confirmDeleteUser() {
+    if (!userIdToDelete) return;
+    setLoading(true);
+    try {
+      await apiDeleteUser(userIdToDelete);
+      setShowDeleteModal(false);
+      setUserIdToDelete(null);
+      setMessage({ type: "success", text: "Usuário excluído com sucesso!" });
+      setRefresh((r) => !r);
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err.message || "Erro ao excluir usuário",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const [detailsReadOnly, setDetailsReadOnly] = useState(true);
 
   return (
     <CustomDiv type="background" className="p-6 min-h-screen">
@@ -190,13 +162,13 @@ export default function UsersAdmin() {
         </div>
         <div className="flex gap-2 items-center">
           <button
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
             onClick={() => setRefresh((r) => !r)}
             disabled={loading}
-            className="px-3 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Recarregar usuários"
           >
             <svg
-              className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+              className={`w-5 h-5 ${loading ? "animate-spin" : ""}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -208,69 +180,31 @@ export default function UsersAdmin() {
                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
               />
             </svg>
-            {loading ? "Carregando..." : "Recarregar"}
           </button>
           <button
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-all duration-200 whitespace-nowrap"
-            onClick={handleCreateUser}
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            onClick={() => setShowCreateModal(true)}
+            title="Adicionar usuário"
           >
-            CRIAR USUÁRIO
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
           </button>
         </div>
       </div>
-      {/* Mensagem de feedback */}
-      {message.text && (
-        <div
-          className={`p-4 rounded-lg border mb-4 ${
-            message.type === "success"
-              ? "bg-green-900 border-green-600 text-green-200"
-              : "bg-red-900 border-red-600 text-red-200"
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            {message.type === "success" ? (
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            )}
-            {message.text}
-          </div>
-        </div>
-      )}
-      <div className="mb-4 overflow-x-auto w-full relative z-0 rounded border border-slate-700">
-        <table className="w-full bg-[#0B1440] rounded-none overflow-hidden table-fixed shadow-lg relative z-0">
-          <colgroup>
-            <col style={{ width: "22%" }} />
-            <col style={{ width: "22%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "20%" }} />
-          </colgroup>
+      {/* Tabela de usuários */}
+      <div className="overflow-x-auto rounded-lg border border-slate-700">
+        <table className="w-full bg-[#10194A] rounded-lg overflow-hidden shadow-md">
           <thead style={{ position: "sticky", top: 0, zIndex: 60 }}>
             <tr className="text-slate-400 text-xs uppercase bg-[#16205A] border-b border-blue-900">
               <th className="py-2 px-4 text-left">Nome</th>
@@ -285,28 +219,7 @@ export default function UsersAdmin() {
             {loading ? (
               <tr>
                 <td colSpan={6} className="py-10">
-                  <div className="flex justify-center items-center">
-                    <svg
-                      className="animate-spin h-10 w-10 text-blue-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v8z"
-                      ></path>
-                    </svg>
-                  </div>
+                  <AppLoader size={15} minHeight={40} />
                 </td>
               </tr>
             ) : error ? (

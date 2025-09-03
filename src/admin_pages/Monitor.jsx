@@ -7,6 +7,7 @@ import Pagination from "./internal_components/MonitorPagination";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme/useTheme";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
+import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
 import { getServices, deleteService } from "../api/services";
 
@@ -505,8 +506,12 @@ export default function MonitorAdmin() {
           {/* Loading state */}
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-              <span className="ml-3 text-slate-400">{t("common.loading")}</span>
+              <div className="flex items-center">
+                <AppLoader size={15} minHeight={0} />
+                <span className="ml-3 text-slate-400">
+                  {t("common.loading")}
+                </span>
+              </div>
             </div>
           ) : (
             <>

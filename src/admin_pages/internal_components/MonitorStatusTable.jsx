@@ -1,4 +1,5 @@
 import React from "react";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 import { Edit, Trash2 } from "lucide-react";
 import StatusBadge from "./MonitorStatusBadge";
 import { useTranslation } from "react-i18next";
@@ -22,12 +23,13 @@ export default function StatusTable({
   );
 
   return (
-    <div
+    <CustomDiv
+      type="foreground"
       className="rounded border border-slate-600 overflow-hidden"
       style={{ backgroundColor: "#020E36" }}
     >
       {/* Table Header */}
-      <div
+      <CustomDiv
         className="grid grid-cols-6 gap-4 p-4 border-b border-slate-600"
         style={{ backgroundColor: "#16205A" }}
       >
@@ -49,7 +51,7 @@ export default function StatusTable({
         <div className="text-white font-semibold text-sm text-center">
           {t("actions.actions")}
         </div>
-      </div>
+      </CustomDiv>
 
       {/* Table Body */}
       <div className="divide-y divide-slate-600">
@@ -120,6 +122,6 @@ export default function StatusTable({
           </div>
         ))}
       </div>
-    </div>
+    </CustomDiv>
   );
 }

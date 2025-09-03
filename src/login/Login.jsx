@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { apiLogin } from "../api/users/login";
-import {
-  ClipLoader,
-  CircleLoader,
-  BeatLoader,
-  ScaleLoader,
-  BounceLoader,
-} from "react-spinners";
+import AppLoader from "../components/AppLoader";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -30,6 +24,7 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       setError(true);
+      setSubmiting(false);
       // Optionally, you can add a message state to display the error message
       // setMessage(error.message || "Erro ao fazer login.");
     }
@@ -102,11 +97,7 @@ export default function Login() {
             type="submit"
             className={`w-full bg-[#080F2A]  py-2 rounded-sm text-sm font-semibold button-login `}
           >
-            {submiting ? (
-              <BounceLoader color="#010E37" size={15} />
-            ) : (
-              "Iniciar sessão"
-            )}
+            {submiting ? <AppLoader size={15} /> : "Iniciar sessão"}
           </button>
 
           <div className="text-center mt-2">

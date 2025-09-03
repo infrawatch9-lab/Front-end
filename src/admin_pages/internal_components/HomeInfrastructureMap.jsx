@@ -30,7 +30,7 @@ export default function InfrastructureMap() {
       </CustomDiv>
 
       {/* Legend */}
-      <div className="mt-4 flex justify-center gap-6 text-xs">
+      <CustomDiv className="mt-4 flex justify-center gap-6 text-xs">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
           <span
@@ -64,7 +64,7 @@ export default function InfrastructureMap() {
             {t("infrastructure_map.failures")}
           </span>
         </div>
-      </div>
+      </CustomDiv>
     </CustomDiv>
   );
 }
