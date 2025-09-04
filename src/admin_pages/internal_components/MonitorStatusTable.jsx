@@ -1,9 +1,11 @@
 import React from "react";
+
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { Edit, Trash2, Download } from "lucide-react";
+import StatusBadge from "./MonitorStatusBadge";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../hooks/useTheme/useTheme";
-import CustomDiv from "../../components/CustomComponents/CustomDiv";
 import CustomTable from "../../components/CustomComponents/CustomTable";
-import StatusBadge from "./MonitorStatusBadge";
 
 export default function StatusTable({
   data,
@@ -50,24 +52,26 @@ export default function StatusTable({
           t("internal.service"),
           t("actions.actions"),
         ]}
-        types={[
-          "text",
-          "text",
-          "text",
-          "status",
-          "text",
-        ]}
+        types={["text", "text", "text", "status", "text"]}
         extractkeys={["sla", "limite", "medido", "status", "servico"]}
         extractId="id"
         data={tableData}
-        onDataClick={onRowClick ? (id) => {
-          const row = filteredData.find((item) => item.id === id);
-          if (row) onRowClick(row);
-        } : undefined}
-        onUpdate={onEditService ? (id) => {
-          const row = filteredData.find((item) => item.id === id);
-          if (row) onEditService(row);
-        } : undefined}
+        onDataClick={
+          onRowClick
+            ? (id) => {
+                const row = filteredData.find((item) => item.id === id);
+                if (row) onRowClick(row);
+              }
+            : undefined
+        }
+        onUpdate={
+          onEditService
+            ? (id) => {
+                const row = filteredData.find((item) => item.id === id);
+                if (row) onEditService(row);
+              }
+            : undefined
+        }
         onDelete={onDeleteService ? (id) => onDeleteService(id) : undefined}
       />
     </CustomDiv>

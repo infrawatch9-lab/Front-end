@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Filter, Plus, RefreshCw } from "lucide-react";
+import { Filter, Plus, RefreshCw, FileText, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ServiceModal from "./internal_components/ServiceModal";
 import StatusTable from "./internal_components/MonitorStatusTable";
@@ -26,6 +26,7 @@ export default function MonitorAdmin() {
   // Removed unused cachedData state
   const [lastFetch, setLastFetch] = useState(null);
   const [cacheKey] = useState("services_cache");
+
   // const [isInitialLoad, setIsInitialLoad] = useState(false); // Removido: não utilizado
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
   const [confirmModal, setConfirmModal] = useState({
@@ -164,26 +165,22 @@ export default function MonitorAdmin() {
   // Detect when user returns to page after long time away
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (!document.hidden && lastFetch) {
+      // Só atualiza se o cache já foi carregado
+      if (hasCacheLoaded && !document.hidden && lastFetch) {
         const now = new Date().getTime();
         const timeAway = now - lastFetch;
-
-        // Se esteve fora por mais de 30 minutos, invalidar cache
         const AWAY_THRESHOLD = 30 * 60 * 1000; // 30 minutos
-
         if (timeAway > AWAY_THRESHOLD) {
           console.log("User returned after long time away, invalidating cache");
           invalidateCacheAndRefresh();
         }
       }
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [lastFetch, invalidateCacheAndRefresh]);
+  }, [hasCacheLoaded, lastFetch, invalidateCacheAndRefresh]);
 
   // Proteção contra autocomplete indevido
   useEffect(() => {
@@ -361,24 +358,34 @@ export default function MonitorAdmin() {
   };
 
   return (
-    <CustomDiv
-      type="background"
-      className="min-h-screen flex flex-col"
-    >
+    <CustomDiv type="background" className="min-h-screen flex flex-col">
       <CustomDiv
-      type="background"
+        type="background"
         className={
           "p-4 flex-1 flex flex-col pb-16 " +
           (theme == "dark" ? "items-colors-light" : "items-colors-dark")
         }
       >
         {/* Page Title and Actions */}
-        <CustomDiv type="background" className="flex items-center justify-between mb-4">
+        <CustomDiv
+          type="background"
+          className="flex items-center justify-between mb-4"
+        >
           <CustomDiv type="background">
-            <h1 className={"text-2xl font-bold text-white mb-1 " + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )} >
+            <h1
+              className={
+                "text-2xl font-bold text-white mb-1 " +
+                (theme == "dark" ? " text-colors-light " : " text-colors-dark ")
+              }
+            >
               {t("monitor.title")}
             </h1>
-            <p className={"text-slate-400 " + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>
+            <p
+              className={
+                "text-slate-400 " +
+                (theme == "dark" ? " text-colors-light " : " text-colors-dark ")
+              }
+            >
               {loading
                 ? t("common.loading")
                 : searchTerm || selectedServiceType
@@ -390,7 +397,10 @@ export default function MonitorAdmin() {
           </CustomDiv>
           <CustomDiv className="flex items-center space-x-3 relative"></CustomDiv>
 
-          <CustomDiv type="background" className="flex items-center space-x-3 relative">
+          <CustomDiv
+            type="background"
+            className="flex items-center space-x-3 relative"
+          >
             <CustomDiv type="background" className="relative">
               <input
                 type="text"
@@ -402,7 +412,12 @@ export default function MonitorAdmin() {
                 id={`filter-services-${Math.random()
                   .toString(36)
                   .substr(2, 9)}`}
-                className={"pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64 " + ( theme == 'dark' ? " div-dark-mode-fg " : " div-light-mode-fg " )}
+                className={
+                  "pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64 " +
+                  (theme == "dark"
+                    ? " div-dark-mode-fg "
+                    : " div-light-mode-fg ")
+                }
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -426,7 +441,10 @@ export default function MonitorAdmin() {
             </CustomDiv>
             <ExportButtonsFilter />
             <button
-              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
+              className={
+                "p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown " +
+                (theme == "dark" ? " btn-dark-mode-fg " : " btn-light-mode-fg ")
+              }
               onClick={() => setShowFilter(!showFilter)}
             >
               <Filter className="w-5 h-5" />
@@ -447,7 +465,11 @@ export default function MonitorAdmin() {
                         selectedServiceType === ""
                           ? " bg-blue-600 text-white "
                           : " text-slate-300 hover:bg-slate-700 hover:text-white "
-                      } ${(theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}`}
+                      } ${
+                        theme == "dark"
+                          ? " btn-dark-mode-fg "
+                          : " btn-light-mode-fg "
+                      }`}
                       onClick={() => {
                         setSelectedServiceType("");
                         setCurrentPage(1);
@@ -463,7 +485,11 @@ export default function MonitorAdmin() {
                           selectedServiceType === type
                             ? " bg-blue-600 text-white "
                             : " text-slate-300 hover:bg-slate-700 hover:text-white "
-                        } ${(theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}`}
+                        } ${
+                          theme == "dark"
+                            ? " btn-dark-mode-fg "
+                            : " btn-light-mode-fg "
+                        }`}
                         onClick={() => {
                           setSelectedServiceType(type);
                           setCurrentPage(1);
@@ -478,7 +504,10 @@ export default function MonitorAdmin() {
               </CustomDiv>
             )}
             <button
-              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
+              className={
+                "p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " +
+                (theme == "dark" ? " btn-dark-mode-fg " : " btn-light-mode-fg ")
+              }
               onClick={handleRefresh}
               disabled={loading}
               title={`${t("actions.refresh_data")} (ignorar cache)`}
@@ -488,7 +517,10 @@ export default function MonitorAdmin() {
               />
             </button>
             <button
-              className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
+              className={
+                "p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors " +
+                (theme == "dark" ? " btn-dark-mode-fg " : " btn-light-mode-fg ")
+              }
               onClick={handleCreateService}
             >
               <Plus className="w-5 h-5" />
@@ -519,7 +551,7 @@ export default function MonitorAdmin() {
             <>
               {/* Status Table */}
               <CustomDiv type="background" className="flex-1">
-                <StatusTable 
+                <StatusTable
                   data={currentPageData}
                   searchTerm={searchTerm}
                   onRowClick={handleRowClick}
