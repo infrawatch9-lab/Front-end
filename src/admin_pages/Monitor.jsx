@@ -10,7 +10,7 @@ import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
 import { getServices, deleteService } from "../api/services";
-import ExportButtons from "./internal_components/HistoryExportButtons";
+import ExportButtonsFilter from "./internal_components/MonitorExportButtonsFilter";
 
 export default function MonitorAdmin() {
   const { t } = useTranslation();
@@ -424,7 +424,7 @@ export default function MonitorAdmin() {
                 }}
               />
             </CustomDiv>
-            <ExportButtons />
+            <ExportButtonsFilter />
             <button
               className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
               onClick={() => setShowFilter(!showFilter)}
@@ -519,7 +519,7 @@ export default function MonitorAdmin() {
             <>
               {/* Status Table */}
               <CustomDiv type="background" className="flex-1">
-                <StatusTable
+                <StatusTable 
                   data={currentPageData}
                   searchTerm={searchTerm}
                   onRowClick={handleRowClick}

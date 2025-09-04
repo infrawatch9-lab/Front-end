@@ -1,8 +1,6 @@
 import React from "react";
 import { CustomTableProps } from "./@types";
 import { useTheme } from "../../hooks/useTheme/useTheme";
-import { FaTrash } from "react-icons/fa6";
-import { IoMdCreate } from "react-icons/io";
 import { Edit, Trash2 } from "lucide-react";
 import { ToggleLeft, ToggleRight } from "lucide-react";
 
@@ -26,15 +24,15 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
 
     return (
         <table
-            className={
+            className={ 
                 tableClassName +
-                (theme === "dark" ? " div-dark-mode-fg" : " div-light-mode-fg ")
+                (theme === "dark" ? " div-dark-mode-fg w-full text-center" : " div-light-mode-fg w-full text-center")
             }
         >
             <thead>
                 <tr
                     className={ trClassName +
-                        (theme === "dark" ? " table-th-dark " : " table-th-light ")
+                        (theme === "dark" ? " table-th-dark px-4 py-3" : " table-th-light px-4 py-3")
                     }
                 >
                     { head.map((item, index) => (
