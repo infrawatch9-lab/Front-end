@@ -1,6 +1,7 @@
 import { PieChart, Pie, Cell } from "recharts";
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../../api/confg";
+import CustomDiv from "../../../components/CustomComponents/CustomDiv";
 
 function ServerResourcesCard() {
   const COLORS = ["#F9C74F", "#C77DFF"];
@@ -50,7 +51,7 @@ function ServerResourcesCard() {
   ];
 
   return (
-    <div className="bg-[#0B1440] p-6 rounded-lg shadow-lg border border-[#3B5B75] w-full">
+    <CustomDiv type="foreground" className="p-6 rounded shadow-lg border border-[#3B5B75] w-full">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-sm">
         {/* CPU */}
         <div className="flex flex-col items-center">
@@ -152,7 +153,7 @@ function ServerResourcesCard() {
           </div>
         </div>
       </div>
-    </div>
+    </CustomDiv>
   );
 }
 

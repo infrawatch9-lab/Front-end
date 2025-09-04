@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import CustomDiv from "../../../components/CustomComponents/CustomDiv";
 
 export default function InteractiveTerminal({ className = "" }) {
   const { t } = useTranslation();
@@ -83,7 +84,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
   };
 
   return (
-    <div className={`bg-[#010E37] rounded-lg p-6 border border-[#3B5B75] ${className}`}>
+    <CustomDiv type="foreground" className={`rounded p-6 border border-[#3B5B75] ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
           <div className="flex space-x-2">
@@ -103,7 +104,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
         </button>
       </div>
 
-      <div className="bg-[#0E1A3D] rounded border border-[#3B5B75] p-4">
+      <div className="bg-[#000000] rounded border border-[#3B5B75] p-4">
         {/* Output */}
         <div
           id="terminal-output"
@@ -171,6 +172,6 @@ Uptime: 2 days, 14 hours, 23 minutes`;
           </button>
         ))}
       </div>
-    </div>
+    </CustomDiv>
   );
 }

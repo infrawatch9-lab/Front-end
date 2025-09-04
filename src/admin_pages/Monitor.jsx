@@ -10,6 +10,7 @@ import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
 import { getServices, deleteService } from "../api/services";
+import ExportButtons from "./internal_components/HistoryExportButtons";
 
 export default function MonitorAdmin() {
   const { t } = useTranslation();
@@ -362,7 +363,7 @@ export default function MonitorAdmin() {
   return (
     <CustomDiv
       type="background"
-      className="min-h-screen bg-[#081028] flex flex-col"
+      className="min-h-screen flex flex-col"
     >
       <CustomDiv
       type="background"
@@ -401,7 +402,7 @@ export default function MonitorAdmin() {
                 id={`filter-services-${Math.random()
                   .toString(36)
                   .substr(2, 9)}`}
-                className={"pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64 " + ( theme == 'dark' ? " div-dark-mode-fg " : " div-light-mode-fg " )}
+                className={"pl-4 pr-4 py-2 bg-slate-800 text-white border border-slate-700 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64 " + ( theme == 'dark' ? " div-dark-mode-fg " : " div-light-mode-fg " )}
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -423,6 +424,7 @@ export default function MonitorAdmin() {
                 }}
               />
             </CustomDiv>
+            <ExportButtons />
             <button
               className={"p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors relative filter-dropdown " + (theme == 'dark' ? " btn-dark-mode-fg " : " btn-light-mode-fg ")}
               onClick={() => setShowFilter(!showFilter)}
@@ -432,7 +434,6 @@ export default function MonitorAdmin() {
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
               )}
             </button>
-
             {/* Filter Dropdown */}
             {showFilter && (
               <CustomDiv className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">

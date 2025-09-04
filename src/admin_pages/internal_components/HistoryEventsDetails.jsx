@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Clock, Server, AlertCircle, CheckCircle, AlertTriangle, Eye, Copy, Download, RefreshCw } from 'lucide-react';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
 
 const EventDetailsScreen = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -59,7 +60,7 @@ const EventDetailsScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#081028] text-white">
+    <CustomDiv type='background' className="min-h-screen text-white">
       {/* Header */}
       <div className="border-b border-slate-700 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -91,7 +92,7 @@ const EventDetailsScreen = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-6">
         {/* Event Summary Card */}
-        <div className="bg-[#0B1440] rounded border border-slate-700 p-6 mb-6 backdrop-blur-sm">
+        <CustomDiv type='foreground' className="rounded border border-slate-700 p-6 mb-6 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <div className={`w-3 h-3 rounded-full ${getStatusColor(eventData.type)}`}></div>
@@ -144,7 +145,7 @@ const EventDetailsScreen = () => {
               <div className="font-semibold text-green-400">Sucesso</div>
             </div>
           </div>
-        </div>
+        </CustomDiv>
 
         {/* Tabs */}
         <div className="flex space-x-3 mb-6">
@@ -169,7 +170,7 @@ const EventDetailsScreen = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-[#0B1440] rounded border border-slate-700 backdrop-blur-sm">
+        <CustomDiv type='foreground' className="rounded border border-slate-700 backdrop-blur-sm">
           {activeTab === 'overview' && (
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Descrição do Evento</h3>
@@ -244,7 +245,7 @@ const EventDetailsScreen = () => {
                   </div>
                 </div>
                 
-                <div className="bg-[#0B1440] rounded p-4">
+                <div className="bg-slate-900/50 rounded p-4">
                   <h4 className="font-semibold text-slate-200 mb-3">Headers da Requisição</h4>
                   <div className="space-y-2 text-sm font-mono">
                     <div className="text-slate-300">Content-Type: text/html</div>
@@ -371,7 +372,7 @@ const EventDetailsScreen = () => {
               </div>
             </div>
           )}
-        </div>
+        </CustomDiv>
 
         {/* Action Buttons */}
         <div className="flex justify-end space-x-4 mt-6">
@@ -386,7 +387,7 @@ const EventDetailsScreen = () => {
           </button>
         </div>
       </div>
-    </div>
+    </CustomDiv>
   );
 };
 

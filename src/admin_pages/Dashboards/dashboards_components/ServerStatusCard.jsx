@@ -1,4 +1,5 @@
 import React from "react";
+import CustomDiv from "../../../components/CustomComponents/CustomDiv";
 
 export default function StatusCard({
   status = "ONLINE",
@@ -9,7 +10,7 @@ export default function StatusCard({
   const statusColor = status === "ONLINE" ? "bg-green-400" : "bg-red-400";
 
   return (
-    <div className="bg-[#0B1440] p-6 rounded-lg border border-[#3B5B75] text-sm w-100 h-60 flex flex-col gap-4">
+    <CustomDiv type="foreground" className="p-6 rounded border border-[#3B5B75] text-sm w-100 h-60 flex flex-col gap-4">
       {/* Cabeçalho */}
       <div className="text-gray-400 text-sm">status</div>
       
@@ -31,6 +32,6 @@ export default function StatusCard({
           Latência: <span className="text-white font-medium">{latency}</span>
         </div>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

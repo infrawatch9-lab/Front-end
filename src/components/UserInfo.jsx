@@ -1,10 +1,9 @@
 import React from 'react';
 import { useUserPermissions } from '../hooks/useUserPermissions';
-import { useNavigation } from 'react-router-dom';
-
-const navigate = useNavigation();
+import { useNavigate } from 'react-router-dom';
 
 const UserInfo = ({ isOpen }) => {
+  const navigate = useNavigate();
   const { userProfile, loading } = useUserPermissions();
 
   if (loading || !userProfile) {

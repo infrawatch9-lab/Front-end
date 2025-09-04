@@ -9,6 +9,7 @@ import ServerStatusCard from "./dashboards_components/ServerStatusCard";
 import ServerServicesOverviewCard from "./dashboards_components/ServerServicesOverviewCard";
 import ServerResourcesCard from "./dashboards_components/ServerResourcesCard";
 import { getEvents } from "../../api/dashboards/serverDasboards";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 
 export default function ServerDashboard() {
   const { t } = useTranslation();
@@ -43,7 +44,8 @@ export default function ServerDashboard() {
   }, [timeFilter]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#081028]">
+    <CustomDiv type="background" className="flex flex-col min-h-screen ">
+
       {/* Header / ações */}
       <div className="p-6 text-white">
         <HeaderActions />
@@ -76,6 +78,6 @@ export default function ServerDashboard() {
         </div>
         <InteractiveTerminal className="mt-6" />
       </div>
-    </div>
+    </CustomDiv>
   );
 }

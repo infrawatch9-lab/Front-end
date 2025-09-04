@@ -14,6 +14,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import CustomDiv from "../../../components/CustomComponents/CustomDiv";
 
 export default function ResponseErrorsCard({
   data,
@@ -119,7 +120,7 @@ export default function ResponseErrorsCard({
   };
 
   return (
-    <div className="bg-[#0B1440] rounded-lg p-6 border border-[#3B5B75]">
+    <CustomDiv type="foreground" className="rounded p-6 border border-[#3B5B75]">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-semibold text-white">RESPONSE & ERRORS</h2>
 
@@ -130,33 +131,33 @@ export default function ResponseErrorsCard({
               onClick={() => setChartType("line")}
               className={`px-3 py-1 rounded text-xs transition-colors ${
                 chartType === "line"
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-400 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "text-gray-400 hover:text-white"
               }`}
               title="Line Chart"
-            >
+              >
               Line
             </button>
             <button
               onClick={() => setChartType("area")}
               className={`px-3 py-1 rounded text-xs transition-colors ${
                 chartType === "area"
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-400 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "text-gray-400 hover:text-white"
               }`}
               title="Area Chart"
-            >
+              >
               Wave
             </button>
             <button
               onClick={() => setChartType("bar")}
               className={`px-3 py-1 rounded text-xs transition-colors ${
                 chartType === "bar"
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-400 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "text-gray-400 hover:text-white"
               }`}
               title="Bar Chart"
-            >
+              >
               Bar
             </button>
           </div>
@@ -166,7 +167,7 @@ export default function ResponseErrorsCard({
             className="bg-[#010E37] border border-[#3B5B75] rounded px-2 py-1 text-xs text-gray-300"
             value={timeFilter}
             onChange={(e) => setTimeFilter(e.target.value)}
-          >
+            >
             <option>Week</option>
             <option>Day</option>
             <option>Month</option>
@@ -189,6 +190,6 @@ export default function ResponseErrorsCard({
       <div className="h-96">
         <Chart />
       </div>
-    </div>
+    </CustomDiv>
   );
 }

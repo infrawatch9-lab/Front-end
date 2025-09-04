@@ -4,6 +4,7 @@ import ControlsBar from "./internal_components/HistoryControlsBar";
 import EventsTable from "./internal_components/HistoryEventsTable";
 import Pagination from "./internal_components/HistoryPagination";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
+import CustomTable from "../components/CustomComponents/CustomTable";
 
 export default function HistoryAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -86,6 +87,14 @@ export default function HistoryAdmin() {
     return matchesSearch && matchesType && matchesService;
   });
 
+  const tableEvents = filteredEvents.map((event) => ({
+    user: event.user,
+    description: event.description,
+    service: event.service,
+    type: event.type,
+    date: event.date,
+  }));
+
   const totalPages = 6;
 
   return (
@@ -101,6 +110,15 @@ export default function HistoryAdmin() {
           serviceFilter={serviceFilter}
           onServiceFilterChange={setServiceFilter}
         />
+        { /* 
+        <CustomTable head={["DATA", "USER", "SERVIÇO", "TIPO", "DESCRIÇÃO", "AÇÕES"]} 
+        types={["text", "text", "text", "status", "text", "show"]} 
+        data={tableEvents}
+        onUpdate={onEditService ? (id) => {
+          const row = filteredData.find((item) => item.id === id);
+          if (row) onEditService(row);
+        } : undefined} />
+        */ }
 
         <EventsTable events={filteredEvents} />
 

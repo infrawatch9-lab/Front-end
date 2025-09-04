@@ -6,6 +6,7 @@ import StatusCard from "./dashboards_components/APIStatusCard";
 import MethodsCard from "./dashboards_components/APIMethodsCard";
 import LogsTable from "./dashboards_components/APILogsTable";
 import HeaderActions from "./dashboards_components/APIHeaderActions";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 
 export default function APIDashboard() {
   const { t } = useTranslation();
@@ -90,7 +91,7 @@ export default function APIDashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#081028]">
+    <CustomDiv type="background" className="min-h-screen flex flex-col">
       <div className="p-6 text-white">
         <HeaderActions />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -102,6 +103,6 @@ export default function APIDashboard() {
         </div>
         <LogsTable filteredLogs={filteredLogs} filterColumn={filterColumn} setFilterColumn={setFilterColumn} filterValue={filterValue} setFilterValue={setFilterValue} getStatusColor={getStatusColor} getMethodColor={getMethodColor} />
       </div>
-    </div>
+    </CustomDiv>
   );
 }
