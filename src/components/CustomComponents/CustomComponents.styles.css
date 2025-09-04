@@ -139,6 +139,16 @@
   padding: 10px;
 }
 
-.click {
+.clickable {
   cursor: pointer;
+}
+
+.clickable-dark-mode:hover{
+
+  background-color: #070e237b;
+}
+
+.clickable-light-mode:hover{
+
+  background-color: #d1d1d161;
 }

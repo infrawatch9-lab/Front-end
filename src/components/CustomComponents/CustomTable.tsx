@@ -4,7 +4,7 @@ import { useTheme } from "../../hooks/useTheme/useTheme";
 import { FaTrash } from "react-icons/fa6";
 import { IoMdCreate } from "react-icons/io";
 import { Edit, Trash2 } from "lucide-react";
-
+import { ToggleLeft, ToggleRight } from "lucide-react";
 
 //Este componente é 100% escalável
 //Custom table já possui os temas light e dark
@@ -20,41 +20,40 @@ import { Edit, Trash2 } from "lucide-react";
     // onDelete(id: string), onUpdate(id: string), onDataClick(id: string) funcoes que manipulam os eventos da tabela
         //  com elas é possivel passar uma funcao que sera executada nos eventos da tabela nomeadamente clicar num registo, clicar em actualizar resgito e clicar em deletar registo
 
-const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, extractId, data, onDelete, onUpdate, onDataClick } ) => {
+const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, extractId, data, tableClassName, trClassName, thClassName, tdClassName, buttonClassName,  onDelete, onUpdate, onDataClick } ) => {
     
     const { theme, toggleTheme } = useTheme()
 
     return (
         <table
             className={
-                "w-full border border-slate-700 text-center " +
-                (theme === "dark" ? "div-dark-mode-fg" : "div-light-mode-fg")
+                tableClassName +
+                (theme === "dark" ? " div-dark-mode-fg" : " div-light-mode-fg ")
             }
         >
             <thead>
                 <tr
-                    className={
-                        (theme === "dark" ? "table-th-dark" : "table-th-light")
+                    className={ trClassName +
+                        (theme === "dark" ? " table-th-dark " : " table-th-light ")
                     }
                 >
                     { head.map((item, index) => (
-                        <th key={index} className="px-4 py-3 border-b border-slate-700 text-center">{item}</th>
+                        <th key={index} className={thClassName}>{item}</th>
                     )) }
                     { typeof onDelete != 'undefined' ? <th></th> : null }
                     { typeof onUpdate != 'undefined' ? <th></th> : null }
-
                 </tr>
             </thead>
             <tbody>
                 {
                     data.map((item, index) => (
                         <tr
-                         className={ " tuas-classes-tw " + typeof onDataClick != 'undefined' ? " click " : '' } key={index}>
+                         className={ trClassName + (typeof onDataClick != 'undefined' ? " clickable " : '') + ( theme == 'dark' ? ' clickable-dark-mode ' : ' clickable-light-mode ' ) } key={index}>
                             {
                                 extractkeys.map((key, i) => (
                                     <td
                                     onClick={() => typeof onDataClick != 'undefined' ? onDataClick(item[extractId]) : null} 
-                                    key={i} className="px-4 py-3 border-b border-blue-900 text-center">
+                                    key={i} className={tdClassName}>
                                         {
                                            types[i] == 'text' ? <span>{item[key]}</span> :
                                            types[i] == 'password' ? <span>{"**********"}</span>: 
@@ -68,7 +67,9 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                                         <div className={" tuas-classes-tw " + " ass-status " + (item[key] == 'INFO' ? " table-td-log-info " : item[key] == 'ERRO' ? " table-td-log-err " : item[key] == 'AVISO' ? " table-td-log-warn " : '')}></div>
                                                         <span>{item[key]}</span>
                                                     </div>
-                                                ) : ""
+                                                ) : 
+                                            types[i] == 'toggle' ?
+                                            (<button onClick={() => alert("HEYYYYYY")}> { item[key] === true ?  (<ToggleRight color="#000000" />) : (<ToggleLeft color="#000000" />)} </button>) : ""
                                         }
                                     </td>
                                 ))
@@ -77,7 +78,7 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                 typeof onUpdate != 'undefined' ?
                                 (
                                     <td>
-                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onUpdate(item[extractId])} > <Edit /> </button>
+                                        <button className={buttonClassName + " btn "} onClick={() => onUpdate(item[extractId])} > <Edit /> </button>
                                     </td>
                                 ): null
                             }
@@ -85,13 +86,12 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                 typeof onDelete != 'undefined' ?
                                 (
                                     <td>
-                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onDelete(item[extractId])}> <Trash2 /></button>
+                                        <button className={buttonClassName + " btn "} onClick={() => onDelete(item[extractId])}> <Trash2 /></button>
                                     </td>
                                 ): null
                             }
                         </tr>
                     ))
-
                 }
             </tbody>
         </table>

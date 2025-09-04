@@ -26,7 +26,7 @@ export default function Router() {
           <Routes>
             {/* Página inicial = Login */}
             <Route path="/" element={<InfraWatchLanding />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Test />} />
             {/* Páginas protegidas */}
             <Route path="/admin" element={<Layout />}>
               <Route index element={<HomepageAdmin />} />

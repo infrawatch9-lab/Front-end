@@ -9,8 +9,8 @@ export const Test = () => {
 
   // Exemplo de um array de objectos
   const data = [
-    { id: '12332',  name: "lleodev", email: 'leonardodevelopper924@gmail.com', password: 'sjdfsdsdf', status: 'ACTIVE', log: "INFO" },
-    { id: '95682',  name: "shelby", email: 'shelby@gmail.com', pass: 'sjdfsdsdf', status: 'INACTIVE', log: "ERRO" },
+    { id: '12332', notify: true,  name: "lleodev", email: 'leonardodevelopper924@gmail.com', password: 'sjdfsdsdf', status: 'ACTIVE', log: "INFO" },
+    { id: '95682', notify: false,  name: "shelby", email: 'shelby@gmail.com', pass: 'sjdfsdsdf', status: 'INACTIVE', log: "ERRO" },
   ]
 
   // Funcoes que serao passados nos eventos da tabela
@@ -43,18 +43,24 @@ export const Test = () => {
         flexDirection: "column"
       }}
     >
-      {/* Exemplo basico de como usar o CustomTable */}
-      {/* !!!!!!! Consulte ./CustomTable.tsx */}
-      <CustomTable
-      head={[ "NAME", "EMAIL", "PASSWORD", "STATUS", "LOG" ]}
-      types={[ "text", "text", "password", 'status', "log",]}
-      extractkeys={['name', 'email', 'password', 'status', 'log']}
-      extractId="id"
-      data={data}
-      onDelete={handleDelete}
-      onUpdate={handleUpdate}
-      onDataClick={handleClick}
-      />
+      <CustomDiv type="foreground">
+        {/* Exemplo basico de como usar o CustomTable */}
+        {/* !!!!!!! Consulte ./CustomTable.tsx */}
+        <CustomTable
+        tableClassName={"w-full border border-slate-700 text-center"}
+        thClassName={"px-4 py-3 border-b border-slate-700 text-center"}
+        tdClassName={"px-4 py-3 border-b border-blue-900 text-center"}
+        head={[ "NAME", "EMAIL", "PASSWORD", "STATUS", "LOG",]}
+        types={[ "text", "text", "password", 'status', "log",]}
+        extractkeys={['name', 'email', 'password', 'status', 'log']}
+        extractId="id"
+        data={data}
+        onDelete={handleDelete}
+        onUpdate={handleUpdate}
+        onDataClick={handleClick}
+        />
+
+      </CustomDiv>
       <CustomDiv
         type="foreground"
         style={{
