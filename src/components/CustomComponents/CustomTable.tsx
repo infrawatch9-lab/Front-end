@@ -3,6 +3,7 @@ import { CustomTableProps } from "./@types";
 import { useTheme } from "../../hooks/useTheme/useTheme";
 import { FaTrash } from "react-icons/fa6";
 import { IoMdCreate } from "react-icons/io";
+import { Edit, Trash2 } from "lucide-react";
 
 
 //Este componente é 100% escalável
@@ -76,7 +77,7 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                 typeof onUpdate != 'undefined' ?
                                 (
                                     <td>
-                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onUpdate(item[extractId])} > <IoMdCreate /> </button>
+                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onUpdate(item[extractId])} > <Edit /> </button>
                                     </td>
                                 ): null
                             }
@@ -84,7 +85,7 @@ const CustomTable: React.FC<CustomTableProps> = ( { head, types, extractkeys, ex
                                 typeof onDelete != 'undefined' ?
                                 (
                                     <td>
-                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onDelete(item[extractId])}> <FaTrash /></button>
+                                        <button className={" tuas-classes-tw " + "btn"} onClick={() => onDelete(item[extractId])}> <Trash2 /></button>
                                     </td>
                                 ): null
                             }
