@@ -32,9 +32,6 @@
 
 }
 
-.text-dark-mode-emphasis {
-}
-
 .text-colors-dark {
   transition: all 2s;
   color: #0b143f;
@@ -59,9 +56,6 @@
   outline: none;
 }
 
-.btn-dark-mode-fg:hover {
-
-}
 
 .btn-dark-mode-fg {
   transition: all 2s;
