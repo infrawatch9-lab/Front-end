@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
 import ConfigCard from "./ConfigCard";
 import DynamicHeadersField from "./DynamicHeadersField";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 // import ToggleSwitch from "./ToggleSwitch";
 // import ConfigCard from "./ConfigCard";
@@ -10,11 +11,13 @@ import DynamicHeadersField from "./DynamicHeadersField";
 
 export default function NotificationsTab() {
   const { t } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
   // Estados para os toggles
   const [emailEnabled, setEmailEnabled] = useState(true);
   const [slackEnabled, setSlackEnabled] = useState(false);
   const [smsEnabled, setSmsEnabled] = useState(false);
   const [webhookEnabled, setWebhookEnabled] = useState(true);
+  
 
   // Estados para os formulários
   const [emailConfig, setEmailConfig] = useState({
@@ -48,18 +51,21 @@ export default function NotificationsTab() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className={"grid grid-cols-1 lg:grid-cols-2 gap-6 "}>
       {/* EMAIL Card */}
-      <ConfigCard
+      <ConfigCard 
         title={t("settings.notifications.email.title")}
         icon="📧"
         enabled={emailEnabled}
         onToggle={setEmailEnabled}
         onSave={() => handleSave('email')}
       >
+        
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.email.smtp")}
             </label>
             <input
@@ -72,7 +78,9 @@ export default function NotificationsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "
+            + (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.email.port")}
             </label>
             <input
@@ -85,7 +93,9 @@ export default function NotificationsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 " +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.email.sender")}
             </label>
             <input
@@ -107,9 +117,12 @@ export default function NotificationsTab() {
         onToggle={setSlackEnabled}
         onSave={() => handleSave('slack')}
       >
+          
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.slack.webhook_url")}
             </label>
             <input
@@ -122,7 +135,9 @@ export default function NotificationsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.slack.default_channel")}
             </label>
             <input
@@ -146,7 +161,9 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+           <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.sms.api_token")}
             </label>
             <input
@@ -159,7 +176,9 @@ export default function NotificationsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.sms.number_channel")}
             </label>
             <input
@@ -183,7 +202,9 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.webhook.endpoint_url")}
             </label>
             <input
@@ -202,7 +223,9 @@ export default function NotificationsTab() {
           />
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2 "  +
+            (theme == "dark" ? " items-colors-light " : " items-colors-dark ")
+            }>
               {t("settings.notifications.webhook.secret_token")}
             </label>
             <input
