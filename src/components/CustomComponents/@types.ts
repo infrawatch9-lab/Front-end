@@ -17,6 +17,7 @@ export type CustomTableProps = Omit<React.AllHTMLAttributes<HTMLTableElement>, '
         tdClassName?: string;
         buttonClassName?: string;
         onDelete?: (id: string) => void;
+        onShow?: (id: string) => void;
         onUpdate?: (id: string) => void;
         onDataClick?: (id: string) => void;
     } 

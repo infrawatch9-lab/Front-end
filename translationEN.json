@@ -662,7 +662,8 @@
     },
     "common": {
       "save": "SAVE",
-      "placeholder_ex": "ex: {{value}}"
+      "placeholder_ex": "ex: {{value}}",
+      "loading": "Loading..."
     }
   }
 }

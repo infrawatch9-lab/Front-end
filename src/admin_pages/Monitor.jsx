@@ -358,11 +358,11 @@ export default function MonitorAdmin() {
   };
 
   return (
-    <CustomDiv type="background" className="min-h-screen flex flex-col">
+    <CustomDiv type="background" className="min-h-screen p-6">
       <CustomDiv
         type="background"
         className={
-          "p-4 flex-1 flex flex-col pb-16 " +
+          "mx-auto" +
           (theme == "dark" ? "items-colors-light" : "items-colors-dark")
         }
       >
@@ -374,7 +374,7 @@ export default function MonitorAdmin() {
           <CustomDiv type="background">
             <h1
               className={
-                "text-2xl font-bold text-white mb-1 " +
+                "text-2xl font-bold text-white" +
                 (theme == "dark" ? " text-colors-light " : " text-colors-dark ")
               }
             >

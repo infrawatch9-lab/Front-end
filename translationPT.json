@@ -639,7 +639,8 @@
     },
     "common": {
       "save": "SALVAR",
-      "placeholder_ex": "ex: {{value}}"
+      "placeholder_ex": "ex: {{value}}",
+      "loading": "Carregando..."
     }
   }
 }
