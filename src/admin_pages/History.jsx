@@ -5,6 +5,7 @@ import EventsTable from "./internal_components/HistoryEventsTable";
 import Pagination from "./internal_components/HistoryPagination";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 import CustomTable from "../components/CustomComponents/CustomTable";
+import { useNavigate } from "react-router-dom";
 
 export default function HistoryAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -97,8 +98,9 @@ export default function HistoryAdmin() {
 
   const totalPages = 6;
 
+  const navigate = useNavigate();
   return (
-    <CustomDiv type='background' className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type='background' className="min-h-screen p-6">
       <div className="mx-auto">
         <PageHeader />
 
@@ -110,17 +112,15 @@ export default function HistoryAdmin() {
           serviceFilter={serviceFilter}
           onServiceFilterChange={setServiceFilter}
         />
-        { /* 
         <CustomTable head={["DATA", "USER", "SERVIÇO", "TIPO", "DESCRIÇÃO", "AÇÕES"]} 
-        types={["text", "text", "text", "status", "text", "show"]} 
+        types={["text", "text", "text", "status", "text"]}
+        extractkeys={["date", "user", "service", "type", "description"]}
         data={tableEvents}
-        onUpdate={onEditService ? (id) => {
-          const row = filteredData.find((item) => item.id === id);
-          if (row) onEditService(row);
-        } : undefined} />
-        */ }
+        onShow={(event) => navigate('/admin/events_detail_admin', { state: { event } })}/>
 
+        {/*
         <EventsTable events={filteredEvents} />
+        */}
 
         <Pagination
           currentPage={currentPage}

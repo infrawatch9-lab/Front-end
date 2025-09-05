@@ -17,6 +17,7 @@ import { ThemeProvider } from "./hooks/useTheme/ThemeContext";
 import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsDetails";
 import InfraWatchLanding from "./landing_page/Landing";
 import { Test } from "./components/CustomComponents/Test";
+import EditProfile from "./pages/EditProfile";
 
 export default function Router() {
   return (
@@ -145,6 +146,14 @@ export default function Router() {
                 element={
                   <ProtectedRoute requiredPermission="history">
                     <EventDetailsScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit_profile"
+                element={
+                  <ProtectedRoute>
+                    <EditProfile />
                   </ProtectedRoute>
                 }
               />

@@ -41,7 +41,7 @@ export default function StatusTable({
   return (
     <CustomDiv
       type="background"
-      className="rounded border border-slate-600 overflow-hidden"
+      className="rounded overflow-hidden"
     >
       <CustomTable
         head={[

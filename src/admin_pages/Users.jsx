@@ -10,6 +10,8 @@ import { apiRegister } from "../api/users/register";
 import { apiUpdateUser } from "../api/users/updateUser";
 import { apiDeleteUser } from "../api/users/deleteUser";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
+import CustomTable from "../components/CustomComponents/CustomTable";
+import { useTheme } from "../hooks/useTheme/useTheme";
 
 export default function UsersAdmin() {
   const [users, setUsers] = useState([]);
@@ -22,6 +24,7 @@ export default function UsersAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -148,9 +151,11 @@ export default function UsersAdmin() {
 
   return (
     <CustomDiv type="background" className="p-6 min-h-screen">
-      <h1 className="text-2xl font-bold text-white mb-4">Usuários</h1>
-      <div className="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="flex-1">
+    <div className="mb-8">
+      <h1 className={"text-white text-2xl font-semibold"  + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>Usuários</h1>
+    </div>
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-4">
           <SearchAndFilters
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -203,7 +208,18 @@ export default function UsersAdmin() {
         </div>
       </div>
       {/* Tabela de usuários */}
-      <div className="overflow-x-auto rounded border border-slate-700">
+      <div className="overflow-x-auto rounded">
+        <CustomTable
+          head={["Nome", "E-mail", "Telefone", "Papel", "Status", "Ações"]}
+          types={["text", "text", "text", "text", "status", "actions"]}
+          extractkeys={["name", "email", "phone", "role", "status"]}
+          extractId="id"
+          data={paginatedUsers}
+          onDelete={handleDeleteUser}
+          onShow={handleShowDetails}
+          onUpdate={handleEditUser}
+        />
+        {/* 
         <table className="w-full bg-[#0B1440] rounded overflow-hidden shadow-md">
           <thead style={{ position: "sticky", top: 0, zIndex: 60 }}>
             <tr className="text-slate-400 text-xs uppercase bg-[#16205A] border-b border-blue-900">
@@ -288,6 +304,7 @@ export default function UsersAdmin() {
             )}
           </tbody>
         </table>
+        */}
       </div>
       <Pagination
         currentPage={currentPage}
