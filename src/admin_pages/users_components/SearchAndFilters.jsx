@@ -60,7 +60,9 @@ export default function SearchAndFilters({
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+            className={"appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer " 
+             + ( theme == 'dark' ? " div-dark-mode-bg " : " div-light-mode-bg " )
+            }
           >
             {roles.map((role) => (
               <option
@@ -72,7 +74,7 @@ export default function SearchAndFilters({
               </option>
             ))}
           </select>
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+          <div className={"absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none "}>
             <svg
               className="w-4 h-4 text-slate-400"
               fill="none"
@@ -94,7 +96,9 @@ export default function SearchAndFilters({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+            className={"appearance-none bg-[#081028] border border-slate-700 rounded px-4 py-2 pr-8 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer " +
+              ( theme == 'dark' ? " div-dark-mode-bg " : " div-light-mode-bg " )
+            }
           >
             {statuses.map((status) => (
               <option
