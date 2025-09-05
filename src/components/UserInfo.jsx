@@ -1,9 +1,11 @@
 import React from 'react';
 import { useUserPermissions } from '../hooks/useUserPermissions';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../hooks/useTheme/useTheme';
 
 const UserInfo = ({ isOpen }) => {
   const navigate = useNavigate();
+  const { theme } = useTheme()
   const { userProfile, loading } = useUserPermissions();
 
   if (loading || !userProfile) {
@@ -33,7 +35,7 @@ const UserInfo = ({ isOpen }) => {
       <div className="flex items-center space-x-3">
         {/* Avatar */}
         <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center">
-          <span className="text-white text-sm font-medium">
+          <span className={"text-white text-sm font-medium " }>
             {userProfile.name ? userProfile.name.charAt(0).toUpperCase() : 'U'}
           </span>
         </div>
@@ -42,7 +44,9 @@ const UserInfo = ({ isOpen }) => {
         {isOpen && (
           <div className="flex-1 min-w-0">
             <div className="text-white text-sm font-medium truncate">
-              {userProfile.name}
+              <span className={ ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>
+                {userProfile.name}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <span 

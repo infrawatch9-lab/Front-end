@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomDiv from "../../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../../hooks/useTheme/useTheme";
 
 export default function InteractiveTerminal({ className = "" }) {
   const { t } = useTranslation();
   const [terminalCommand, setTerminalCommand] = useState("");
   const [terminalOutput, setTerminalOutput] = useState([]);
   const [terminalHistory, setTerminalHistory] = useState([]);
+  const { theme } = useTheme()
 
   useEffect(() => {
     const initialTerminalOutput = [
@@ -92,7 +94,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
             <div className="w-3 h-3 rounded-full bg-yellow-500" />
             <div className="w-3 h-3 rounded-full bg-green-500" />
           </div>
-          <span className="text-sm font-mono text-gray-300 ml-4">
+          <span className={"text-sm font-mono text-gray-300 ml-4 " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>
             username@apache2_watch — 1548 x 48
           </span>
         </div>
@@ -104,7 +106,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
         </button>
       </div>
 
-      <div className="bg-[#000000] rounded border border-[#3B5B75] p-4">
+      <CustomDiv className="bg-[#000000] rounded border border-[#3B5B75] p-4">
         {/* Output */}
         <div
           id="terminal-output"
@@ -112,7 +114,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
           style={{ scrollbarWidth: "thin", scrollbarColor: "#3B5B75 transparent" }}
         >
           {terminalOutput.map((line, index) => (
-            <div key={index} className="mb-1">
+            <div key={index} className={"mb-1 " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>
               {line.type === "command" ? (
                 <div className="text-green-400">{line.text}</div>
               ) : line.type === "info" ? (
@@ -131,7 +133,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
                   {line.text.replace(/\[ERROR\]/g, "")}
                 </div>
               ) : (
-                <pre className="whitespace-pre-wrap text-gray-300">{line.text}</pre>
+                <pre className={"whitespace-pre-wrap text-gray-300 " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>{line.text}</pre>
               )}
             </div>
           ))}
@@ -139,18 +141,18 @@ Uptime: 2 days, 14 hours, 23 minutes`;
 
         {/* Prompt */}
         <div className="flex items-center space-x-2">
-          <span className="text-green-400 font-mono">username %</span>
+          <span className={"text-green-400 font-mono " }>username %</span>
           <input
             type="text"
             value={terminalCommand}
             onChange={(e) => setTerminalCommand(e.target.value)}
             onKeyPress={handleTerminalCommand}
-            className="flex-1 bg-transparent text-gray-300 font-mono outline-none border-none"
+            className={"flex-1 bg-transparent text-gray-300 font-mono outline-none border-none " + (theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}
             placeholder="Type a command (try 'services status' or 'help')"
             autoFocus
           />
         </div>
-      </div>
+      </CustomDiv>
 
       {/* Quick Commands */}
       <div className="mt-4 flex flex-wrap gap-2">

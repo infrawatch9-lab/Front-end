@@ -4,6 +4,7 @@ import LatencyChart from './dashboards_components/NetworkLatencyChart';
 import StatusPanel from './dashboards_components/NetworkStatusPanel';
 import MetricsGrid from './dashboards_components/NetworkMetricsGrid';
 import NetworkJitterChart from './dashboards_components/NetworkJitterChart';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
 
 export default function NetworkDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -14,7 +15,7 @@ export default function NetworkDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#081028] p-6">
+    <CustomDiv type='background' className="min-h-screen bg-[#081028] p-6">
       <div className="max-w-7xl mx-auto">
         <Header />
         
@@ -34,6 +35,6 @@ export default function NetworkDashboard() {
           <NetworkJitterChart />
         </div>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

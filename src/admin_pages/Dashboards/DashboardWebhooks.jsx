@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Clock, Wifi, WifiOff } from "lucide-react";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 const WebhookDashboard = () => {
   const [messages, setMessages] = useState([]);
+  const { theme } = useTheme()
   const [isConnected, setIsConnected] = useState(true);
   const [serviceName] = useState("API Gateway Service"); // Nome do serviço individual
 
@@ -84,17 +87,17 @@ const WebhookDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
+    <CustomDiv className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <CustomDiv className="max-w-4xl mx-auto">
         
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <CustomDiv className="mb-8">
+          <CustomDiv className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">{serviceName}</h1>
-              <p className="text-gray-600 mt-1">Webhook Messages</p>
+              <p className={"text-gray-600 mt-1 " + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark ")}>Webhook Messages</p>
             </div>
-            
+
             {/* Status de Conexão */}
             <div className="flex items-center gap-2">
               {isConnected ? (
@@ -109,10 +112,10 @@ const WebhookDashboard = () => {
                 </>
               )}
             </div>
-          </div>
+          </CustomDiv>
           
           <p className="text-gray-500 mt-2 text-sm">Real-time monitoring for this service webhook events</p>
-        </div>
+        </CustomDiv>
 
         {/* Contador de Mensagens */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
@@ -161,8 +164,8 @@ const WebhookDashboard = () => {
           </p>
         </div>
 
-      </div>
-    </div>
+      </CustomDiv>
+    </CustomDiv>
   );
 };
 

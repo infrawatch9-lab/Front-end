@@ -5,7 +5,7 @@ interface markerProps {
     status: "server" | 'fail' | 'network'
 }
 
-interface mapProps {
+export interface mapProps {
 
     markers: Array<markerProps>
 }

@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, BarChart3 } from 'lucide-react';
+import CustomDiv from '../../../components/CustomComponents/CustomDiv';
+import { useTheme } from '../../../hooks/useTheme/useTheme';
 
 export default function NetworkJitterChart() {
   const [selectedPeriod, setSelectedPeriod] = useState('Week');
-
+  const { theme } = useTheme()
   const generateJitterData = () => {
     const dataPoints = 100;
     const maximoData = [];
@@ -75,25 +77,24 @@ export default function NetworkJitterChart() {
   };
 
   return (
-    <div className="bg-[#0B1440] rounded-lg p-6 w-full border border-[#3B5B75]">
+    <CustomDiv className="bg-[#0B1440] rounded-lg p-6 w-full border border-[#3B5B75]">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex-1 text-center">
-          <h2 className="text-white text-xl font-semibold tracking-wider">JITTER</h2>
+          <h2 className={"text-white text-xl font-semibold tracking-wider "  + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>JITTER</h2>
         </div>
-        
         <div className="flex items-center gap-4">
           <button 
-            className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors"
+            className={"flex items-center gap-2 text-white hover:text-gray-300 transition-colors "  + ( theme == 'dark' ? ' btn-dark-mode-fg ' : " btn-light-mode-fg ")}
             onClick={() => setSelectedPeriod(selectedPeriod === 'Week' ? 'Day' : 'Week')}
           >
             {selectedPeriod} <ChevronDown className="w-4 h-4" />
           </button>
-          <button className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors">
+          <button className={"flex items-center gap-2 text-white hover:text-gray-300 transition-colors "  + ( theme == 'dark' ? ' btn-dark-mode-fg ' : " btn-light-mode-fg ")}>
             <BarChart3 className="w-4 h-4" />
             <ChevronDown className="w-4 h-4" />
           </button>
-          <button className="text-white hover:text-gray-300 transition-colors text-lg">⋯</button>
+          <button className={"text-white hover:text-gray-300 transition-colors text-lg "  + ( theme == 'dark' ? ' btn-dark-mode-fg ' : " btn-light-mode-fg ")}>⋯</button>
         </div>
       </div>
 
@@ -101,11 +102,11 @@ export default function NetworkJitterChart() {
       <div className="flex justify-end gap-6 mb-4">
         <div className="flex items-center gap-2">
           <div className="w-3 h-0.5 bg-blue-400"></div>
-          <span className="text-white text-sm">MÁXIMO</span>
+          <span className={"text-white text-sm "  + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>MÁXIMO</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-sm"></div>
-          <span className="text-white text-sm">JITTER</span>
+          <span className={"text-white text-sm "  + ( theme == 'dark' ? " text-colors-light " : " text-colors-dark " )}>JITTER</span>
         </div>
       </div>
 
@@ -126,7 +127,7 @@ export default function NetworkJitterChart() {
               <text
                 x={chartConfig.padding.left - 10}
                 y={chartConfig.padding.top + chartHeight - ((value / chartConfig.yMax) * chartHeight) + 4}
-                fill="#9CA3AF"
+                fill={( theme == 'dark' ? " white " : " #0b143f " )}
                 fontSize="12"
                 textAnchor="end"
               >
@@ -152,7 +153,7 @@ export default function NetworkJitterChart() {
                 <text
                   x={x}
                   y={chartConfig.padding.top + chartHeight + 20}
-                  fill="#9CA3AF"
+                  fill={( theme == 'dark' ? " white " : " #0b143f " )}
                   fontSize="12"
                   textAnchor="middle"
                 >
@@ -181,6 +182,6 @@ export default function NetworkJitterChart() {
           </g>
         </svg>
       </div>
-    </div>
+    </CustomDiv>
   );
 }

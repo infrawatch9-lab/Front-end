@@ -2,10 +2,12 @@ import { PieChart, Pie, Cell } from "recharts";
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../../api/confg";
 import CustomDiv from "../../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../../hooks/useTheme/useTheme";
 
 function ServerResourcesCard() {
   const COLORS = ["#F9C74F", "#C77DFF"];
   const [resourceData, setResourceData] = useState(null);
+  const { theme } = useTheme()
 
   useEffect(() => {
     const source = new EventSource(`${apiUrl}/dashboard/dash/test-sse`);
@@ -55,7 +57,7 @@ function ServerResourcesCard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-sm">
         {/* CPU */}
         <div className="flex flex-col items-center">
-          <h3 className="font-semibold mb-2">CPU USAGE</h3>
+          <h3 className={"font-semibold mb-2 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>CPU USAGE</h3>
           <PieChart width={180} height={180}>
             <Pie
               data={cpuData}
@@ -75,14 +77,14 @@ function ServerResourcesCard() {
           <div className="mt-[-20px] text-yellow-400 font-semibold">
             {resourceData.cpuData.label}
           </div>
-          <div className="text-xs text-gray-300">
+          <div className={"text-xs text-gray-300 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>
             In Use: {resourceData.cpuData.usage}%
           </div>
         </div>
 
         {/* RAM */}
         <div className="flex flex-col items-center">
-          <h3 className="font-semibold mb-2">RAM Usage</h3>
+          <h3 className={"font-semibold mb-2 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>RAM Usage</h3>
           <PieChart width={180} height={180}>
             <Pie
               data={ramData}
@@ -102,10 +104,10 @@ function ServerResourcesCard() {
           <div className="mt-[-20px] text-pink-400 font-semibold">
             {resourceData.ram.label}
           </div>
-          <div className="text-xs text-gray-300">
+          <div className={"text-xs text-gray-300 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>
             {resourceData.ram.usage}GB / {resourceData.ram.total}GB
           </div>
-          <div className="text-xs text-gray-300">
+          <div className={"text-xs text-gray-300 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>
             In Use:{" "}
             {((resourceData.ram.usage / resourceData.ram.total) * 100).toFixed(
               2
@@ -116,7 +118,7 @@ function ServerResourcesCard() {
 
         {/* Disk */}
         <div className="flex flex-col items-center">
-          <h3 className="font-semibold mb-2">Disc Usage</h3>
+          <h3 className={"font-semibold mb-2 " + ( theme == 'dark' ? "text-colors-light" : "text-colors-dark")}>Disc Usage</h3>
           <PieChart width={180} height={180}>
             <Pie
               data={diskData}

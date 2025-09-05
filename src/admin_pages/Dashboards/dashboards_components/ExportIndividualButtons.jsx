@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { Download, FileText } from "lucide-react";
 import { exportSlaPdfByType } from "../../../api/sla/exportSlaPdf";
 import { exportSlaCsvByType } from "../../../api/sla/exportSlaCsv";
+import { useTheme } from "../../../hooks/useTheme/useTheme";
 
 export default function ExportIndividualButtons({ type }) {
   const [loadingPDF, setLoadingPDF] = useState(false);
   const [loadingCSV, setLoadingCSV] = useState(false);
+
+  const { theme } = useTheme()
 
   function downloadBlob(blob, filename) {
     const url = window.URL.createObjectURL(blob);
@@ -46,7 +49,9 @@ export default function ExportIndividualButtons({ type }) {
     <div className="flex gap-2">
       <button
         onClick={handleExportPDF}
-        className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded border border-gray-600 transition-colors min-w-[120px] justify-center"
+        className={"flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded border border-gray-600 transition-colors min-w-[120px] justify-center " 
+          + ( theme == 'dark' ? ' btn-dark-mode-fg ' : " btn-light-mode-fg ")
+        }
         disabled={loadingPDF}
       >
         {loadingPDF ? (
@@ -58,7 +63,10 @@ export default function ExportIndividualButtons({ type }) {
       </button>
       <button
         onClick={handleExportCSV}
-        className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded border border-gray-600 transition-colors min-w-[120px] justify-center"
+        className={"flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded border border-gray-600 transition-colors min-w-[120px] justify-center "
+          + ( theme == 'dark' ? ' btn-dark-mode-fg ' : " btn-light-mode-fg ")
+
+        }
         disabled={loadingCSV}
       >
         {loadingCSV ? (

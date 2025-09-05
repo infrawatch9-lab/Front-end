@@ -4,6 +4,7 @@ import map_tile_style_dark  from  "../../../map.tile.dark.style.json"
 import map_tile_style_light  from  "../../../map.tile.light.style.json"
 import { useTheme } from "../../hooks/useTheme/useTheme"
 import React from "react"
+import { mapProps } from "./@types"
 
 
 export const MapView: React.FC<mapProps> = ({ markers }) => {
@@ -23,10 +24,10 @@ export const MapView: React.FC<mapProps> = ({ markers }) => {
             {
               markers.map((item, index) => (
                 <Marker
-                 icon={
-                  item.status == 'server' ? "../../../public/img/server.png" :
-                  item.status == 'network' ? "../../../public/img/network.png":
-                  "../../../public/img/fail.png"
+                icon={
+                  item.status == 'server' ? "../../../public/img/serverMarker.svg" :
+                  item.status == 'network' ? "../../../public/img/networkMarker.svg":
+                  "../../../public/img/errorMarker.svg"
                 }
                 position={{lat: item.lat, lng: item.lon}} 
                 />
