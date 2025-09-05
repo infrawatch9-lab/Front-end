@@ -3,8 +3,14 @@ import { api } from '../confg';
 // Get all monitored services
 export const getServices = async () => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     const response = await api.get('/services');
-    return response.data.services;
+    console.log('getServices response:', response.data);
+    return response.data.services || response.data;
   } catch (error) {
     console.error('Error fetching services:', error);
     throw error;
@@ -14,6 +20,11 @@ export const getServices = async () => {
 // Get service by ID
 export const getServiceById = async (id) => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     const response = await api.get(`/services/${id}`);
     return response.data;
   } catch (error) {
@@ -25,6 +36,11 @@ export const getServiceById = async (id) => {
 // Create new service
 export const createService = async (serviceData) => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     console.log('Creating service with data:', serviceData);
     const response = await api.post('/services', serviceData);
     return response.data;
@@ -37,6 +53,11 @@ export const createService = async (serviceData) => {
 // Update service
 export const updateService = async (id, serviceData) => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     const response = await api.put(`/services/${id}`, serviceData);
     return response.data;
   } catch (error) {
@@ -48,6 +69,11 @@ export const updateService = async (id, serviceData) => {
 // Delete service
 export const deleteService = async (id) => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     const response = await api.delete(`/services/${id}`);
     return response.data;
   } catch (error) {
@@ -59,6 +85,11 @@ export const deleteService = async (id) => {
 // Get service status/SLA metrics
 export const getServiceStatus = async (id) => {
   try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    
     const response = await api.get(`/services/${id}/status`);
     return response.data;
   } catch (error) {

@@ -10,6 +10,11 @@ export async function exportSlaCsvAllByType(
     endDate,
   }: { period?: string; startDate?: string; endDate?: string } = {}
 ) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -22,6 +27,11 @@ export async function exportSlaCsvAllByType(
 }
 
 export async function exportSlaCsvAll({ period = "week", startDate, endDate }) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -39,6 +49,11 @@ export async function exportSlaCsvByType(
   type,
   { period = "week", startDate, endDate }
 ) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -52,6 +67,11 @@ export async function exportSlaCsvByType(
 
 // Exporta CSV de serviço individual (sempre completo)
 export async function exportSlaCsvByService(serviceId) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const response = await api.get(
     `/sla/reports/export/csv/service/${serviceId}`,
     { responseType: "blob" }

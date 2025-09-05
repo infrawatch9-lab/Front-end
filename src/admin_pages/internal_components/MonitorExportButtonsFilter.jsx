@@ -34,12 +34,22 @@ export default function ExportButtonsFilter() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    if (showCSVDropdown || showPDFDropdown) {
+    // Carregar serviços sempre que o componente for montado
+    getServices().then((data) => {
+      console.log('Services loaded:', data);
+      setServices(data || []);
+    });
+  }, []);
+
+  useEffect(() => {
+    // Recarregar se necessário quando dropdowns abrem
+    if ((showCSVDropdown || showPDFDropdown) && services.length === 0) {
       getServices().then((data) => {
+        console.log('Services reloaded:', data);
         setServices(data || []);
       });
     }
-  }, [showCSVDropdown, showPDFDropdown]);
+  }, [showCSVDropdown, showPDFDropdown, services.length]);
 
   const periods = [
     { label: "Última Semana", value: "week" },
@@ -73,13 +83,29 @@ export default function ExportButtonsFilter() {
     try {
       let blob;
       let filename = "sla_relatorio.csv";
+      
+      console.log('CSV Export - csvService:', csvService);
+      console.log('CSV Export - services array:', services);
+      
       if (csvService) {
+        // Individual: sla_{tipo}_{período}.csv
+        const selectedService = services.find(s => s.id == csvService); // usar == ao invés de === para comparar string/number
+        console.log('CSV Export - selectedService:', selectedService);
+        
+        if (!selectedService) {
+          alert('Serviço não encontrado. Tente recarregar a página.');
+          return;
+        }
+        
+        const serviceType = selectedService?.type?.toLowerCase() || 'service';
         blob = await exportSlaCsvByService(csvService);
-        filename = `sla_${csvService}_individual_${csvPeriod}.csv`;
+        filename = `sla_${serviceType}_${csvPeriod}.csv`;
       } else if (csvType !== "all") {
+        // Por tipo: sla_{tipo}_geral_{período}.csv
         blob = await exportSlaCsvAllByType(csvType, { period: csvPeriod });
-        filename = `sla_geral_${csvType}_${csvPeriod}.csv`;
+        filename = `sla_${csvType.toLowerCase()}_geral_${csvPeriod}.csv`;
       } else {
+        // Geral: sla_geral_{período}.csv
         blob = await exportSlaCsvAll({
           period: csvPeriod,
           startDate: csvPeriod === "custom" ? customStart : undefined,
@@ -87,6 +113,8 @@ export default function ExportButtonsFilter() {
         });
         filename = `sla_geral_${csvPeriod}.csv`;
       }
+      
+      console.log('CSV Export - filename:', filename);
       downloadBlob(blob, filename);
     } catch {
       alert("Erro ao exportar CSV");
@@ -101,16 +129,34 @@ export default function ExportButtonsFilter() {
     try {
       let blob;
       let filename = "sla_relatorio.pdf";
+      
+      console.log('PDF Export - pdfService:', pdfService);
+      console.log('PDF Export - services array:', services);
+      
       if (pdfService) {
+        // Individual: sla_{tipo}_{período}.pdf
+        const selectedService = services.find(s => s.id == pdfService); // usar == ao invés de === para comparar string/number
+        console.log('PDF Export - selectedService:', selectedService);
+        
+        if (!selectedService) {
+          alert('Serviço não encontrado. Tente recarregar a página.');
+          return;
+        }
+        
+        const serviceType = selectedService?.type?.toLowerCase() || 'service';
         blob = await exportSlaPdfByService(pdfService);
-        filename = `sla_${pdfService}_individual_${pdfPeriod}.pdf`;
+        filename = `sla_${serviceType}_${pdfPeriod}.pdf`;
       } else if (pdfType !== "all") {
+        // Por tipo: sla_{tipo}_geral_{período}.pdf
         blob = await exportSlaPdfAllByType(pdfType, { period: pdfPeriod });
-        filename = `sla_geral_${pdfType}_${pdfPeriod}.pdf`;
+        filename = `sla_${pdfType.toLowerCase()}_geral_${pdfPeriod}.pdf`;
       } else {
+        // Geral: sla_geral_{período}.pdf
         blob = await exportSlaPdfAll({ period: pdfPeriod });
         filename = `sla_geral_${pdfPeriod}.pdf`;
       }
+      
+      console.log('PDF Export - filename:', filename);
       downloadBlob(blob, filename);
     } catch {
       alert("Erro ao exportar PDF");

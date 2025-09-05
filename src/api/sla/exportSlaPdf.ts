@@ -10,6 +10,11 @@ export async function exportSlaPdfAllByType(
     endDate,
   }: { period?: string; startDate?: string; endDate?: string } = {}
 ) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -27,6 +32,11 @@ export async function exportSlaPdfAll({
   startDate,
   endDate,
 }: { period?: string; startDate?: string; endDate?: string } = {}) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -47,6 +57,11 @@ export async function exportSlaPdfByType(
     endDate,
   }: { period?: string; startDate?: string; endDate?: string } = {}
 ) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const params =
     period === "custom" && startDate && endDate
       ? { period, startDate, endDate }
@@ -60,6 +75,11 @@ export async function exportSlaPdfByType(
 
 // Serviço individual: sempre completo, sem filtro de período
 export async function exportSlaPdfByService(serviceId: string) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  
   const response = await api.get(
     `/sla/reports/export/pdf/service/${serviceId}`,
     { responseType: "blob" }
