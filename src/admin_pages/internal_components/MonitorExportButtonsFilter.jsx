@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Download, ChevronDown, FileText } from "lucide-react";
 import {
   exportSlaPdfAll,
-  exportSlaPdfByType,
+  // exportSlaPdfByType,
   exportSlaPdfByService,
+  exportSlaPdfAllByType,
 } from "../../api/sla/exportSlaPdf";
 import {
   exportSlaCsvAll,
-  exportSlaCsvByType,
+  // exportSlaCsvByType,
   exportSlaCsvByService,
+  exportSlaCsvAllByType,
 } from "../../api/sla/exportSlaCsv";
 import { getServices } from "../../api/services";
 
@@ -70,22 +72,22 @@ export default function ExportButtonsFilter() {
     setShowCSVDropdown(false);
     try {
       let blob;
+      let filename = "sla_relatorio.csv";
       if (csvService) {
         blob = await exportSlaCsvByService(csvService);
+        filename = `sla_${csvService}_individual_${csvPeriod}.csv`;
       } else if (csvType !== "all") {
-        blob = await exportSlaCsvByType(csvType, {
-          period: csvPeriod,
-          startDate: csvPeriod === "custom" ? customStart : undefined,
-          endDate: csvPeriod === "custom" ? customEnd : undefined,
-        });
+        blob = await exportSlaCsvAllByType(csvType, { period: csvPeriod });
+        filename = `sla_geral_${csvType}_${csvPeriod}.csv`;
       } else {
         blob = await exportSlaCsvAll({
           period: csvPeriod,
           startDate: csvPeriod === "custom" ? customStart : undefined,
           endDate: csvPeriod === "custom" ? customEnd : undefined,
         });
+        filename = `sla_geral_${csvPeriod}.csv`;
       }
-      downloadBlob(blob, "sla_relatorio.csv");
+      downloadBlob(blob, filename);
     } catch {
       alert("Erro ao exportar CSV");
     } finally {
@@ -98,18 +100,18 @@ export default function ExportButtonsFilter() {
     setShowPDFDropdown(false);
     try {
       let blob;
+      let filename = "sla_relatorio.pdf";
       if (pdfService) {
         blob = await exportSlaPdfByService(pdfService);
+        filename = `sla_${pdfService}_individual_${pdfPeriod}.pdf`;
       } else if (pdfType !== "all") {
-        blob = await exportSlaPdfByType(pdfType, {
-          startDate: pdfPeriod === "custom" ? pdfCustomStart : undefined,
-          endDate: pdfPeriod === "custom" ? pdfCustomEnd : undefined,
-          period: pdfPeriod,
-        });
+        blob = await exportSlaPdfAllByType(pdfType, { period: pdfPeriod });
+        filename = `sla_geral_${pdfType}_${pdfPeriod}.pdf`;
       } else {
-        blob = await exportSlaPdfAll(pdfPeriod);
+        blob = await exportSlaPdfAll({ period: pdfPeriod });
+        filename = `sla_geral_${pdfPeriod}.pdf`;
       }
-      downloadBlob(blob, "sla_relatorio.pdf");
+      downloadBlob(blob, filename);
     } catch {
       alert("Erro ao exportar PDF");
     } finally {

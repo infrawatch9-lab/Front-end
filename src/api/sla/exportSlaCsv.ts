@@ -1,6 +1,26 @@
 // Exporta CSV geral (panorama de todos os serviços)
 import { api } from "../confg";
 
+// Exporta CSV geral filtrado por tipo e período
+export async function exportSlaCsvAllByType(
+  type: string,
+  {
+    period = "week",
+    startDate,
+    endDate,
+  }: { period?: string; startDate?: string; endDate?: string } = {}
+) {
+  const params =
+    period === "custom" && startDate && endDate
+      ? { period, startDate, endDate }
+      : { period };
+  const response = await api.get(`/sla/reports/export/csv/type/${type}`, {
+    params,
+    responseType: "blob",
+  });
+  return response.data;
+}
+
 export async function exportSlaCsvAll({ period = "week", startDate, endDate }) {
   const params =
     period === "custom" && startDate && endDate
