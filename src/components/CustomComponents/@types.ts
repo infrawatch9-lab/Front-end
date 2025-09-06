@@ -1,6 +1,6 @@
 import React from "react"
 
-export type CustomDivProps = React.AllHTMLAttributes<any> & { type: 'foreground' | 'background' } & {children?: React.ReactNode}
+export type CustomDivProps = React.AllHTMLAttributes<any> & { type?: 'foreground' | 'background' } & {children?: React.ReactNode}
 
 type tableStatusProp = 'text' | 'number' | 'password' | 'status' | 'delete' | 'edit' | 'show' | 'log' | "toggle"
 

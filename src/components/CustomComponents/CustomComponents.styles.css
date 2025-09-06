@@ -83,6 +83,15 @@
 
 }
 
+.btn-light-mode-bg:active{
+  transform: scale(1.1);
+}
+
+.btn-dark-mode-bg:active{
+  transform: scale(1.3);
+}
+
+
 .btn-light-mode-fg:hover {
   transition: all 2s;
   background-color: #e7e7e77f;
@@ -142,7 +151,101 @@
   background-color: #070e237b;
 }
 
+
+
 .clickable-light-mode:hover{
 
   background-color: #d1d1d161;
+}
+
+.not-filter-btn{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.flex-box-column{
+  
+  flex-direction: column;
+}
+
+.flex-box-row{
+
+  flex-direction: row;
+}
+
+.flex-box{
+
+  display: flex;
+}
+
+.align-horizontal{
+  justify-items: center;
+}
+
+.align-vertical{
+  align-items: center;
+}
+
+.btn-selected-dark{
+  background-color: #070e23;
+  color: #ffffff;
+}
+
+.btn-selected-light{
+
+  background-color: #d7d7d7;
+}
+
+.no-bg{
+  background-color: transparent;
+}
+
+.not-title{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.not-time{
+  font-size: 10px;
+}
+
+.not-desc{
+  width: 85%;
+  font-size: 12px;
+  text-align: left;
+}
+
+.not-align{
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.b{
+  border-bottom: 1px solid silver;
+  padding-bottom: 10px;
+}
+
+/* Aplica em toda a página */
+::-webkit-scrollbar {
+  width: 5px; /* largura da barra */
+}
+
+/* Fundo da scrollbar */
+::-webkit-scrollbar-track {
+  background: silver;
+}
+
+/* Barra em si */
+::-webkit-scrollbar-thumb {
+  background: #0000007e;
+  border-radius: 26px;
+}
+
+/* Ao passar o mouse */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
