@@ -121,6 +121,8 @@ export default function MonitorAdmin() {
       const data = await getServices();
       const mappedData = mapApiDataToTableFormat(data);
       setServicesData(mappedData);
+      console.log("Fresh data fetched and mapped");
+      console.log(mappedData);
 
       // Update cache with fresh data
       const timestamp = new Date().getTime();
