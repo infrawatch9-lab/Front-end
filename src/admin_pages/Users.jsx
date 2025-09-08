@@ -373,7 +373,7 @@ export default function UsersAdmin() {
             justifyContent: "center",
           }}
         >
-          <div className="bg-slate-900 border border-slate-700 rounded-lg p-8 max-w-sm w-full flex flex-col items-center">
+          <CustomDiv type="background" className="bg-slate-900 border border-slate-700 rounded-lg p-8 max-w-sm w-full flex flex-col items-center">
             <h2 className="text-lg font-bold text-white mb-4">
               Confirmar exclusão
             </h2>
@@ -398,7 +398,7 @@ export default function UsersAdmin() {
                 Excluir
               </button>
             </div>
-          </div>
+          </CustomDiv>
         </div>
       )}
     </CustomDiv>

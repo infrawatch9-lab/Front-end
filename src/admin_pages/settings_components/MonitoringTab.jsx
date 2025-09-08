@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
+
 
 export default function MonitoringTab() {
   const { t } = useTranslation();
@@ -10,6 +12,8 @@ export default function MonitoringTab() {
     perdaPacotes: "10",
     jitterMaximo: "60"
   });
+
+  const { theme, toggleTheme } = useTheme();
 
   const handleInputChange = (field, value) => {
     setConfigs(prev => ({
@@ -32,12 +36,12 @@ export default function MonitoringTab() {
   ];
 
   return (
-    <div className="max-w-4xl">
+    <CustomDiv type="foreground" className="max-w-4xl">
       <CustomDiv type="foreground" className="border border-slate-700 rounded p-6">
 
         {/* Header */}
         <div className="mb-6">
-          <h3 className="text-white font-medium text-lg mb-2">{t("settings.monitoring.general_configs")}</h3>
+          <h3 className={"text-white font-medium text-lg mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t("settings.monitoring.general_configs")}</h3>
           <div className="w-full h-px bg-slate-600"></div>
         </div>
 
@@ -45,7 +49,7 @@ export default function MonitoringTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Primeira linha */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.monitoring.max_latency")}
             </label>
             <input
@@ -58,7 +62,7 @@ export default function MonitoringTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.monitoring.expected_status")}
             </label>
             <div className="relative">
@@ -84,7 +88,7 @@ export default function MonitoringTab() {
 
           {/* Segunda linha */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.monitoring.packet_loss")}
             </label>
             <input
@@ -97,7 +101,7 @@ export default function MonitoringTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.monitoring.max_jitter")}
             </label>
             <input
@@ -120,6 +124,6 @@ export default function MonitoringTab() {
           </button>
         </div>
         </CustomDiv>
-    </div>
+    </CustomDiv>
   );
 }

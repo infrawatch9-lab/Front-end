@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
 import ConfigCard from "./ConfigCard";
 import DynamicHeadersField from "./DynamicHeadersField";
-
-// import ToggleSwitch from "./ToggleSwitch";
-// import ConfigCard from "./ConfigCard";
-// import DynamicHeadersField from "./DynamicHeadersField";
+import { useTheme } from "../../hooks/useTheme/useTheme";
+import CustomDiv from "../../components/CustomComponents/CustomDiv";
 
 export default function NotificationsTab() {
   const { t } = useTranslation();
+  const theme = useTheme();
+  
   // Estados para os toggles
   const [emailEnabled, setEmailEnabled] = useState(true);
   const [slackEnabled, setSlackEnabled] = useState(false);
@@ -47,8 +47,19 @@ export default function NotificationsTab() {
     // Aqui você implementaria a lógica de salvamento via API
   };
 
+  // Classes CSS baseadas no tema
+  const labelClass = `block text-sm font-medium mb-2 ${
+    theme === 'dark' ? 'text-slate-300' : 'text-white-700'
+  }`;
+  
+  const inputClass = `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 ${
+    theme === 'dark' 
+      ? 'w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500' 
+      : 'w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
+  }`;
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <CustomDiv type="background" className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* EMAIL Card */}
       <ConfigCard
         title={t("settings.notifications.email.title")}
@@ -59,40 +70,40 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.email.smtp")}
             </label>
             <input
               type="text"
               value={emailConfig.smtp}
               onChange={(e) => setEmailConfig({...emailConfig, smtp: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!emailEnabled}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.email.port")}
             </label>
             <input
               type="text"
               value={emailConfig.porta}
               onChange={(e) => setEmailConfig({...emailConfig, porta: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!emailEnabled}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.email.sender")}
             </label>
             <input
               type="email"
               value={emailConfig.remetente}
               onChange={(e) => setEmailConfig({...emailConfig, remetente: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!emailEnabled}
             />
           </div>
@@ -109,27 +120,27 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.slack.webhook_url")}
             </label>
             <input
               type="url"
               value={slackConfig.webhookUrl}
               onChange={(e) => setSlackConfig({...slackConfig, webhookUrl: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!slackEnabled}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.slack.default_channel")}
             </label>
             <input
               type="text"
               value={slackConfig.canalPadrao}
               onChange={(e) => setSlackConfig({...slackConfig, canalPadrao: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!slackEnabled}
             />
           </div>
@@ -146,27 +157,27 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.sms.api_token")}
             </label>
             <input
               type="password"
               value={smsConfig.apiToken}
               onChange={(e) => setSmsConfig({...smsConfig, apiToken: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!smsEnabled}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.sms.number_channel")}
             </label>
             <input
               type="text"
               value={smsConfig.numeroCanal}
               onChange={(e) => setSmsConfig({...smsConfig, numeroCanal: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!smsEnabled}
             />
           </div>
@@ -183,14 +194,14 @@ export default function NotificationsTab() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.webhook.endpoint_url")}
             </label>
             <input
               type="url"
               value={webhookConfig.endpointUrl}
               onChange={(e) => setWebhookConfig({...webhookConfig, endpointUrl: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!webhookEnabled}
             />
           </div>
@@ -202,19 +213,19 @@ export default function NotificationsTab() {
           />
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={labelClass}>
               {t("settings.notifications.webhook.secret_token")}
             </label>
             <input
               type="password"
               value={webhookConfig.secretToken}
               onChange={(e) => setWebhookConfig({...webhookConfig, secretToken: e.target.value})}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className={inputClass}
               disabled={!webhookEnabled}
             />
           </div>
         </div>
       </ConfigCard>
-    </div>
+    </CustomDiv>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertTriangle, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
 
 const ConfirmationModal = ({ 
   isOpen, 
@@ -44,7 +45,7 @@ const ConfirmationModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-      <div className="bg-slate-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+      <CustomDiv type='background' className="bg-slate-800 rounded shadow-xl w-full max-w-md mx-4">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
           <div className="flex items-center space-x-3">
@@ -91,7 +92,7 @@ const ConfirmationModal = ({
             <span>{confirmText || t('common.yes')}</span>
           </button>
         </div>
-      </div>
+      </CustomDiv>
     </div>
   );
 };

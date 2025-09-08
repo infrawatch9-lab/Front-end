@@ -7,6 +7,8 @@ import SnmpServiceForm from './ServiceForms/SnmpServiceForm';
 import WebhookServiceForm from './ServiceForms/WebhookServiceForm';
 import ConfirmationModal from './ConfirmationModal';
 import { createService, updateService } from '../../api/services';
+import CustomDiv from '../../components/CustomComponents/CustomDiv';
+import { useTheme } from '../../hooks/useTheme/useTheme';
 
 const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
   const { t } = useTranslation();
@@ -31,6 +33,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
     }
   });
 
+  const theme = useTheme();
   const [specificConfig, setSpecificConfig] = useState({});
   const [newUserEmail, setNewUserEmail] = useState('');
   const [createdWebhookEndpoint, setCreatedWebhookEndpoint] = useState(null);
@@ -400,7 +403,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       case 1:
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className={"text-lg font-semibold mb-4" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
               {t('service_modal.select_type')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -408,13 +411,13 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                 <button
                   key={type.id}
                   onClick={() => handleTypeSelect(type.id)}
-                  className="p-4 border border-slate-600 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all text-left"
+                  className={"p-4 border border-slate-600 rounded-lg hover:border-slate-500 transition-all text-left" + (theme === "dark" ? " hover:bg-slate-700 " : " hover:bg-slate-200")}
                 >
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl">{type.icon}</span>
                     <div>
-                      <h4 className="text-white font-medium">{type.name}</h4>
-                      <p className="text-slate-400 text-sm mt-1">{type.description}</p>
+                      <h4 className={" font-medium" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{type.name}</h4>
+                      <p className={"text-sm mt-1" + (theme === "dark" ? " text-slate-400 " : " text-white-700 ")}>{type.description}</p>
                     </div>
                   </div>
                 </button>
@@ -433,7 +436,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                   {t('service_modal.service_name')} *
                 </label>
                 <input
@@ -446,7 +449,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                   {t('service_modal.type')}
                 </label>
                 <input
@@ -459,7 +462,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                 {t('service_modal.description')} *
               </label>
               <textarea
@@ -473,7 +476,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
 
             {/* Users to Notify */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                 <Mail className="w-4 h-4 inline mr-2" />
                 {t('service_modal.users_to_notify')}
               </label>
@@ -550,7 +553,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                 <h4 className="text-md font-medium text-white mb-3">{t('service_modal.monitoring_config')}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                       {t('service_modal.interval_seconds')}
                     </label>
                     <input
@@ -563,7 +566,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                       {t('service_modal.timeout_ms')}
                     </label>
                     <input
@@ -576,7 +579,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                       {t('service_modal.retries')}
                     </label>
                     <input
@@ -648,7 +651,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             </div>
 
             <div className="bg-slate-700 border border-slate-600 rounded-lg p-4">
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
                 Endpoint do Webhook:
               </label>
               <div className="flex items-center space-x-2">
@@ -696,10 +699,10 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-      <div className="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+      <CustomDiv type='background' className="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-xl font-semibold text-white">
+          <h2 className={"text-xl font-semibold" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
             {editingService ? t('service_modal.edit_service') : t('service_modal.new_service')}
           </h2>
           <button
@@ -735,11 +738,11 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             ))}
           </div>
           <div className="flex justify-between mt-2">
-            <span className="text-sm text-slate-400">
+            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
               {editingService ? t('service_modal.basic_info') : t('service_modal.select_type')}
             </span>
-            <span className="text-sm text-slate-400">{t('service_modal.basic_info')}</span>
-            <span className="text-sm text-slate-400">{t('service_modal.specific_config')}</span>
+            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{t('service_modal.basic_info')}</span>
+            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{t('service_modal.specific_config')}</span>
             {currentStep === 4 && (
               <span className="text-sm text-green-400">Concluído</span>
             )}
@@ -791,7 +794,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             )}
           </div>
         </div>
-      </div>
+      </CustomDiv>
 
       {/* Notification Modal */}
       <ConfirmationModal

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 export default function ThresholdsTab() {
   const { t } = useTranslation();
@@ -18,6 +19,8 @@ export default function ThresholdsTab() {
     }));
   };
 
+    const { theme, toggleTheme } = useTheme();
+  
   const handleSave = () => {
     console.log("Salvando configurações de thresholds:", configs);
     // Aqui você implementaria a lógica de salvamento via API
@@ -29,7 +32,7 @@ export default function ThresholdsTab() {
 
         {/* Header */}
         <div className="mb-6">
-          <h3 className="text-white font-medium text-lg mb-2">{t("settings.thresholds.general_configs")}</h3>
+          <h3 className={"text-white font-medium text-lg mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t("settings.thresholds.general_configs")}</h3>
           <div className="w-full h-px bg-slate-600"></div>
         </div>
 
@@ -37,7 +40,7 @@ export default function ThresholdsTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Primeira linha */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.thresholds.check_interval")}
             </label>
             <input
@@ -50,7 +53,7 @@ export default function ThresholdsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.thresholds.check_interval")}
             </label>
             <input
@@ -64,7 +67,7 @@ export default function ThresholdsTab() {
 
           {/* Segunda linha */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.thresholds.check_interval")}
             </label>
             <input
@@ -77,7 +80,7 @@ export default function ThresholdsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>
               {t("settings.thresholds.check_interval")}
             </label>
             <input

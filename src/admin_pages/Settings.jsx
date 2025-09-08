@@ -35,7 +35,7 @@ export default function SettingsAdmin() {
     <CustomDiv type="background" className="min-h-screen bg-[#081028] p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-6">{t("settings.title")}</h1>
+        <h1 className={"text-2xl font-bold text-white mb-6" + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t("settings.title")}</h1>
 
         {/* Tabs Navigation */}
         <div
@@ -56,7 +56,7 @@ export default function SettingsAdmin() {
                 }` +
                 (theme == "dark"
                   ? " items-colors-light "
-                  : " items-colors-dark ")
+                  : " items-colors-light ")
               }
             >
               {tab.label}

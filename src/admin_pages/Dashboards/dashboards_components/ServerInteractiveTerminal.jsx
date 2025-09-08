@@ -106,7 +106,7 @@ Uptime: 2 days, 14 hours, 23 minutes`;
         </button>
       </div>
 
-      <CustomDiv className="bg-[#000000] rounded border border-[#3B5B75] p-4">
+      <CustomDiv type="background" className="rounded border border-[#3B5B75] p-4">
         {/* Output */}
         <div
           id="terminal-output"

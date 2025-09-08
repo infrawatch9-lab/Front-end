@@ -2,9 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "./ToggleSwitch";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 export default function ConfigCard({ title, icon, enabled, onToggle, onSave, children }) {
   const { t } = useTranslation();
+  const theme = useTheme();
   return (
     <CustomDiv type="foreground" className="border border-slate-700 rounded p-6">
 
@@ -12,9 +14,9 @@ export default function ConfigCard({ title, icon, enabled, onToggle, onSave, chi
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <span className="text-lg">{icon}</span>
-          <h3 className="text-white font-medium">{title}</h3>
+          <h3 className={"font-medium" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{title}</h3>
         </div>
-        <ToggleSwitch enabled={enabled} onToggle={onToggle} />
+        <ToggleSwitch enabled={enabled} onToggle={onToggle}/>
       </div>
 
       {/* Content */}
