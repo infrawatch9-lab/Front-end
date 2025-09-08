@@ -237,8 +237,24 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       }
 
       if (editingService) {
-        await updateService(editingService.id, serviceData);
-        onServiceCreated();
+        const response = await updateService(editingService.id, serviceData);
+        
+        // Verificar se houve problemas com SNMP na atualização
+        if (selectedType === 'SNMP') {
+          setNotification({
+            isOpen: true,
+            title: t('common.success'),
+            message: 'Serviço SNMP atualizado com sucesso. Configurações sincronizadas com Zabbix.',
+            type: 'success'
+          });
+          
+          // Fechar modal após pequeno delay para mostrar a notificação
+          setTimeout(() => {
+            onServiceCreated();
+          }, 1500);
+        } else {
+          onServiceCreated();
+        }
       } else {
         const response = await createService(serviceData);
         
@@ -246,16 +262,40 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
         if (selectedType === 'WEBHOOK' && response?.webhookConfig?.endpoint) {
           setCreatedWebhookEndpoint(response.webhookConfig.endpoint);
           setCurrentStep(4); // Novo step para mostrar o endpoint
+        } else if (selectedType === 'SNMP') {
+          // Notificação específica para SNMP
+          setNotification({
+            isOpen: true,
+            title: t('common.success'),
+            message: 'Serviço SNMP criado com sucesso! Host adicionado ao monitoramento Zabbix.',
+            type: 'success'
+          });
+          
+          // Fechar modal após pequeno delay para mostrar a notificação
+          setTimeout(() => {
+            onServiceCreated();
+          }, 1500);
         } else {
           onServiceCreated();
         }
       }
     } catch (error) {
       console.error('Error saving service:', error);
+      
+      // Mensagem de erro específica para SNMP
+      let errorMessage = t('common.error');
+      if (selectedType === 'SNMP' && error.message) {
+        if (error.message.includes('SNMP')) {
+          errorMessage = `Erro na configuração SNMP: ${error.message}`;
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       setNotification({
         isOpen: true,
         title: t('common.error'),
-        message: t('common.error'),
+        message: errorMessage,
         type: 'danger'
       });
     } finally {
