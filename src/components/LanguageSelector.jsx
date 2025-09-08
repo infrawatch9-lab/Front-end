@@ -67,19 +67,32 @@ export default function LanguageSelector() {
       >
         <span className="w-8 h-8 flex items-center justify-center rounded-full">{flags[current.code]}</span>
       </button>
-      <div className={`absolute z-50 mt-2 top-full left-1/2 -translate-x-1/2 w-16 transition-all duration-200 ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} style={{transformOrigin: 'top center'}}>
+       <div
+        className={`absolute z-50 mb-2 bottom-full left-1/2 -translate-x-1/2 w-16 transition-all duration-200 ${
+          open
+            ? "opacity-100 scale-100 pointer-events-auto"
+            : "opacity-0 scale-95 pointer-events-none"
+        }`}
+        style={{ transformOrigin: "bottom center" }}
+      >
         {open && (
           <ul className="bg-white border border-gray-200 rounded shadow-lg flex flex-col items-center py-2">
-            {languages.map(lang => (
+            {languages.map((lang) => (
               <li
                 key={lang.code}
-                className={`flex flex-col items-center justify-center w-12 h-16 rounded cursor-pointer hover:bg-blue-50 transition-colors ${lang.code === current.code ? 'ring-2 ring-blue-500' : ''}`}
+                className={`flex flex-col items-center justify-center w-12 h-16 rounded cursor-pointer hover:bg-blue-50 transition-colors ${
+                  lang.code === current.code ? "ring-2 ring-blue-500" : ""
+                }`}
                 onClick={() => handleSelect(lang.code)}
                 role="option"
                 aria-selected={lang.code === current.code}
               >
-                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-white mb-1">{flags[lang.code]}</span>
-                <span className="text-xs font-semibold text-gray-700">{lang.code.toUpperCase()}</span>
+                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-white mb-1">
+                  {flags[lang.code]}
+                </span>
+                <span className="text-xs font-semibold text-gray-700">
+                  {lang.code.toUpperCase()}
+                </span>
               </li>
             ))}
           </ul>

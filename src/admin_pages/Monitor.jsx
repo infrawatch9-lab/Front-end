@@ -454,7 +454,7 @@ export default function MonitorAdmin() {
             </button>
             {/* Filter Dropdown */}
             {showFilter && (
-              <CustomDiv className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 min-w-48 filter-dropdown">
+              <CustomDiv className="absolute top-12 right-0 bg-slate-800 border border-slate-700 rounded shadow-lg z-50 min-w-48 filter-dropdown">
                 <CustomDiv className="p-3">
                   <h3 className="text-white font-medium mb-2">
                     {t("filters.filter_services")}
