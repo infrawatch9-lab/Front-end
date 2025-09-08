@@ -1,8 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Info, AlertTriangle } from 'lucide-react';
 
 const SnmpServiceForm = ({ config, onChange }) => {
   const { t } = useTranslation();
+  
   const handleConfigChange = (field, value) => {
     onChange({
       ...config,
@@ -10,8 +12,38 @@ const SnmpServiceForm = ({ config, onChange }) => {
     });
   };
 
+  // Validação de OID
+  const isValidOID = (oid) => {
+    if (!oid) return false;
+    const oidPattern = /^[0-9]+(\.[0-9]+)*$/;
+    return oidPattern.test(oid);
+  };
+
+  // Validação de IP/Host
+  const isValidHost = (host) => {
+    if (!host) return false;
+    // Aceita IPs e hostnames
+    const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    const hostnamePattern = /^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)*$/;
+    return ipPattern.test(host) || hostnamePattern.test(host);
+  };
+
   return (
     <div className="space-y-4">
+      {/* Informação sobre integração SNMP */}
+      <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4">
+        <div className="flex items-start space-x-3">
+          <Info className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+          <div>
+            <h4 className="text-blue-400 font-medium mb-2">Integração SNMP Avançada</h4>
+            <p className="text-slate-300 text-sm">
+              Este serviço será automaticamente configurado no Zabbix Server para monitoramento contínuo. 
+              Certifique-se de que o host SNMP está acessível e configurado corretamente.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -24,12 +56,20 @@ const SnmpServiceForm = ({ config, onChange }) => {
             className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
               !config.host || !config.host.trim() 
                 ? 'border-red-500 focus:border-red-400' 
+                : !isValidHost(config.host)
+                ? 'border-yellow-500 focus:border-yellow-400'
                 : 'border-slate-600 focus:border-blue-500'
             }`}
-            placeholder={t('service_types.snmp.host_placeholder')}
+            placeholder={t('service_types.snmp.host_placeholder') || '192.168.1.100 ou servidor.exemplo.com'}
           />
           {(!config.host || !config.host.trim()) && (
             <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
+          )}
+          {config.host && config.host.trim() && !isValidHost(config.host) && (
+            <div className="flex items-center mt-1">
+              <AlertTriangle className="w-3 h-3 text-yellow-400 mr-1" />
+              <p className="text-yellow-400 text-xs">Formato de IP ou hostname inválido</p>
+            </div>
           )}
         </div>
 
@@ -47,12 +87,43 @@ const SnmpServiceForm = ({ config, onChange }) => {
             }`}
           >
             <option value="v1">v1</option>
-            <option value="v2c">v2c</option>
-            <option value="v3">v3</option>
+            <option value="v2c">v2c (Recomendado)</option>
+            <option value="v3">v3 (Mais Seguro)</option>
           </select>
           {!config.version && (
             <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
           )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Porta SNMP
+          </label>
+          <input
+            type="number"
+            value={config.port || 161}
+            onChange={(e) => handleConfigChange('port', parseInt(e.target.value))}
+            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            min="1"
+            max="65535"
+          />
+          <p className="text-slate-400 text-xs mt-1">Padrão: 161</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Timeout (ms)
+          </label>
+          <input
+            type="number"
+            value={config.timeout || 5000}
+            onChange={(e) => handleConfigChange('timeout', parseInt(e.target.value))}
+            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            min="1000"
+            max="30000"
+          />
         </div>
       </div>
 
@@ -67,13 +138,24 @@ const SnmpServiceForm = ({ config, onChange }) => {
           className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition-colors ${
             !config.oid || !config.oid.trim() 
               ? 'border-red-500 focus:border-red-400' 
+              : !isValidOID(config.oid)
+              ? 'border-yellow-500 focus:border-yellow-400'
               : 'border-slate-600 focus:border-blue-500'
           }`}
-          placeholder={t('service_types.snmp.oid_placeholder')}
+          placeholder={t('service_types.snmp.oid_placeholder') || '1.3.6.1.2.1.1.3.0'}
         />
         {(!config.oid || !config.oid.trim()) && (
           <p className="text-red-400 text-xs mt-1">{t('common.required')}</p>
         )}
+        {config.oid && config.oid.trim() && !isValidOID(config.oid) && (
+          <div className="flex items-center mt-1">
+            <AlertTriangle className="w-3 h-3 text-yellow-400 mr-1" />
+            <p className="text-yellow-400 text-xs">Formato de OID inválido. Use números separados por pontos</p>
+          </div>
+        )}
+        <p className="text-slate-400 text-xs mt-1">
+          Exemplos: 1.3.6.1.2.1.1.3.0 (uptime), 1.3.6.1.2.1.1.1.0 (system description)
+        </p>
       </div>
 
       {/* Community for v1 and v2c */}
@@ -216,31 +298,20 @@ const SnmpServiceForm = ({ config, onChange }) => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Intervalo (segundos)
+            Intervalo de Monitoramento (segundos)
           </label>
           <input
             type="number"
-            value={config.interval || 60}
+            value={config.interval || 300}
             onChange={(e) => handleConfigChange('interval', parseInt(e.target.value))}
             className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            min="1"
+            min="60"
+            max="3600"
           />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Timeout (ms)
-          </label>
-          <input
-            type="number"
-            value={config.timeout || 5000}
-            onChange={(e) => handleConfigChange('timeout', parseInt(e.target.value))}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            min="1000"
-          />
+          <p className="text-slate-400 text-xs mt-1">Mínimo: 60s, Padrão: 300s (5 minutos)</p>
         </div>
 
         <div>
@@ -253,61 +324,63 @@ const SnmpServiceForm = ({ config, onChange }) => {
             onChange={(e) => handleConfigChange('retries', parseInt(e.target.value))}
             className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             min="1"
+            max="10"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Configurações de Monitoramento */}
+      <div className="bg-slate-800/50 border border-slate-600/50 rounded-lg p-4">
+        <h4 className="text-slate-300 font-medium mb-3">Configurações de Monitoramento</h4>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Delay entre tentativas (ms)
+            </label>
+            <input
+              type="number"
+              value={config.delay || 1000}
+              onChange={(e) => handleConfigChange('delay', parseInt(e.target.value))}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              min="100"
+              max="5000"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Tempo de Resposta Esperado (ms)
+            </label>
+            <input
+              type="number"
+              value={config.expectedResponseTimeMs || 1000}
+              onChange={(e) => handleConfigChange('expectedResponseTimeMs', parseInt(e.target.value))}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              min="100"
+              max="10000"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Configurações opcionais */}
+      <div className="bg-slate-800/50 border border-slate-600/50 rounded-lg p-4">
+        <h4 className="text-slate-300 font-medium mb-3">Configurações Opcionais</h4>
+        
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Delay entre tentativas (ms)
+            Webhook para Alertas (Opcional)
           </label>
           <input
-            type="number"
-            value={config.delay || 1000}
-            onChange={(e) => handleConfigChange('delay', parseInt(e.target.value))}
+            type="url"
+            value={config.webhookUrl || ''}
+            onChange={(e) => handleConfigChange('webhookUrl', e.target.value)}
             className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            min="100"
+            placeholder="https://exemplo.com/webhook"
           />
+          <p className="text-slate-400 text-xs mt-1">URL para receber notificações de alertas</p>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Tempo de Resposta Esperado (ms)
-          </label>
-          <input
-            type="number"
-            value={config.expectedResponseTimeMs || 1000}
-            onChange={(e) => handleConfigChange('expectedResponseTimeMs', parseInt(e.target.value))}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            min="100"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Webhook URL
-        </label>
-        <input
-          type="url"
-          value={config.webhookUrl || ''}
-          onChange={(e) => handleConfigChange('webhookUrl', e.target.value)}
-          className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="https://exemplo.com/webhook"
-        />
-      </div>
-
-      <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={config.autoGenerate || false}
-          onChange={(e) => handleConfigChange('autoGenerate', e.target.checked)}
-          className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500"
-        />
-        <label className="text-sm text-slate-300">
-          Auto-gerar configurações
-        </label>
       </div>
     </div>
   );

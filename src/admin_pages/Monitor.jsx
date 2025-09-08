@@ -9,7 +9,8 @@ import { useTheme } from "../hooks/useTheme/useTheme";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
-import { getServices, deleteService } from "../api/services";
+import { getServices, deleteService, checkSnmpApiHealth, debugSnmpApi } from "../api/services";
+import { testApiConnectivity, getCurrentApiUrl, setApiUrl, API_PRESETS, useApiPreset, debugAuthentication, forceLogout } from "../api/confg";
 import ExportButtonsFilter from "./internal_components/MonitorExportButtonsFilter";
 
 export default function MonitorAdmin() {
@@ -29,6 +30,9 @@ export default function MonitorAdmin() {
 
   // const [isInitialLoad, setIsInitialLoad] = useState(false); // Removido: não utilizado
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
+  const [snmpApiStatus, setSnmpApiStatus] = useState(null); // Status da API SNMP
+  const [showApiConfig, setShowApiConfig] = useState(false); // Mostrar configuração da API
+  const [apiStatus, setApiStatus] = useState(null); // Status da API principal
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
     title: "",
@@ -181,6 +185,46 @@ export default function MonitorAdmin() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [hasCacheLoaded, lastFetch, invalidateCacheAndRefresh]);
+
+  // Verificar status da API SNMP periodicamente
+  useEffect(() => {
+    const checkSnmpHealth = async () => {
+      try {
+        const health = await checkSnmpApiHealth();
+        setSnmpApiStatus(health.success ? 'healthy' : 'error');
+      } catch (error) {
+        setSnmpApiStatus('error');
+      }
+    };
+
+    // Verificar imediatamente
+    checkSnmpHealth();
+
+    // Verificar a cada 5 minutos
+    const interval = setInterval(checkSnmpHealth, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Verificar status da API principal
+  useEffect(() => {
+    const checkMainApiHealth = async () => {
+      try {
+        const connectivity = await testApiConnectivity();
+        setApiStatus(connectivity.success ? 'healthy' : 'error');
+      } catch (error) {
+        setApiStatus('error');
+      }
+    };
+
+    // Verificar imediatamente
+    checkMainApiHealth();
+
+    // Verificar a cada 5 minutos
+    const interval = setInterval(checkMainApiHealth, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Proteção contra autocomplete indevido
   useEffect(() => {
@@ -380,20 +424,62 @@ export default function MonitorAdmin() {
             >
               {t("monitor.title")}
             </h1>
-            <p
-              className={
-                "text-slate-400 " +
-                (theme == "dark" ? " text-colors-light " : " text-colors-dark ")
-              }
-            >
-              {loading
-                ? t("common.loading")
-                : searchTerm || selectedServiceType
-                ? `${filteredData.length} serviços encontrados${
-                    selectedServiceType ? ` (tipo: ${selectedServiceType})` : ""
-                  }`
-                : `${servicesData.length} serviços sendo monitorados`}
-            </p>
+            <div className="flex items-center space-x-4">
+              <p
+                className={
+                  "text-slate-400 " +
+                  (theme == "dark" ? " text-colors-light " : " text-colors-dark ")
+                }
+              >
+                {loading
+                  ? t("common.loading")
+                  : searchTerm || selectedServiceType
+                  ? `${filteredData.length} serviços encontrados${
+                      selectedServiceType ? ` (tipo: ${selectedServiceType})` : ""
+                    }`
+                  : `${servicesData.length} serviços sendo monitorados`}
+              </p>
+              
+              {/* Indicadores de status das APIs */}
+              <div className="flex items-center space-x-4">
+                {/* Status da API Principal */}
+                {apiStatus && (
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      apiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
+                    }`} />
+                    <span className={`text-xs ${
+                      apiStatus === 'healthy' ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      API {apiStatus === 'healthy' ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Status da API SNMP */}
+                {snmpApiStatus && (
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      snmpApiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
+                    }`} />
+                    <span className={`text-xs ${
+                      snmpApiStatus === 'healthy' ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      SNMP {snmpApiStatus === 'healthy' ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Botão de configuração */}
+                <button
+                  onClick={() => setShowApiConfig(!showApiConfig)}
+                  className="text-xs text-slate-400 hover:text-white transition-colors"
+                  title="Configurar APIs"
+                >
+                  ⚙️
+                </button>
+              </div>
+            </div>
           </CustomDiv>
           <CustomDiv className="flex items-center space-x-3 relative"></CustomDiv>
 
@@ -532,6 +618,170 @@ export default function MonitorAdmin() {
         {error && (
           <div className="mb-4 p-4 bg-red-900 border border-red-700 rounded-lg">
             <p className="text-red-200">{error}</p>
+          </div>
+        )}
+
+        {/* Debug SNMP temporário */}
+        <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-yellow-400 text-sm font-medium">Debug SNMP API</p>
+              <p className="text-yellow-300 text-xs">Use este botão para testar a conectividade com a API SNMP</p>
+            </div>
+            <button
+              className="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 text-white text-xs rounded transition-colors"
+              onClick={async () => {
+                console.log('🔧 Executando debug da API SNMP...');
+                try {
+                  const result = await debugSnmpApi();
+                  console.log('📊 Resultado do debug:', result);
+                  alert(result.success ? 'Debug concluído! Verifique o console para detalhes.' : `Erro: ${result.error}`);
+                } catch (error) {
+                  console.error('❌ Erro no debug:', error);
+                  alert(`Erro no debug: ${error.message}`);
+                }
+              }}
+            >
+              Testar API SNMP
+            </button>
+          </div>
+        </div>
+
+        {/* Debug Autenticação */}
+        <div className="mb-4 p-3 bg-red-900/30 border border-red-500/30 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-red-400 text-sm font-medium">Debug Autenticação (403 Forbidden)</p>
+              <p className="text-red-300 text-xs">Teste se o token está válido e diagnostique problemas de autenticação</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors"
+                onClick={async () => {
+                  console.log('🔐 Executando debug de autenticação...');
+                  try {
+                    const result = await debugAuthentication();
+                    console.log('🔍 Resultado do debug de auth:', result);
+                    if (result.valid) {
+                      alert('✅ Token válido! Usuário autenticado.');
+                    } else {
+                      alert(`❌ Problema de autenticação: ${result.error}\nRecomendação: ${result.recommendation}`);
+                    }
+                  } catch (error) {
+                    console.error('❌ Erro no debug de auth:', error);
+                    alert(`Erro no debug: ${error.message}`);
+                  }
+                }}
+              >
+                Testar Token
+              </button>
+              <button
+                className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+                onClick={() => {
+                  const result = forceLogout();
+                  if (result) {
+                    alert('🚪 Logout forçado! Dados limpos. Faça login novamente.');
+                    navigate('/login');
+                  }
+                }}
+              >
+                Forçar Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Configuração da API */}
+        {showApiConfig && (
+          <div className="mb-4 p-4 bg-blue-900/30 border border-blue-500/30 rounded-lg">
+            <h3 className="text-blue-400 font-medium mb-3">Configuração das APIs</h3>
+            
+            <div className="space-y-4">
+              {/* Status atual */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-slate-300 text-sm mb-2">API Principal:</p>
+                  <p className="text-xs text-slate-400 font-mono break-all">{getCurrentApiUrl()}</p>
+                  <div className="flex items-center mt-1">
+                    <div className={`w-2 h-2 rounded-full mr-2 ${
+                      apiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
+                    }`} />
+                    <span className="text-xs text-slate-400">
+                      {apiStatus === 'healthy' ? 'Conectado' : 'Desconectado'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <p className="text-slate-300 text-sm mb-2">API SNMP:</p>
+                  <p className="text-xs text-slate-400 font-mono">http://0.0.0.0:8001</p>
+                  <div className="flex items-center mt-1">
+                    <div className={`w-2 h-2 rounded-full mr-2 ${
+                      snmpApiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
+                    }`} />
+                    <span className="text-xs text-slate-400">
+                      {snmpApiStatus === 'healthy' ? 'Conectado' : 'Desconectado'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Presets */}
+              <div>
+                <p className="text-slate-300 text-sm mb-2">Presets de Configuração:</p>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(API_PRESETS).map(([key, url]) => (
+                    <button
+                      key={key}
+                      onClick={async () => {
+                        const newUrl = useApiPreset(key);
+                        console.log(`Mudando para ${key}:`, newUrl);
+                        // Recarregar status
+                        const connectivity = await testApiConnectivity();
+                        setApiStatus(connectivity.success ? 'healthy' : 'error');
+                        alert(`API alterada para: ${key}\n${newUrl}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro'}`);
+                      }}
+                      className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded border border-slate-600 transition-colors"
+                    >
+                      {key}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* URL personalizada */}
+              <div>
+                <p className="text-slate-300 text-sm mb-2">URL Personalizada:</p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="http://localhost:3000/api"
+                    className="flex-1 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-white text-xs"
+                    onKeyPress={async (e) => {
+                      if (e.key === 'Enter') {
+                        const newUrl = e.target.value;
+                        if (newUrl) {
+                          setApiUrl(newUrl);
+                          const connectivity = await testApiConnectivity();
+                          setApiStatus(connectivity.success ? 'healthy' : 'error');
+                          alert(`API alterada para: ${newUrl}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro'}`);
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={async () => {
+                      const connectivity = await testApiConnectivity();
+                      setApiStatus(connectivity.success ? 'healthy' : 'error');
+                      alert(`Teste de conectividade:\nURL: ${getCurrentApiUrl()}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro: ' + connectivity.error}`);
+                    }}
+                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors"
+                  >
+                    Testar
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
