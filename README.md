@@ -1,70 +1,171 @@
-# Getting Started with Create React App
+# InfraWatch Front-End
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este repositório contém o módulo Front-End da aplicação web de monitoramento de infraestrutura, serviços e usuários, chamada InfraWatch. Ele foi desenvolvido com foco em gestão, automação e visualização de dados críticos de ambientes de TI, utilizando tecnologias modernas como React, TailwindCSS e integração com APIs.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Sumário
 
-### `npm start`
+- [Visão Geral](#visão-geral)
+- [Recursos Principais](#recursos-principais)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Uso](#uso)
+- [Estrutura de Diretórios](#estrutura-de-diretórios)
+- [Internacionalização](#internacionalização)
+- [Contribuição](#contribuição)
+- [Equipe](#equipe)
+- [Licença](#licença)
+- [Contato](#contato)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Visão Geral
 
-### `npm test`
+InfraWatch foi projetado para equipes de TI que precisam monitorar, gerenciar e automatizar ambientes críticos, garantindo alta disponibilidade, segurança e controle sobre ativos de infraestrutura. A plataforma integra diversos tipos de monitoramento (HTTP, SNMP, PING, WEBHOOK), gestão de usuários, relatórios de SLA e visualização geográfica, tudo em uma interface responsiva e intuitiva.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Recursos Principais
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Dashboards Interativos:** Visualização em tempo real do status de APIs, servidores, redes e webhooks, com gráficos, tabelas e indicadores de performance.
+- **Monitoramento de Serviços:** Cadastro, edição e exclusão de serviços monitorados, configuração personalizada e acompanhamento de eventos.
+- **Gestão de Usuários:** Controle de permissões, criação/edição de usuários, histórico de atividades e gerenciamento de acesso.
+- **Relatórios de SLA:** Geração de relatórios detalhados sobre disponibilidade, falhas e desempenho dos sistemas monitorados.
+- **Alertas e Notificações:** Painéis de alertas ativos, escalação de incidentes, histórico de eventos e logs detalhados.
+- **Mapas Interativos:** Visualização geográfica da infraestrutura monitorada.
+- **Internacionalização:** Suporte a múltiplos idiomas via `react-i18next`.
+- **Temas Personalizáveis:** Interface responsiva com opção de tema claro/escuro.
+- **Autenticação Segura:** Rotas protegidas e gerenciamento de sessão.
+- **Interface Responsiva:** Compatível com dispositivos móveis e desktop.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tecnologias Utilizadas
 
-### `npm run eject`
+- **React** (Vite)
+- **TailwindCSS**
+- **React Router**
+- **Lucide-react** (ícones)
+- **Axios** (requisições HTTP)
+- **Docker** (containerização)
+- **ESLint/PostCSS** (qualidade de código e CSS)
+- **react-i18next** (internacionalização)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Instalação
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/infrawatch-frontend.git
+   cd infrawatch-frontend
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Execute o projeto:**
+   ```bash
+   npm run dev
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. **(Opcional) Execute via Docker:**
+   ```bash
+   docker build -t infrawatch-frontend .
+   docker run -p 3000:80 infrawatch-frontend
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Configuração
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Variáveis de ambiente:** Configure as URLs das APIs, chaves de mapas e outros parâmetros no arquivo `.env`.
+- **Permissões de usuário:** Defina perfis e permissões no painel administrativo.
+- **Idiomas:** Adicione traduções em `src/locales/`.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Uso
 
-### Making a Progressive Web App
+1. Acesse `http://localhost:3000` no navegador.
+2. Faça login com suas credenciais.
+3. Navegue pelos dashboards, monitore serviços, visualize mapas e gerencie usuários.
+4. Gere relatórios de SLA e acompanhe alertas em tempo real.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Estrutura de Diretórios
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+src/
+├── admin_pages/         # Páginas administrativas (Dashboard, Monitoramento, Histórico, Usuários, Configurações)
+│   ├── dashboard/       # Dashboards de APIs, servidores, redes, webhooks
+│   ├── monitor/         # Monitoramento de serviços
+│   ├── history/         # Histórico de eventos e logs
+│   ├── users/           # Gestão de usuários
+│   └── settings/        # Configurações do sistema
+├── api/                 # Integração com APIs
+├── components/          # Componentes reutilizáveis (autenticação, botões, modais, tabelas, loaders)
+├── contexts/            # Contextos globais (tema, autenticação)
+├── hooks/               # Hooks customizados
+├── landing_page/        # Página inicial e apresentação da equipe
+├── login/               # Fluxo de autenticação
+├── pages/               # Páginas públicas e institucionais (Política de Privacidade, SLA, Relatórios)
+├── services/            # Lógica de monitoramento dos serviços
+├── styles/              # Estilos customizados (Tailwind, CSS)
+├── router.jsx           # Definição de rotas
+└── main.jsx             # Ponto de entrada da aplicação
+```
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Internacionalização
 
-### `npm run build` fails to minify
+- O projeto utiliza `react-i18next` para tradução.
+- Para adicionar um novo idioma, edite os arquivos em `src/locales/`.
+- Os componentes de seleção de idioma estão disponíveis na interface.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify).
+---
+
+## Contribuição
+
+1. Fork este repositório.
+2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`).
+3. Faça commit das suas alterações.
+4. Envie um pull request.
+
+---
+
+## Equipe
+
+O projeto foi desenvolvido por uma equipe multidisciplinar, incluindo:
+
+- Desenvolvedores Frontend
+- Desenvolvedores Backend
+- Full Stack
+- Designers UI/UX
+- Especialista Devops
+
+A apresentação detalhada da equipe está disponível na landing page do sistema.
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido no âmbito do Hackathon Infrawatch.
+Todos os direitos pertencem à empresa RCS. É proibido o uso, modificação ou redistribuição sem a devida autorização.
+
+---
+
+## Contato
+
+- Email: infrawatch9@gmail.com
+- Site: [https://appinfrawatch.duckdns.org](https://appinfrawatch.duckdns.org)
+
+---
+
+**InfraWatch** — Monitoramento inteligente para ambientes críticos de TI.
