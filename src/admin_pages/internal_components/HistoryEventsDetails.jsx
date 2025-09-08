@@ -67,7 +67,7 @@ const EventDetailsScreen = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
-                className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors"
+                className="flex items-center space-x-2 text-slate-600 hover:text-white transition-colors"
                 onClick={() => navigate(-1)}
               >
                 <ArrowLeft className="w-5 h-5" />
