@@ -14,8 +14,8 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.first_name')}</label>
           <input
             type="text"
-            value={formData.firstName}
-            onChange={(e) => handleInputChange("firstName", e.target.value)}
+            value={formData.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -35,8 +35,8 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
             <input
               type="email"
               value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              disabled
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -46,8 +46,8 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
             <Phone className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input
               type="tel"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
+              value={formData.number}
+              onChange={(e) => handleInputChange("number", e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -68,9 +68,9 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.position')}</label>
           <input
             type="text"
-            value={formData.position}
-            onChange={(e) => handleInputChange("position", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            value={formData.role}
+            disabled
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
@@ -90,6 +90,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
               type="text"
               value={formData.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
+              placeholder="Cidade, País, etc."
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>

@@ -33,46 +33,20 @@ const EditProfile = () => {
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getProfile();
   }, []);
   const [formData, setFormData] = useState({
-    firstName: userInfo?.name || "",
-    lastName: userInfo?.lastName || "",
+    name: userInfo?.name || "",
     email: userInfo?.email || "",
-    phone: userInfo?.number || "",
-    company: userInfo?.company || "",
-    position: userInfo?.role || "",
-    department: userInfo?.department || "",
-    location: userProfile?.location || "",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    emailNotifications: userProfile?.emailNotifications ?? true,
-    pushNotifications: userProfile?.pushNotifications ?? false,
-    smsNotifications: userProfile?.smsNotifications ?? false,
+    number: userInfo?.number || "",
+    role: userInfo?.role || "",
+    location: userInfo?.location || "", // localização opcional
   });
 
-  const [formData_, setFormData_] = useState({
-    firstName: "Orisa",
-    lastName: "Ebo",
-    email: "orisa@example.com",
-    phone: "+244 900 000 000",
-    company: "42 Luanda",
-    position: "Estudante",
-    department: "Inovação",
-    location: "Luanda, Angola",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    emailNotifications: true,
-    pushNotifications: false,
-    smsNotifications: false,
-    language: "pt",
-    theme: "light",
-  });
+  // formData_ removido
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -96,11 +70,36 @@ const EditProfile = () => {
 
   return (
     <CustomDiv type="background" className="min-h-screen mx-auto px-4 py-8">
-      <ProfileHeader profileImage={profileImage} formData={formData} onImageUpload={handleImageUpload} />
-      <ProfileTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <ProfileHeader
+        profileImage={profileImage}
+        formData={formData}
+        onImageUpload={handleImageUpload}
+      />
+      <ProfileTabs
+        tabs={tabs}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
-      <form className="rounded shadow-sm">
-        {activeTab === "personal" && <ProfilePersonalForm formData={formData} handleInputChange={handleInputChange} />}
+      <form
+        className="rounded shadow-sm"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          try {
+            const { apiUpdateUser } = await import("../api/users/updateUser");
+            await apiUpdateUser(formData);
+            alert("Perfil atualizado com sucesso!");
+          } catch (err) {
+            alert(err.message || "Erro ao atualizar perfil");
+          }
+        }}
+      >
+        {activeTab === "personal" && (
+          <ProfilePersonalForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+          />
+        )}
         {activeTab === "security" && (
           <ProfileSecurityForm
             formData={formData}
@@ -110,10 +109,16 @@ const EditProfile = () => {
           />
         )}
         {activeTab === "notifications" && (
-          <ProfileNotificationsForm formData={formData} handleInputChange={handleInputChange} />
+          <ProfileNotificationsForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+          />
         )}
         {activeTab === "preferences" && (
-          <ProfilePreferencesForm formData={formData} handleInputChange={handleInputChange} />
+          <ProfilePreferencesForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+          />
         )}
 
         <ProfileActions />
