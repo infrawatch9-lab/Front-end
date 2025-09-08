@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuração da API SNMP
-const SNMP_API_BASE_URL = 'http://0.0.0.0:8001';
+const SNMP_API_BASE_URL = 'http://infra42luanda.duckdns.org:3003';
 
 // Criar instância do axios para API SNMP
 const snmpApi = axios.create({
