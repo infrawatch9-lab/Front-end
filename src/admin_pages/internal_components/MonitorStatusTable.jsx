@@ -64,14 +64,7 @@ export default function StatusTable({
               }
             : undefined
         }
-        onUpdate={
-          onEditService
-            ? (id) => {
-                const row = filteredData.find((item) => item.id === id);
-                if (row) onEditService(row);
-              }
-            : undefined
-        }
+        onUpdate={onEditService ? (id) => onEditService(id) : undefined}
         onDelete={onDeleteService ? (id) => onDeleteService(id) : undefined}
       />
     </CustomDiv>

@@ -9,7 +9,8 @@
   "navigation": {
     "home": "Início",
     "about": "Sobre",
-    "contact": "Contato"
+    "contact": "Contato",
+    "search": "Procurar"
   },
   "dashboard": {
     "title": "Painel de Controle",

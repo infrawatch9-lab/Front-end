@@ -9,7 +9,8 @@
   "navigation": {
     "home": "Home",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "search": "Search"
   },
   "dashboard": {
     "title": "Dashboard",
