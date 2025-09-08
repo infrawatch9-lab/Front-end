@@ -16,17 +16,23 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setSubmiting(true);
-    console.log("Login com", username, password);
     try {
-      await apiLogin({ email: username, password });
-      if (apiLogin) setSubmiting(false);
-      navigate("/admin");
+      const loginResult = await apiLogin({ email: username, password });
+      
+      if (loginResult) {
+        setSubmiting(false);
+        
+        // Verificar se é senha temporária
+        if (loginResult.isTemporaryPassword === true) {
+          navigate("/reset-password?forced=true");
+        } else {
+          navigate("/admin");
+        }
+      }
     } catch (error) {
       console.log(error);
       setError(true);
       setSubmiting(false);
-      // Optionally, you can add a message state to display the error message
-      // setMessage(error.message || "Erro ao fazer login.");
     }
   };
 

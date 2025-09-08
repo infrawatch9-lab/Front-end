@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { apiValidateOtp, apiSendOtp } from "../api/users/otp";
-import { apiResetPassword } from "../api/users/reset_password";
 import "../login/Login.css";
 import AppLoader from "./AppLoader";
 import { Eye, EyeOff, Lock, ArrowLeft } from "lucide-react";
@@ -64,11 +62,24 @@ export default function ResetPassword() {
 
     try {
       // Chamada para API enviar OTP
-      const message = await apiSendOtp({ email });
-      setSuccess(message || t("reset_password.otp_sent", "Código enviado para seu email!"));
-      setStep(2); // Avançar para validação do OTP
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(t("reset_password.otp_sent", "Código enviado para seu email!"));
+        setStep(2); // Avançar para validação do OTP
+      } else {
+        setError(data.message || t("reset_password.email_not_found", "Email não encontrado"));
+      }
     } catch (error) {
-      setError(error.message || t("reset_password.network_error", "Erro de rede. Tente novamente."));
+      setError(t("reset_password.network_error", "Erro de rede. Tente novamente."));
     } finally {
       setSubmitting(false);
     }
@@ -88,11 +99,24 @@ export default function ResetPassword() {
 
     try {
       // Chamada para API validar OTP
-      const message = await apiValidateOtp({ email, otp });
-      setSuccess(message || t("reset_password.otp_valid", "Código validado! Defina sua nova senha."));
-      setStep(3); // Avançar para reset de senha
+      const response = await fetch('/api/auth/validate-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(t("reset_password.otp_valid", "Código validado! Defina sua nova senha."));
+        setStep(3); // Avançar para reset de senha
+      } else {
+        setError(data.message || t("reset_password.invalid_otp_code", "Código inválido ou expirado"));
+      }
     } catch (error) {
-      setError(error.message || t("reset_password.network_error", "Erro de rede. Tente novamente."));
+      setError(t("reset_password.network_error", "Erro de rede. Tente novamente."));
     } finally {
       setSubmitting(false);
     }
@@ -116,11 +140,6 @@ export default function ResetPassword() {
         setError(t("reset_password.same_password", "A nova senha deve ser diferente da atual"));
         setSubmitting(false);
         return;
-      }
-      if (confirmPassword !== newPassword) {
-        setError(t("reset_password.passwords_dont_match", "As senhas não coincidem"));
-        setSubmitting(false);
-        return; 
       }
     } else {
       // Reset por OTP - não precisa senha atual
@@ -146,32 +165,64 @@ export default function ResetPassword() {
     }
 
     try {
+      let response;
+      
       if (isForced) {
         // Reset obrigatório com senha atual
-        const message = await apiResetPassword({ currentPassword, newPassword });
-        
-        // Atualizar dados do usuário
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        user.isTemporaryPassword = false;
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.removeItem('needsPasswordReset');
-        
-        setSuccess(message || t("reset_password.success", "Senha alterada com sucesso!"));
+        const token = localStorage.getItem('token');
+        response = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            isTemporaryReset: true
+          }),
+        });
+      } else {
+        // Reset por OTP
+        response = await fetch('/api/auth/reset-password-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            otp,
+            newPassword
+          }),
+        });
+      }
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (isForced) {
+          // Atualizar dados do usuário
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          user.isTemporaryPassword = false;
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.removeItem('needsPasswordReset');
+        }
+
+        setSuccess(t("reset_password.success", "Senha alterada com sucesso!"));
         
         setTimeout(() => {
-          navigate("/admin");
+          if (isForced) {
+            navigate("/admin");
+          } else {
+            // Para reset por OTP, sempre vai para login
+            navigate("/login");
+          }
         }, 2000);
       } else {
-        // ja nao preciso do email e otp
-        const message = await apiResetPassword({ currentPassword, newPassword });
-        setSuccess(message || t("reset_password.success", "Senha alterada com sucesso!"));
-        
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        setError(data.message || t("reset_password.reset_error", "Erro ao alterar senha"));
       }
     } catch (error) {
-      setError(error.message || t("reset_password.network_error", "Erro de rede. Tente novamente."));
+      setError(t("reset_password.network_error", "Erro de rede. Tente novamente."));
     } finally {
       setSubmitting(false);
     }
