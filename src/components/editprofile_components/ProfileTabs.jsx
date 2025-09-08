@@ -1,6 +1,8 @@
+import { useTheme } from "../../hooks/useTheme/useTheme";
 import CustomDiv from "../CustomComponents/CustomDiv";
 
 const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
+  const { theme } = useTheme();
   return (
     <CustomDiv type="background" className="mb-8">
       <nav className="flex space-x-8 border-b border-gray-700">
@@ -13,7 +15,7 @@ const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
               className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : `border-transparent hover:border-gray-300 ${theme === "dark" ? "text-slate-300 hover:text-slate-200" : "text-white-700 hover:text-white-600"}`
               }`}
             >
               <Icon className="w-4 h-4" />

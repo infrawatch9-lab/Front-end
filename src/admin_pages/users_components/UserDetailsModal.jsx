@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 export default function UserDetailsModal({
   user,
@@ -8,6 +9,7 @@ export default function UserDetailsModal({
   onDelete,
   readOnly = false,
 }) {
+  const theme = useTheme();
   const [activeTab, setActiveTab] = useState("info");
 
   // Função igual AccessPermissionsTab
@@ -73,12 +75,12 @@ export default function UserDetailsModal({
 
   const renderInfoTab = () => (
     <div className="space-y-6">
-      <h3 className="text-white font-medium text-lg">
+      <h3 className={`font-medium text-lg ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
         1. Informações de usuário
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Nome Completo
           </label>
           <input
@@ -96,7 +98,7 @@ export default function UserDetailsModal({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Email
           </label>
           <input
@@ -114,7 +116,7 @@ export default function UserDetailsModal({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Telefone
           </label>
           <input
@@ -133,7 +135,7 @@ export default function UserDetailsModal({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Papel
           </label>
           <select
@@ -158,7 +160,7 @@ export default function UserDetailsModal({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             STATUS
           </label>
           <select
@@ -222,17 +224,17 @@ export default function UserDetailsModal({
 
   const renderPermissionsTab = () => (
     <div className="space-y-6">
-      <h3 className="text-white font-medium text-lg">
+      <h3 className={`font-medium text-lg ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
         2. Permissões de usuário
       </h3>
-      <div className="bg-slate-900 border border-slate-600 rounded-lg overflow-hidden">
+      <CustomDiv className="bg-slate-900 border border-slate-600 rounded-lg overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="bg-slate-800">
-              <th className="text-left p-4 text-slate-300 font-medium">
+            <tr className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white-700'}`}>
+              <th className={`text-left p-4 font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
                 Descrição
               </th>
-              <th className="text-center p-4 text-slate-300 font-medium">
+              <th className={`text-center p-4 font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
                 Estado
               </th>
             </tr>
@@ -240,7 +242,7 @@ export default function UserDetailsModal({
           <tbody>
             {allPermissions.map((perm) => (
               <tr className="border-t border-slate-700" key={perm.key}>
-                <td className="p-4 text-slate-300">{perm.label}</td>
+                <td className={`p-4 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>{perm.label}</td>
                 <td className="p-4 text-center">
                   <div className="flex justify-center">
                     {editedUser.permissions?.[perm.key] ? (
@@ -278,7 +280,7 @@ export default function UserDetailsModal({
             ))}
           </tbody>
         </table>
-      </div>
+      </CustomDiv>
 
       {/* Nenhum botão de ação na aba de permissões */}
     </div>
@@ -287,7 +289,7 @@ export default function UserDetailsModal({
   const renderHistoryTab = () => (
     <div className="space-y-6">
       <div className="bg-slate-900 border border-slate-600 rounded-lg p-4">
-        <h3 className="text-white font-medium text-lg mb-4">Logs do Sistema</h3>
+        <h3 className={`font-medium text-lg mb-4 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>Logs do Sistema</h3>
         {/* Filtro de logs */}
         <div className="flex items-center gap-4 mb-4">
           <div className="flex-1">
@@ -328,7 +330,7 @@ export default function UserDetailsModal({
             user.activityLogs.map((log, idx) => (
               <div key={idx} className="py-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-300 font-medium">
+                  <span className={`font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
                     {log.action}
                   </span>
                   <span className="text-slate-400 text-xs">
@@ -370,7 +372,7 @@ export default function UserDetailsModal({
       <CustomDiv type="background" className="bg-slate-900 border border-slate-700 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-xl font-bold text-white">DETALHES DE USUÁRIO</h2>
+          <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>DETALHES DE USUÁRIO</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-all duration-200"

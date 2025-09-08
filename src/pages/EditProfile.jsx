@@ -1,5 +1,6 @@
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 import { useUserPermissions } from "../hooks/useUserPermissions";
+import { useTranslation } from "react-i18next";
 
 import { useState } from "react";
 import { User, Lock, Bell, Settings } from "lucide-react";
@@ -15,6 +16,7 @@ import { apiGetUserProfile } from "../api/users/getUserProfile";
 import { useEffect } from "react";
 
 const EditProfile = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("personal");
   const [profileImage, setProfileImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -86,10 +88,10 @@ const EditProfile = () => {
   };
 
   const tabs = [
-    { id: "personal", label: "Pessoal", icon: User },
-    { id: "security", label: "Segurança", icon: Lock },
-    { id: "notifications", label: "Notificações", icon: Bell },
-    { id: "preferences", label: "Preferências", icon: Settings },
+    { id: "personal", label: t('profile.tabs.personal'), icon: User },
+    { id: "security", label: t('profile.tabs.security'), icon: Lock },
+    { id: "notifications", label: t('profile.tabs.notifications'), icon: Bell },
+    { id: "preferences", label: t('profile.tabs.preferences'), icon: Settings },
   ];
 
   return (

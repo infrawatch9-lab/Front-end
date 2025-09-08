@@ -403,7 +403,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       case 1:
         return (
           <div className="space-y-4">
-            <h3 className={"text-lg font-semibold mb-4" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+            <h3 className={`text-lg font-semibold mb-4 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
               {t('service_modal.select_type')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -416,8 +416,8 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl">{type.icon}</span>
                     <div>
-                      <h4 className={" font-medium" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{type.name}</h4>
-                      <p className={"text-sm mt-1" + (theme === "dark" ? " text-slate-400 " : " text-white-700 ")}>{type.description}</p>
+                      <h4 className={`font-medium ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{type.name}</h4>
+                      <p className={`text-sm mt-1 ${theme === "dark" ? "text-slate-400" : "text-white-700"}`}>{type.description}</p>
                     </div>
                   </div>
                 </button>
@@ -429,14 +429,14 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       case 2:
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className={`text-lg font-semibold mb-4 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
               {t('service_modal.basic_info')}
             </h3>
             
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+                <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                   {t('service_modal.service_name')} *
                 </label>
                 <input
@@ -449,7 +449,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
               </div>
 
               <div>
-                <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+                <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                   {t('service_modal.type')}
                 </label>
                 <input
@@ -462,7 +462,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             </div>
 
             <div>
-              <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+              <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                 {t('service_modal.description')} *
               </label>
               <textarea
@@ -476,7 +476,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
 
             {/* Users to Notify */}
             <div>
-              <label className={"block text-sm font-medium text-slate-300 mb-2"+ (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+              <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                 <Mail className="w-4 h-4 inline mr-2" />
                 {t('service_modal.users_to_notify')}
               </label>
@@ -550,10 +550,10 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             {/* Monitoring Configuration - Only for non-webhook services */}
             {selectedType !== 'WEBHOOK' && (
               <div>
-                <h4 className="text-md font-medium text-white mb-3">{t('service_modal.monitoring_config')}</h4>
+                <h4 className={`text-md font-medium mb-3 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('service_modal.monitoring_config')}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+                    <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                       {t('service_modal.interval_seconds')}
                     </label>
                     <input
@@ -566,7 +566,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   </div>
 
                   <div>
-                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+                    <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                       {t('service_modal.timeout_ms')}
                     </label>
                     <input
@@ -579,7 +579,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   </div>
 
                   <div>
-                    <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+                    <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                       {t('service_modal.retries')}
                     </label>
                     <input
@@ -599,7 +599,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       case 3:
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className={`text-lg font-semibold mb-4 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
               {t('service_modal.specific_config')} - {serviceTypes.find(t => t.id === selectedType)?.name}
             </h3>
             
@@ -642,7 +642,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className={`text-lg font-semibold mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                 Webhook criado com sucesso!
               </h3>
               <p className="text-slate-400 mb-6">
@@ -651,7 +651,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             </div>
 
             <div className="bg-slate-700 border border-slate-600 rounded-lg p-4">
-              <label className={"block text-sm font-medium text-slate-300 mb-2" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+              <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
                 Endpoint do Webhook:
               </label>
               <div className="flex items-center space-x-2">
@@ -702,7 +702,7 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
       <CustomDiv type='background' className="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className={"text-xl font-semibold" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+          <h2 className={`text-xl font-semibold ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
             {editingService ? t('service_modal.edit_service') : t('service_modal.new_service')}
           </h2>
           <button
@@ -738,11 +738,11 @@ const ServiceModal = ({ onClose, onServiceCreated, editingService = null }) => {
             ))}
           </div>
           <div className="flex justify-between mt-2">
-            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>
+            <span className={`text-sm ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
               {editingService ? t('service_modal.basic_info') : t('service_modal.select_type')}
             </span>
-            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{t('service_modal.basic_info')}</span>
-            <span className={"text-sm" + (theme === "dark" ? " text-slate-300 " : " text-white-700 ")}>{t('service_modal.specific_config')}</span>
+            <span className={`text-sm ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('service_modal.basic_info')}</span>
+            <span className={`text-sm ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('service_modal.specific_config')}</span>
             {currentStep === 4 && (
               <span className="text-sm text-green-400">Concluído</span>
             )}

@@ -1,7 +1,9 @@
 import { User, Camera } from "lucide-react";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 import CustomDiv from "../CustomComponents/CustomDiv";
 
 const ProfileHeader = ({ profileImage, formData, onImageUpload }) => {
+  const { theme } = useTheme();
   return (
     <CustomDiv type="foreground" className="rounded shadow-sm border border-gray-200 p-6 mb-8">
       <div className="flex items-center space-x-6">
@@ -19,11 +21,11 @@ const ProfileHeader = ({ profileImage, formData, onImageUpload }) => {
           </label>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className={`text-2xl font-semibold ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
             {formData.firstName} {formData.lastName}
           </h2>
-          <p className="text-gray-600">{formData.position} • {formData.company}</p>
-          <p className="text-sm text-gray-500 mt-1">{formData.location}</p>
+          <p className={`${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{formData.position} • {formData.company}</p>
+          <p className={`text-sm mt-1 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{formData.location}</p>
         </div>
       </div>
     </CustomDiv>

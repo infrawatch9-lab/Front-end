@@ -1,13 +1,17 @@
 import { Mail, Phone, Building, MapPin } from "lucide-react";
+import { useTheme } from "../../hooks/useTheme/useTheme";
+import { useTranslation } from "react-i18next";
 import CustomDiv from "../CustomComponents/CustomDiv";
 
 const ProfilePersonalForm = ({ formData, handleInputChange }) => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   return (
     <CustomDiv type="foreground" className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Informações Pessoais</h3>
+      <h3 className={`text-lg font-semibold mb-6 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.personal_info')}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.first_name')}</label>
           <input
             type="text"
             value={formData.firstName}
@@ -16,7 +20,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Sobrenome</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.last_name')}</label>
           <input
             type="text"
             value={formData.lastName}
@@ -25,7 +29,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.email')}</label>
           <div className="relative">
             <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input
@@ -37,7 +41,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.phone')}</label>
           <div className="relative">
             <Phone className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input
@@ -49,7 +53,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Empresa</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.company')}</label>
           <div className="relative">
             <Building className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input
@@ -61,7 +65,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Cargo</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.position')}</label>
           <input
             type="text"
             value={formData.position}
@@ -70,7 +74,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Departamento</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.department')}</label>
           <input
             type="text"
             value={formData.department}
@@ -79,7 +83,7 @@ const ProfilePersonalForm = ({ formData, handleInputChange }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Localização</label>
+          <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>{t('profile.location')}</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input

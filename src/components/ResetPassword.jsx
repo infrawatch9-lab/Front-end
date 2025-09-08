@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiValidateOtp, apiSendOtp } from "../api/users/otp";
-import { apiResetPassword } from "../api/users/reset_password";
+import { apiResetPassword, apiResetPasswordWithOtp } from "../api/users/reset_password";
 import "../login/Login.css";
 import AppLoader from "./AppLoader";
 import { Eye, EyeOff, Lock, ArrowLeft } from "lucide-react";
@@ -163,7 +163,7 @@ export default function ResetPassword() {
         }, 2000);
       } else {
         // ja nao preciso do email e otp
-        const message = await apiResetPassword({ currentPassword, newPassword });
+        const message = await apiResetPasswordWithOtp({ email, otp, newPassword });
         setSuccess(message || t("reset_password.success", "Senha alterada com sucesso!"));
         
         setTimeout(() => {

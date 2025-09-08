@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import CustomDiv from "../../components/CustomComponents/CustomDiv";
+import { useTheme } from "../../hooks/useTheme/useTheme";
 
 export default function CreateUserModal({ onClose, onCreate }) {
+  const theme = useTheme();
   const [currentStep, setCurrentStep] = useState(1);
   const [userData, setUserData] = useState({
     name: "",
@@ -78,19 +80,19 @@ export default function CreateUserModal({ onClose, onCreate }) {
         <div className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full text-sm font-medium">
           1
         </div>
-        <h3 className="text-white font-medium text-lg">INFORMAÇÕES</h3>
+        <h3 className={`font-medium text-lg ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>INFORMAÇÕES</h3>
         <div className="flex-1 h-px bg-slate-600"></div>
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-8 h-8 bg-slate-600 text-slate-400 rounded-full text-sm font-medium">
             2
           </div>
-          <span className="text-slate-400 font-medium">PAPEL</span>
+          <span className={`font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>PAPEL</span>
         </div>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Nome
           </label>
           <input
@@ -103,7 +105,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Telefone
           </label>
           <input
@@ -116,7 +118,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             E-mail
           </label>
           <input
@@ -147,18 +149,18 @@ export default function CreateUserModal({ onClose, onCreate }) {
           <div className="flex items-center justify-center w-8 h-8 bg-green-600 text-white rounded-full text-sm font-medium">
             ✓
           </div>
-          <span className="text-green-500 font-medium">INFORMAÇÕES</span>
+          <span className={`font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>INFORMAÇÕES</span>
         </div>
         <div className="flex-1 h-px bg-slate-600"></div>
         <div className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full text-sm font-medium">
           2
         </div>
-        <h3 className="text-white font-medium text-lg">PAPEL</h3>
+        <h3 className={`font-medium text-lg ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>PAPEL</h3>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             PAPEL
           </label>
           <select
@@ -182,7 +184,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>
             Tag
           </label>
           <input
@@ -217,7 +219,7 @@ export default function CreateUserModal({ onClose, onCreate }) {
       <CustomDiv type="background" className="border border-slate-700 rounded-lg w-full max-w-md">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-xl font-bold text-white">CRIAR USUÁRIO</h2>
+          <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-white-700'}`}>CRIAR USUÁRIO</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-all duration-200"

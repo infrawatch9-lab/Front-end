@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertTriangle, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../hooks/useTheme/useTheme';
 import CustomDiv from '../../components/CustomComponents/CustomDiv';
 
 const ConfirmationModal = ({ 
@@ -15,6 +16,7 @@ const ConfirmationModal = ({
   loading = false 
 }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   if (!isOpen) return null;
 
@@ -50,7 +52,7 @@ const ConfirmationModal = ({
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
           <div className="flex items-center space-x-3">
             <AlertTriangle className={`w-6 h-6 ${styles.icon}`} />
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className={`text-lg font-semibold ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
               {title || t('common.confirmation')}
             </h2>
           </div>
@@ -65,7 +67,7 @@ const ConfirmationModal = ({
 
         {/* Content */}
         <div className="p-6">
-          <p className="text-slate-300 text-sm leading-relaxed">
+          <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
             {message}
           </p>
         </div>

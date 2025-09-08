@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import AppLoader from "../components/AppLoader";
 import SearchAndFilters from "./users_components/SearchAndFilters";
 import UserActionsButtons from "./users_components/UserActionsButtons";
@@ -14,6 +15,7 @@ import CustomTable from "../components/CustomComponents/CustomTable";
 import { useTheme } from "../hooks/useTheme/useTheme";
 
 export default function UsersAdmin() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -152,7 +154,7 @@ export default function UsersAdmin() {
   return (
     <CustomDiv type="background" className="p-6 min-h-screen">
     <div className="mb-8">
-      <h1 className={"text-white text-2xl font-semibold"  + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>Usuários</h1>
+      <h1 className={"text-white text-2xl font-semibold"  + (theme == 'dark' ? " items-colors-light " : " items-colors-dark ")}>{t('users.title')}</h1>
     </div>
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-4">
@@ -374,12 +376,11 @@ export default function UsersAdmin() {
           }}
         >
           <CustomDiv type="background" className="bg-slate-900 border border-slate-700 rounded-lg p-8 max-w-sm w-full flex flex-col items-center">
-            <h2 className="text-lg font-bold text-white mb-4">
-              Confirmar exclusão
+            <h2 className={`text-lg font-bold mb-4 ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
+              {t('users.confirm_delete')}
             </h2>
-            <p className="text-slate-300 mb-6 text-center">
-              Tem certeza que deseja excluir este usuário? Esta ação não pode
-              ser desfeita.
+            <p className={`mb-6 text-center ${theme === "dark" ? "text-slate-300" : "text-white-700"}`}>
+              {t('users.delete_warning')}
             </p>
             <div className="flex gap-4">
               <button
@@ -389,13 +390,13 @@ export default function UsersAdmin() {
                   setUserIdToDelete(null);
                 }}
               >
-                Cancelar
+                {t('users.cancel')}
               </button>
               <button
                 className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium"
                 onClick={confirmDeleteUser}
               >
-                Excluir
+                {t('users.delete_user')}
               </button>
             </div>
           </CustomDiv>
