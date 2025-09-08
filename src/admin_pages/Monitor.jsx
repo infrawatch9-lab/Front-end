@@ -9,7 +9,7 @@ import { useTheme } from "../hooks/useTheme/useTheme";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
-import { getServices, deleteService, checkSnmpApiHealth, debugSnmpApi } from "../api/services";
+import { getServices, deleteService, checkSnmpApiHealth, debugSnmpApi, testServiceBodyFormat } from "../api/services";
 import { testApiConnectivity, getCurrentApiUrl, setApiUrl, API_PRESETS, useApiPreset, debugAuthentication, forceLogout } from "../api/confg";
 import ExportButtonsFilter from "./internal_components/MonitorExportButtonsFilter";
 
@@ -620,76 +620,6 @@ export default function MonitorAdmin() {
             <p className="text-red-200">{error}</p>
           </div>
         )}
-
-        {/* Debug SNMP temporário */}
-        <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-yellow-400 text-sm font-medium">Debug SNMP API</p>
-              <p className="text-yellow-300 text-xs">Use este botão para testar a conectividade com a API SNMP</p>
-            </div>
-            <button
-              className="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 text-white text-xs rounded transition-colors"
-              onClick={async () => {
-                console.log('🔧 Executando debug da API SNMP...');
-                try {
-                  const result = await debugSnmpApi();
-                  console.log('📊 Resultado do debug:', result);
-                  alert(result.success ? 'Debug concluído! Verifique o console para detalhes.' : `Erro: ${result.error}`);
-                } catch (error) {
-                  console.error('❌ Erro no debug:', error);
-                  alert(`Erro no debug: ${error.message}`);
-                }
-              }}
-            >
-              Testar API SNMP
-            </button>
-          </div>
-        </div>
-
-        {/* Debug Autenticação */}
-        <div className="mb-4 p-3 bg-red-900/30 border border-red-500/30 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-red-400 text-sm font-medium">Debug Autenticação (403 Forbidden)</p>
-              <p className="text-red-300 text-xs">Teste se o token está válido e diagnostique problemas de autenticação</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors"
-                onClick={async () => {
-                  console.log('🔐 Executando debug de autenticação...');
-                  try {
-                    const result = await debugAuthentication();
-                    console.log('🔍 Resultado do debug de auth:', result);
-                    if (result.valid) {
-                      alert('✅ Token válido! Usuário autenticado.');
-                    } else {
-                      alert(`❌ Problema de autenticação: ${result.error}\nRecomendação: ${result.recommendation}`);
-                    }
-                  } catch (error) {
-                    console.error('❌ Erro no debug de auth:', error);
-                    alert(`Erro no debug: ${error.message}`);
-                  }
-                }}
-              >
-                Testar Token
-              </button>
-              <button
-                className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded transition-colors"
-                onClick={() => {
-                  const result = forceLogout();
-                  if (result) {
-                    alert('🚪 Logout forçado! Dados limpos. Faça login novamente.');
-                    navigate('/login');
-                  }
-                }}
-              >
-                Forçar Logout
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* Configuração da API */}
         {showApiConfig && (

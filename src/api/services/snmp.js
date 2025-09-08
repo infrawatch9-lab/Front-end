@@ -40,29 +40,52 @@ const mapServiceConfigToSnmpHost = (serviceData) => {
     throw new Error('Configuração SNMP incompleta. Host, versão e OID são obrigatórios.');
   }
   
+  // Formato esperado pelo backend: {"name": "Router Teste", "host": "10.0.1.1", "oid": "1.3.6.1.2.1.1.3.0", "version": "v2c", "community": "public"}
   const hostData = {
     name: name,
     host: snmpConfig.host,
-    ip: snmpConfig.host, // Usando host como IP
-    port: parseInt(snmpConfig.port) || 161,
-    snmp_version: snmpConfig.version.toUpperCase(),
-    monitoring_interval: parseInt(snmpConfig.interval) || 300,
-    service_id: serviceData.id || null,
+    oid: snmpConfig.oid,
+    version: snmpConfig.version, // Manter versão original (não uppercase)
   };
+
+  // Adicionar porta se diferente do padrão
+  if (snmpConfig.port && snmpConfig.port !== 161) {
+    hostData.port = parseInt(snmpConfig.port);
+  }
 
   // Adicionar configurações específicas por versão
   if (snmpConfig.version === 'v1' || snmpConfig.version === 'v2c') {
     hostData.community = snmpConfig.community || 'public';
   } else if (snmpConfig.version === 'v3') {
-    hostData.security_name = snmpConfig.username || null;
-    hostData.auth_protocol = snmpConfig.authProtocol || null;
-    hostData.auth_password = snmpConfig.authPassword || null;
-    hostData.priv_protocol = snmpConfig.privProtocol || null;
-    hostData.priv_password = snmpConfig.privPassword || null;
+    // Para v3, incluir configurações de autenticação
+    if (snmpConfig.username) {
+      hostData.username = snmpConfig.username;
+    }
+    if (snmpConfig.authProtocol) {
+      hostData.auth_protocol = snmpConfig.authProtocol;
+    }
+    if (snmpConfig.authPassword) {
+      hostData.auth_password = snmpConfig.authPassword;
+    }
+    if (snmpConfig.privProtocol) {
+      hostData.priv_protocol = snmpConfig.privProtocol;
+    }
+    if (snmpConfig.privPassword) {
+      hostData.priv_password = snmpConfig.privPassword;
+    }
+  }
+
+  // Adicionar configurações opcionais de monitoramento (não obrigatórias para o backend básico)
+  if (snmpConfig.interval) {
+    hostData.monitoring_interval = parseInt(snmpConfig.interval);
+  }
+  
+  if (snmpConfig.timeout) {
+    hostData.timeout = parseInt(snmpConfig.timeout);
   }
 
   console.log('[SNMP] Original snmpConfig:', snmpConfig);
-  console.log('[SNMP] Mapped hostData:', hostData);
+  console.log('[SNMP] Mapped hostData (formato backend):', hostData);
   
   return hostData;
 };
@@ -81,8 +104,16 @@ export const createSnmpHost = async (serviceData) => {
       throw new Error(`API SNMP não está acessível: ${connectivityTest.error}`);
     }
     
-    const hostData = mapServiceConfigToSnmpHost(serviceData);
-    console.log('[SNMP] Mapped host data:', hostData);
+    // Testar formato do body antes de enviar
+    console.log('[SNMP] Testing body format...');
+    const formatTest = testServiceBodyFormat(serviceData);
+    if (!formatTest.success) {
+      throw new Error(`Formato de dados inválido: ${formatTest.error}`);
+    }
+    
+    const hostData = formatTest.mappedData;
+    console.log('[SNMP] Body que será enviado para o backend:', JSON.stringify(hostData, null, 2));
+    console.log('[SNMP] Body em linha única:', JSON.stringify(hostData));
     
     console.log('[SNMP] Sending POST request to /hosts...');
     const response = await snmpApi.post('/hosts', hostData);
@@ -91,7 +122,7 @@ export const createSnmpHost = async (serviceData) => {
     return {
       success: true,
       data: response.data,
-      snmpHostId: response.data.host_id,
+      snmpHostId: response.data.host_id || response.data.id,
       zabbixHostId: response.data.zabbix_host_id,
       message: response.data.message
     };
@@ -114,6 +145,7 @@ export const createSnmpHost = async (serviceData) => {
           break;
         case 400:
           errorMessage = `Dados inválidos: ${data?.detail || data?.message || 'Verifique os campos obrigatórios'}`;
+          console.error('[SNMP] Body enviado:', JSON.stringify(error.config?.data));
           break;
         case 500:
           errorMessage = `Erro interno da API: ${data?.detail || data?.message || 'Problema no servidor SNMP'}`;
@@ -328,12 +360,12 @@ export const debugSnmpApi = async () => {
       }
     }
     
-    // Teste 3: Dados de exemplo
-    console.log('📝 [SNMP DEBUG] Teste 3: Dados de exemplo');
+    // Teste 3: Dados de exemplo no formato correto do backend
+    console.log('📝 [SNMP DEBUG] Teste 3: Formato correto do body para backend');
     const sampleData = {
-      name: 'test-host-debug',
+      name: 'Router Teste',
       snmpConfig: {
-        host: '127.0.0.1',
+        host: '10.0.1.1',
         version: 'v2c',
         oid: '1.3.6.1.2.1.1.3.0',
         community: 'public',
@@ -343,16 +375,84 @@ export const debugSnmpApi = async () => {
     };
     
     const mappedData = mapServiceConfigToSnmpHost(sampleData);
-    console.log('🗂️ [SNMP DEBUG] Dados mapeados:', mappedData);
+    console.log('🗂️ [SNMP DEBUG] Body esperado pelo backend:', JSON.stringify(mappedData, null, 2));
+    console.log('🎯 [SNMP DEBUG] Body em uma linha:', JSON.stringify(mappedData));
+    
+    // Verificar se corresponde ao formato esperado
+    const expectedFormat = {
+      "name": "Router Teste",
+      "host": "10.0.1.1", 
+      "oid": "1.3.6.1.2.1.1.3.0",
+      "version": "v2c",
+      "community": "public"
+    };
+    
+    console.log('📋 [SNMP DEBUG] Formato esperado:', JSON.stringify(expectedFormat));
+    console.log('🔍 [SNMP DEBUG] Comparação de campos obrigatórios:');
+    console.log('  - name:', mappedData.name === expectedFormat.name ? '✅' : '❌');
+    console.log('  - host:', mappedData.host === expectedFormat.host ? '✅' : '❌');
+    console.log('  - oid:', mappedData.oid === expectedFormat.oid ? '✅' : '❌');
+    console.log('  - version:', mappedData.version === expectedFormat.version ? '✅' : '❌');
+    console.log('  - community:', mappedData.community === expectedFormat.community ? '✅' : '❌');
     
     console.log('✅ [SNMP DEBUG] Testes concluídos!');
     return {
       success: true,
-      message: 'Todos os testes executados. Verifique o console para detalhes.'
+      message: 'Todos os testes executados. Verifique o console para detalhes.',
+      mappedData: mappedData,
+      expectedFormat: expectedFormat
     };
     
   } catch (error) {
     console.error('❌ [SNMP DEBUG] Erro nos testes:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+/**
+ * Testar formato do body para um serviço específico
+ * Use para validar o mapeamento antes de enviar para o backend
+ */
+export const testServiceBodyFormat = (serviceData) => {
+  console.log('🧪 [SNMP FORMAT TEST] Testando formato do body...');
+  
+  try {
+    const mappedData = mapServiceConfigToSnmpHost(serviceData);
+    
+    console.log('📤 [INPUT] Dados do frontend:', serviceData);
+    console.log('📥 [OUTPUT] Body para backend:', JSON.stringify(mappedData, null, 2));
+    
+    // Validar campos obrigatórios
+    const requiredFields = ['name', 'host', 'oid', 'version'];
+    const missingFields = requiredFields.filter(field => !mappedData[field]);
+    
+    if (missingFields.length > 0) {
+      console.error('❌ [VALIDATION] Campos obrigatórios ausentes:', missingFields);
+      return {
+        success: false,
+        error: `Campos obrigatórios ausentes: ${missingFields.join(', ')}`,
+        mappedData
+      };
+    }
+    
+    // Validar formato v2c/v1 (deve ter community)
+    if ((mappedData.version === 'v1' || mappedData.version === 'v2c') && !mappedData.community) {
+      console.warn('⚠️ [VALIDATION] Community string ausente para versão v1/v2c');
+      mappedData.community = 'public'; // Valor padrão
+    }
+    
+    console.log('✅ [VALIDATION] Formato válido!');
+    return {
+      success: true,
+      mappedData,
+      bodyString: JSON.stringify(mappedData)
+    };
+    
+  } catch (error) {
+    console.error('❌ [FORMAT TEST] Erro:', error);
     return {
       success: false,
       error: error.message

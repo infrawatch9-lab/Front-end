@@ -243,5 +243,6 @@ export {
   getSnmpStatus, 
   restartSnmpMonitoring,
   testSnmpApiConnectivity,
-  debugSnmpApi
+  debugSnmpApi,
+  testServiceBodyFormat
 } from './snmp';
