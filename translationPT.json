@@ -642,5 +642,29 @@
       "placeholder_ex": "ex: {{value}}",
       "loading": "Carregando..."
     }
+  },
+  "reset_password": {
+    "title": "Alterar Senha",
+    "current_password": "Senha Atual",
+    "new_password": "Nova Senha",
+    "confirm_password": "Confirmar Nova Senha",
+    "submit": "Alterar Senha",
+    "updating": "Atualizando...",
+    "success": "Senha alterada com sucesso!",
+    "error": "Erro ao alterar senha. Verifique sua senha atual.",
+    "fill_all_fields": "Por favor, preencha todos os campos",
+    "passwords_dont_match": "As senhas não coincidem",
+    "same_password": "A nova senha deve ser diferente da atual",
+    "password_min_length": "A senha deve ter pelo menos 8 caracteres",
+    "password_case_requirement": "A senha deve conter letras maiúsculas e minúsculas",
+    "password_number_requirement": "A senha deve conter pelo menos um número",
+    "password_special_requirement": "A senha deve conter pelo menos um caractere especial",
+    "password_strength": "Força da senha:",
+    "requirements": "A senha deve conter:",
+    "req_length": "Pelo menos 8 caracteres",
+    "req_case": "Letras maiúsculas e minúsculas",
+    "req_number": "Pelo menos um número",
+    "req_special": "Pelo menos um caractere especial",
+    "back_to_login": "Voltar ao login"
   }
 }

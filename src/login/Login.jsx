@@ -54,7 +54,7 @@ export default function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Username ou E-mail"
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-sm text-sm  login-input"
+              className="w-full pr-3 py-2 border border-gray-300 rounded-sm text-sm login-input"
               required
             />
           </div>
@@ -70,7 +70,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Senha"
-              className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-sm text-sm  login-input"
+              className="w-full pr-10 py-2 border border-gray-300 rounded-sm text-sm login-input"
               required
             />
             <span
@@ -104,10 +104,14 @@ export default function Login() {
             <a style={{ color: "dimgray" }}>Esqueceu a senha?</a>
             <a
               style={{ color: "#ffffff", fontWeight: "bold" }}
-              href="#"
-              className="ml-2 text-base  hover:underline"
+              href="/reset-password"
+              className="ml-2 text-base hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/reset-password");
+              }}
             >
-              Recuperar
+              Recuperar 
             </a>
           </div>
         </form>

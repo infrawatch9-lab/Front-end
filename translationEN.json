@@ -665,5 +665,29 @@
       "placeholder_ex": "ex: {{value}}",
       "loading": "Loading..."
     }
+  },
+  "reset_password": {
+    "title": "Change Password",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "submit": "Change Password",
+    "updating": "Updating...",
+    "success": "Password changed successfully!",
+    "error": "Error changing password. Please check your current password.",
+    "fill_all_fields": "Please fill in all fields",
+    "passwords_dont_match": "Passwords do not match",
+    "same_password": "New password must be different from current password",
+    "password_min_length": "Password must be at least 8 characters long",
+    "password_case_requirement": "Password must contain uppercase and lowercase letters",
+    "password_number_requirement": "Password must contain at least one number",
+    "password_special_requirement": "Password must contain at least one special character",
+    "password_strength": "Password strength:",
+    "requirements": "Password must contain:",
+    "req_length": "At least 8 characters",
+    "req_case": "Uppercase and lowercase letters",
+    "req_number": "At least one number",
+    "req_special": "At least one special character",
+    "back_to_login": "Back to login"
   }
 }

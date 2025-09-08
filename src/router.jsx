@@ -18,6 +18,7 @@ import EventDetailsScreen from "./admin_pages/internal_components/HistoryEventsD
 import InfraWatchLanding from "./landing_page/Landing";
 import { Test } from "./components/CustomComponents/Test";
 import EditProfile from "./pages/EditProfile";
+import ResetPassword from "./components/ResetPassword";
 
 export default function Router() {
   return (
@@ -28,6 +29,7 @@ export default function Router() {
             {/* Página inicial = Login */}
             <Route path="/" element={<InfraWatchLanding />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* Páginas protegidas */}
             <Route path="/admin" element={<Layout />}>
               <Route index element={<HomepageAdmin />} />
