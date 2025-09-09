@@ -98,7 +98,7 @@ export const createSnmpHost = async (serviceData) => {
     console.log('[SNMP] Creating host with service data:', serviceData);
     
     // Verificar conectividade primeiro
-    console.log('[SNMP] Testing API connectivity...');
+    // Removido log desnecessário: console.log('[SNMP] Testing API connectivity...');
     const connectivityTest = await testSnmpApiConnectivity();
     if (!connectivityTest.success) {
       throw new Error(`API SNMP não está acessível: ${connectivityTest.error}`);
@@ -241,21 +241,16 @@ export const getSnmpHosts = async () => {
  */
 export const checkSnmpApiHealth = async () => {
   try {
-    console.log('[SNMP] Checking API health at:', SNMP_API_BASE_URL);
+    // Removido log desnecessário: console.log('[SNMP] Checking API health at:', SNMP_API_BASE_URL);
     const response = await snmpApi.get('/health');
-    console.log('[SNMP] Health check response:', response.data);
+    // Removido log desnecessário: console.log('[SNMP] Health check response:', response.data);
     return {
       success: true,
       data: response.data
     };
   } catch (error) {
-    console.error('[SNMP] API health check failed:', error);
-    console.error('[SNMP] Health check error details:', {
-      message: error.message,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data
-    });
+    // Removido log desnecessário: console.error('[SNMP] API health check failed:', error);
+    // Removido log desnecessário: console.error('[SNMP] Health check error details:', {...});
     return {
       success: false,
       error: error.message,
@@ -269,22 +264,22 @@ export const checkSnmpApiHealth = async () => {
  */
 export const testSnmpApiConnectivity = async () => {
   try {
-    console.log('[SNMP] Testing full API connectivity...');
+    // Removido log desnecessário: console.log('[SNMP] Testing full API connectivity...');
     
     // Teste 1: Health check
     const healthResponse = await snmpApi.get('/health');
-    console.log('[SNMP] Health check OK:', healthResponse.data);
+    // Removido log desnecessário: console.log('[SNMP] Health check OK:', healthResponse.data);
     
     // Teste 2: Status completo
     const statusResponse = await snmpApi.get('/status');
-    console.log('[SNMP] Status check OK:', statusResponse.data);
+    // Removido log desnecessário: console.log('[SNMP] Status check OK:', statusResponse.data);
     
     // Teste 3: Lista de hosts (deve retornar array vazio se não houver hosts)
     try {
       const hostsResponse = await snmpApi.get('/hosts');
-      console.log('[SNMP] Hosts endpoint OK:', hostsResponse.data);
+      // Removido log desnecessário: console.log('[SNMP] Hosts endpoint OK:', hostsResponse.data);
     } catch (hostsError) {
-      console.log('[SNMP] Hosts endpoint may not exist yet, skipping...');
+      // Removido log desnecessário: console.log('[SNMP] Hosts endpoint may not exist yet, skipping...');
     }
     
     return {
@@ -292,7 +287,7 @@ export const testSnmpApiConnectivity = async () => {
       message: 'API SNMP totalmente funcional'
     };
   } catch (error) {
-    console.error('[SNMP] Connectivity test failed:', error);
+    // Removido log desnecessário: console.error('[SNMP] Connectivity test failed:', error);
     return {
       success: false,
       error: error.message,

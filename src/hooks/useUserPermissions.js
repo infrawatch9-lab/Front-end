@@ -126,6 +126,13 @@ export const useUserPermissions = () => {
     setPermissions(null);
   };
 
+  // Função para atualizar o perfil local após uma atualização bem-sucedida
+  const updateUserProfile = (updatedProfile) => {
+    const newProfile = { ...userProfile, ...updatedProfile };
+    setUserProfile(newProfile);
+    localStorage.setItem("userProfileCache", JSON.stringify(newProfile));
+  };
+
   return {
     userProfile,
     permissions,
@@ -136,5 +143,6 @@ export const useUserPermissions = () => {
     hasAllPermissions,
     refetch: fetchUserProfile,
     clearPermissionsCache,
+    updateUserProfile,
   };
 };

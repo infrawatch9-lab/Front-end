@@ -68,8 +68,6 @@ export default function UserDetailsModal({
     if (
       window.confirm("Tem certeza que deseja resetar a senha deste usuário?")
     ) {
-      console.log("Resetar senha para:", user.email);
-      // Implementar lógica de reset de senha
     }
   };
 

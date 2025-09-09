@@ -1,17 +1,11 @@
-# Troubleshooting de Conectividade - API Principal
-
 ## 🚨 Erro: ERR_NAME_NOT_RESOLVED
 
 Este erro indica que o domínio `infra42luanda.duckdns.org` não está sendo resolvido pelo DNS.
 
 ### Soluções Rápidas
 
-#### 1. **Usar Interface de Configuração**
-Na página Monitor, clique no ícone ⚙️ próximo aos indicadores de status para:
-- Ver status atual das APIs
-- Testar conectividade
-- Alterar URL da API
-- Usar presets predefinidos
+#### 1. **Usar Configuração via Console**
+Para alterar a API quando necessário, use o console do navegador:
 
 #### 2. **Configurar via Console do Navegador**
 ```javascript
@@ -96,11 +90,18 @@ localStorage.removeItem('api_url');
 
 ### Testando Diferentes URLs
 
-Use a interface de configuração para testar diferentes URLs:
-1. Clique no ícone ⚙️ no cabeçalho
-2. Selecione um preset ou digite uma URL personalizada
-3. Clique em "Testar" para verificar conectividade
-4. A configuração é salva automaticamente
+Para testar diferentes URLs, use o console do navegador:
+
+```javascript
+// Testar um preset específico
+import { useApiPreset } from './src/api/confg';
+useApiPreset('local'); // ou 'development', 'production'
+
+// Testar URL personalizada
+import { setApiUrl, testApiConnectivity } from './src/api/confg';
+setApiUrl('http://SEU_IP:PORTA/api');
+testApiConnectivity().then(result => console.log('Resultado:', result));
+```
 
 ### Problemas Comuns
 

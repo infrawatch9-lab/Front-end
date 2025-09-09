@@ -15,6 +15,15 @@ export default function NotificationsTab() {
   const [slackEnabled, setSlackEnabled] = useState(false);
   const [smsEnabled, setSmsEnabled] = useState(false);
   const [webhookEnabled, setWebhookEnabled] = useState(true);
+  
+  // Estados para loading e feedback
+  const [loadingStates, setLoadingStates] = useState({
+    email: false,
+    slack: false,
+    sms: false,
+    webhook: false
+  });
+  const [messages, setMessages] = useState({});
 
   // Estados para os formulários
   const [emailConfig, setEmailConfig] = useState({
@@ -42,9 +51,51 @@ export default function NotificationsTab() {
     secretToken: "https://hooks.slack.com/services/..."
   });
 
-  const handleSave = (configType) => {
-    console.log(`Salvando configurações de ${configType}`);
-    // Aqui você implementaria a lógica de salvamento via API
+  const handleSave = async (configType) => {
+    setLoadingStates(prev => ({ ...prev, [configType]: true }));
+    setMessages(prev => ({ ...prev, [configType]: { type: "", text: "" } }));
+    
+    try {
+      // Importar função da API dinamicamente
+      const { apiSaveNotificationSettings } = await import("../../api/settings/notifications");
+      
+      let config;
+      switch (configType) {
+        case 'email':
+          config = emailConfig;
+          break;
+        case 'slack':
+          config = slackConfig;
+          break;
+        case 'sms':
+          config = smsConfig;
+          break;
+        case 'webhook':
+          config = webhookConfig;
+          break;
+        default:
+          throw new Error('Tipo de configuração inválido');
+      }
+      
+      await apiSaveNotificationSettings(configType, config);
+      setMessages(prev => ({ 
+        ...prev, 
+        [configType]: { 
+          type: "success", 
+          text: `Configurações de ${configType} salvas com sucesso!` 
+        }
+      }));
+    } catch (err) {
+      setMessages(prev => ({ 
+        ...prev, 
+        [configType]: { 
+          type: "error", 
+          text: err.message || `Erro ao salvar configurações de ${configType}` 
+        }
+      }));
+    } finally {
+      setLoadingStates(prev => ({ ...prev, [configType]: false }));
+    }
   };
 
   // Classes CSS baseadas no tema
@@ -67,6 +118,8 @@ export default function NotificationsTab() {
         enabled={emailEnabled}
         onToggle={setEmailEnabled}
         onSave={() => handleSave('email')}
+        loading={loadingStates.email}
+        message={messages.email}
       >
         <div className="space-y-4">
           <div>
@@ -117,6 +170,8 @@ export default function NotificationsTab() {
         enabled={slackEnabled}
         onToggle={setSlackEnabled}
         onSave={() => handleSave('slack')}
+        loading={loadingStates.slack}
+        message={messages.slack}
       >
         <div className="space-y-4">
           <div>
@@ -154,6 +209,8 @@ export default function NotificationsTab() {
         enabled={smsEnabled}
         onToggle={setSmsEnabled}
         onSave={() => handleSave('sms')}
+        loading={loadingStates.sms}
+        message={messages.sms}
       >
         <div className="space-y-4">
           <div>
@@ -191,6 +248,8 @@ export default function NotificationsTab() {
         enabled={webhookEnabled}
         onToggle={setWebhookEnabled}
         onSave={() => handleSave('webhook')}
+        loading={loadingStates.webhook}
+        message={messages.webhook}
       >
         <div className="space-y-4">
           <div>

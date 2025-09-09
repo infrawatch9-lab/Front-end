@@ -9,8 +9,7 @@ import { useTheme } from "../hooks/useTheme/useTheme";
 import CustomDiv from "../components/CustomComponents/CustomDiv";
 import AppLoader from "../components/AppLoader";
 import ConfirmationModal from "./internal_components/ConfirmationModal";
-import { getServices, deleteService, checkSnmpApiHealth, debugSnmpApi, testServiceBodyFormat } from "../api/services";
-import { testApiConnectivity, getCurrentApiUrl, setApiUrl, API_PRESETS, useApiPreset, debugAuthentication, forceLogout } from "../api/confg";
+import { getServices, deleteService } from "../api/services";
 import ExportButtonsFilter from "./internal_components/MonitorExportButtonsFilter";
 
 export default function MonitorAdmin() {
@@ -30,9 +29,6 @@ export default function MonitorAdmin() {
 
   // const [isInitialLoad, setIsInitialLoad] = useState(false); // Removido: não utilizado
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
-  const [snmpApiStatus, setSnmpApiStatus] = useState(null); // Status da API SNMP
-  const [showApiConfig, setShowApiConfig] = useState(false); // Mostrar configuração da API
-  const [apiStatus, setApiStatus] = useState(null); // Status da API principal
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
     title: "",
@@ -188,44 +184,34 @@ export default function MonitorAdmin() {
     };
   }, [hasCacheLoaded, lastFetch, invalidateCacheAndRefresh]);
 
-  // Verificar status da API SNMP periodicamente
+  // Forçar atualização na primeira vez que entra na tela
   useEffect(() => {
-    const checkSnmpHealth = async () => {
-      try {
-        const health = await checkSnmpApiHealth();
-        setSnmpApiStatus(health.success ? 'healthy' : 'error');
-      } catch (error) {
-        setSnmpApiStatus('error');
-      }
-    };
+    if (hasCacheLoaded && servicesData.length === 0 && !loading) {
+      console.log("First time loading, forcing data refresh");
+      invalidateCacheAndRefresh();
+    }
+  }, [hasCacheLoaded, servicesData.length, loading, invalidateCacheAndRefresh]);
 
-    // Verificar imediatamente
-    checkSnmpHealth();
-
-    // Verificar a cada 5 minutos
-    const interval = setInterval(checkSnmpHealth, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Verificar status da API principal
+  // Force cache clear para garantir que o modal antigo não apareça
   useEffect(() => {
-    const checkMainApiHealth = async () => {
-      try {
-        const connectivity = await testApiConnectivity();
-        setApiStatus(connectivity.success ? 'healthy' : 'error');
-      } catch (error) {
-        setApiStatus('error');
-      }
+    // Limpar qualquer elemento DOM órfão do modal antigo
+    const cleanupOldModal = () => {
+      const oldModalElements = document.querySelectorAll('[class*="api-config"], [class*="showApiConfig"]');
+      oldModalElements.forEach(el => el.remove());
     };
-
-    // Verificar imediatamente
-    checkMainApiHealth();
-
-    // Verificar a cada 5 minutos
-    const interval = setInterval(checkMainApiHealth, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
+    
+    cleanupOldModal();
+    
+    // Forçar reload se houver evidência de cache antigo
+    const hasOldCache = localStorage.getItem('showApiConfig') || 
+                        sessionStorage.getItem('showApiConfig') ||
+                        document.querySelector('[data-modal="api-config"]');
+    
+    if (hasOldCache) {
+      localStorage.removeItem('showApiConfig');
+      sessionStorage.removeItem('showApiConfig');
+      console.log('Limpeza de cache antigo realizada');
+    }
   }, []);
 
   // Proteção contra autocomplete indevido
@@ -441,46 +427,6 @@ export default function MonitorAdmin() {
                     }`
                   : `${servicesData.length} serviços sendo monitorados`}
               </p>
-              
-              {/* Indicadores de status das APIs */}
-              <div className="flex items-center space-x-4">
-                {/* Status da API Principal */}
-                {apiStatus && (
-                  <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      apiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
-                    }`} />
-                    <span className={`text-xs ${
-                      apiStatus === 'healthy' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      API {apiStatus === 'healthy' ? 'Online' : 'Offline'}
-                    </span>
-                  </div>
-                )}
-                
-                {/* Status da API SNMP */}
-                {snmpApiStatus && (
-                  <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      snmpApiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
-                    }`} />
-                    <span className={`text-xs ${
-                      snmpApiStatus === 'healthy' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      SNMP {snmpApiStatus === 'healthy' ? 'Online' : 'Offline'}
-                    </span>
-                  </div>
-                )}
-                
-                {/* Botão de configuração */}
-                <button
-                  onClick={() => setShowApiConfig(!showApiConfig)}
-                  className="text-xs text-slate-400 hover:text-white transition-colors"
-                  title="Configurar APIs"
-                >
-                  ⚙️
-                </button>
-              </div>
             </div>
           </CustomDiv>
           <CustomDiv className="flex items-center space-x-3 relative"></CustomDiv>
@@ -623,99 +569,7 @@ export default function MonitorAdmin() {
           </div>
         )}
 
-        {/* Configuração da API */}
-        {showApiConfig && (
-          <div className="mb-4 p-4 bg-blue-900/30 border border-blue-500/30 rounded-lg">
-            <h3 className="text-blue-400 font-medium mb-3">Configuração das APIs</h3>
-            
-            <div className="space-y-4">
-              {/* Status atual */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-slate-300 text-sm mb-2">API Principal:</p>
-                  <p className="text-xs text-slate-400 font-mono break-all">{getCurrentApiUrl()}</p>
-                  <div className="flex items-center mt-1">
-                    <div className={`w-2 h-2 rounded-full mr-2 ${
-                      apiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
-                    }`} />
-                    <span className="text-xs text-slate-400">
-                      {apiStatus === 'healthy' ? 'Conectado' : 'Desconectado'}
-                    </span>
-                  </div>
-                </div>
-                
-                <div>
-                  <p className="text-slate-300 text-sm mb-2">API SNMP:</p>
-                  <p className="text-xs text-slate-400 font-mono">http://0.0.0.0:8001</p>
-                  <div className="flex items-center mt-1">
-                    <div className={`w-2 h-2 rounded-full mr-2 ${
-                      snmpApiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'
-                    }`} />
-                    <span className="text-xs text-slate-400">
-                      {snmpApiStatus === 'healthy' ? 'Conectado' : 'Desconectado'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Presets */}
-              <div>
-                <p className="text-slate-300 text-sm mb-2">Presets de Configuração:</p>
-                <div className="flex flex-wrap gap-2">
-                  {Object.entries(API_PRESETS).map(([key, url]) => (
-                    <button
-                      key={key}
-                      onClick={async () => {
-                        const newUrl = useApiPreset(key);
-                        console.log(`Mudando para ${key}:`, newUrl);
-                        // Recarregar status
-                        const connectivity = await testApiConnectivity();
-                        setApiStatus(connectivity.success ? 'healthy' : 'error');
-                        alert(`API alterada para: ${key}\n${newUrl}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro'}`);
-                      }}
-                      className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded border border-slate-600 transition-colors"
-                    >
-                      {key}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              
-              {/* URL personalizada */}
-              <div>
-                <p className="text-slate-300 text-sm mb-2">URL Personalizada:</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="http://localhost:3000/api"
-                    className="flex-1 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-white text-xs"
-                    onKeyPress={async (e) => {
-                      if (e.key === 'Enter') {
-                        const newUrl = e.target.value;
-                        if (newUrl) {
-                          setApiUrl(newUrl);
-                          const connectivity = await testApiConnectivity();
-                          setApiStatus(connectivity.success ? 'healthy' : 'error');
-                          alert(`API alterada para: ${newUrl}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro'}`);
-                        }
-                      }
-                    }}
-                  />
-                  <button
-                    onClick={async () => {
-                      const connectivity = await testApiConnectivity();
-                      setApiStatus(connectivity.success ? 'healthy' : 'error');
-                      alert(`Teste de conectividade:\nURL: ${getCurrentApiUrl()}\nStatus: ${connectivity.success ? 'Conectado' : 'Erro: ' + connectivity.error}`);
-                    }}
-                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors"
-                  >
-                    Testar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Modal de configuração da API foi REMOVIDO - versão limpa */}
 
         {/* Content area - takes remaining space */}
         <div className="flex-1 flex flex-col">

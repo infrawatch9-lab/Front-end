@@ -91,8 +91,8 @@ export default function UsersAdmin() {
     setDetailsReadOnly(false);
   }
 
-  function handleDeleteUser(user) {
-    setUserIdToDelete(user.id);
+  function handleDeleteUser(userId) {
+    setUserIdToDelete(userId);
     setShowDeleteModal(true);
   }
 

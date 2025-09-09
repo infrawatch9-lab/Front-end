@@ -20,7 +20,9 @@ const EditProfile = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [profileImage, setProfileImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const { userProfile, loading } = useUserPermissions();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
+  const { userProfile, loading, updateUserProfile } = useUserPermissions();
   const [userInfo, setUserInfo] = useState(() => {
     const cached = localStorage.getItem("userProfileCache");
     return cached ? JSON.parse(cached) : null;
@@ -81,16 +83,55 @@ const EditProfile = () => {
         setActiveTab={setActiveTab}
       />
 
+      {/* Mensagem de feedback */}
+      {message.text && (
+        <div
+          className={`mb-6 p-4 rounded-lg border ${
+            message.type === "success"
+              ? "bg-green-900 border-green-600 text-green-300"
+              : "bg-red-900 border-red-600 text-red-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span>{message.text}</span>
+            <button
+              type="button"
+              onClick={() => setMessage({ type: "", text: "" })}
+              className="text-current hover:opacity-70"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       <form
         className="rounded shadow-sm"
         onSubmit={async (e) => {
           e.preventDefault();
+          if (isSubmitting) return; // Previne múltiplos submits
+          
+          setIsSubmitting(true);
+          setMessage({ type: "", text: "" });
+          
           try {
             const { apiUpdateUser } = await import("../api/users/updateUser");
             await apiUpdateUser(formData);
-            alert("Perfil atualizado com sucesso!");
+            setMessage({ 
+              type: "success", 
+              text: "Perfil atualizado com sucesso!" 
+            });
+            // Atualizar o cache local usando o hook
+            updateUserProfile(formData);
+            // Atualizar também o userInfo local
+            setUserInfo(prev => ({ ...prev, ...formData }));
           } catch (err) {
-            alert(err.message || "Erro ao atualizar perfil");
+            setMessage({ 
+              type: "error", 
+              text: err.message || "Erro ao atualizar perfil" 
+            });
+          } finally {
+            setIsSubmitting(false);
           }
         }}
       >
@@ -121,7 +162,7 @@ const EditProfile = () => {
           />
         )}
 
-        <ProfileActions />
+        <ProfileActions isSubmitting={isSubmitting} />
       </form>
     </CustomDiv>
   );

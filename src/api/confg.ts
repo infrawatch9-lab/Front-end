@@ -80,65 +80,6 @@ api.interceptors.response.use(
   }
 );
 
-/**
- * Alterar a URL da API em runtime
- */
-export const setApiUrl = (newUrl: string) => {
-  console.log('[API Config] Changing API URL to:', newUrl);
-  localStorage.setItem('api_url', newUrl);
-  api.defaults.baseURL = newUrl;
-  return newUrl;
-};
-
-/**
- * Obter a URL atual da API
- */
-export const getCurrentApiUrl = () => {
-  return api.defaults.baseURL;
-};
-
-/**
- * Testar conectividade com uma URL
- */
-export const testApiConnectivity = async (testUrl?: string) => {
-  const urlToTest = testUrl || api.defaults.baseURL;
-  try {
-    console.log('[API Config] Testing connectivity to:', urlToTest);
-    const testApi = axios.create({
-      baseURL: urlToTest,
-      timeout: 5000
-    });
-    
-    const response = await testApi.get('/health');
-    console.log('[API Config] Connectivity test successful:', response.data);
-    return { success: true, data: response.data };
-  } catch (error: any) {
-    console.error('[API Config] Connectivity test failed:', error.message);
-    return { 
-      success: false, 
-      error: error.message,
-      code: error.code
-    };
-  }
-};
-
-/**
- * Configurações predefinidas de URLs
- */
-export const API_PRESETS = {
-  production: "https://infra42luanda.duckdns.org/api",
-  local: "http://localhost:3000/api",
-  development: "http://localhost:8000/api"
-};
-
-/**
- * Aplicar preset de API
- */
-export const useApiPreset = (preset: keyof typeof API_PRESETS) => {
-  const url = API_PRESETS[preset];
-  console.log(`[API Config] Applying ${preset} preset:`, url);
-  return setApiUrl(url);
-};
 
 /**
  * Debug de autenticação - verificar se o token está válido
@@ -146,10 +87,6 @@ export const useApiPreset = (preset: keyof typeof API_PRESETS) => {
 export const debugAuthentication = async () => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
-  
-  console.log('[Auth Debug] Current token:', token ? 'Token exists' : 'No token');
-  console.log('[Auth Debug] Current role:', role);
-  console.log('[Auth Debug] API URL:', getCurrentApiUrl());
   
   if (!token) {
     return { 
