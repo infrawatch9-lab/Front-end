@@ -29,6 +29,7 @@ export default function MonitorAdmin() {
 
   // const [isInitialLoad, setIsInitialLoad] = useState(false); // Removido: não utilizado
   const [hasCacheLoaded, setHasCacheLoaded] = useState(false); // Controla se já tentou carregar cache
+  const [hasFetchedOnMount, setHasFetchedOnMount] = useState(false); // Controla se já houve uma busca inicial
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
     title: "",
@@ -186,11 +187,12 @@ export default function MonitorAdmin() {
 
   // Forçar atualização na primeira vez que entra na tela
   useEffect(() => {
-    if (hasCacheLoaded && servicesData.length === 0 && !loading) {
+    if (hasCacheLoaded && servicesData.length === 0 && !loading && !hasFetchedOnMount) {
       console.log("First time loading, forcing data refresh");
+      setHasFetchedOnMount(true);
       invalidateCacheAndRefresh();
     }
-  }, [hasCacheLoaded, servicesData.length, loading, invalidateCacheAndRefresh]);
+  }, [hasCacheLoaded, servicesData.length, loading, hasFetchedOnMount]);
 
   // Force cache clear para garantir que o modal antigo não apareça
   useEffect(() => {
