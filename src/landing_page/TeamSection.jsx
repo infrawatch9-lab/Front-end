@@ -82,8 +82,8 @@ const TeamSection = () => {
       image: "/team_images/Reinaldo.jpeg",
       color: "from-blue-500 to-indigo-500",
       social: [
-        { icon: <Linkedin className="w-4 h-4" />, url: "#" },
-        { icon: <Github className="w-4 h-4" />, url: "#" }
+        { icon: <Linkedin className="w-4 h-4" />, url: "https://linkedin.com/in/rsambing" },
+        { icon: <Github className="w-4 h-4" />, url: "https://github.com/rsambing" }
       ]
     },
     {
